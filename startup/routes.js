@@ -29,7 +29,7 @@ module.exports = (app) => {
     app.use(helmet())
 
     //Routes
-    app.use('/', home)
+    app.use('/api-lass', home)
     app.use('/api-lass/auth', auth)
     app.use('/api-lass/user', users)
     app.use('/api-lass/lab', labs)
