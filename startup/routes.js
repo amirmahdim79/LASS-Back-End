@@ -5,6 +5,7 @@ const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser');
 
+const home = require('../routes/home');
 const auth = require('../routes/auth');
 const users = require('../routes/users');
 const labs = require('../routes/labs');
@@ -28,6 +29,7 @@ module.exports = (app) => {
     app.use(helmet())
 
     //Routes
+    app.use('/', home)
     app.use('/api-lass/auth', auth)
     app.use('/api-lass/user', users)
     app.use('/api-lass/lab', labs)
