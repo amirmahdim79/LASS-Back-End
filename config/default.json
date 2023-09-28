@@ -1,0 +1,8 @@
+{
+    "name": "Thesis",
+    "dbpath": "",
+    "jwtPrivateKey": "",
+    "email_service": "outlook",
+    "email_address": "name@outlook.com",
+    "email_password": "pass"
+}

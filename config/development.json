@@ -1,0 +1,5 @@
+{
+    "name": "Thesis - Dev",
+    "dbpath": "mongodb://localhost/thesis",
+    "fileCloudUrl": ""
+}
