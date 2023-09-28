@@ -28,11 +28,11 @@ module.exports = (app) => {
     app.use(helmet())
 
     //Routes
-    app.use('/api/auth', auth)
-    app.use('/api/user', users)
-    app.use('/api/lab', labs)
-    app.use('/api/data', data)
-    app.use('/api/supervisor', supervisors)
+    app.use('/api-lass/auth', auth)
+    app.use('/api-lass/user', users)
+    app.use('/api-lass/lab', labs)
+    app.use('/api-lass/data', data)
+    app.use('/api-lass/supervisor', supervisors)
 
     //Custom middlewares
     app.use(logger)
