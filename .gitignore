@@ -15,6 +15,9 @@ logfile.log
 # production
 /build
 
+# configuration files
+/config
+
 # misc
 .DS_Store
 .env.local
