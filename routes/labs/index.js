@@ -1,15 +1,15 @@
 const auth = require('../../middleware/auth')
 const authCheck = require('../../middleware/authCheck');
-const { isAdmin } = require('../../middleware/permissionCheck');
+const { isSuperAdmin } = require('../../middleware/permissionCheck');
 const express = require('express');
 const {
-    postCreateCupForUser,
+    postCreateLab,
 }
 = require('./services');
 
 const router = express.Router()
 
-//
-router.post('/', postCreateCupForUser)
+// Create new Lab
+router.post('/', isSuperAdmin, postCreateLab)
 
 module.exports = router

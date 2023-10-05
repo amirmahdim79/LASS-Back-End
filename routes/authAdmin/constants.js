@@ -4,13 +4,7 @@ const MESSAGES = {
 
 const FIELDS = {
     AUTH_RETURN: [
-        '_id',
-        'firstName',
-        'lastName',
-        'email',
-        'phonenumber',
-        'url',
-        'profilePicture',
+
     ]
 }
 

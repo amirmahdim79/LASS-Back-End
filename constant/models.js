@@ -4,6 +4,8 @@ const MODELS = {
     LOG: 'Log',
     DATA: 'Data',
     SUPERVISOR: 'Supervisor',
+    MILESTONE: 'Milestone',
+    ADMIN: 'Admin',
 }
 
 const SUBMODELS = {
