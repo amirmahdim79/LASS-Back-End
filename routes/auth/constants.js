@@ -8,7 +8,6 @@ const FIELDS = {
         'firstName',
         'lastName',
         'email',
-        'phonenumber',
         'url',
         'profilePicture',
     ]

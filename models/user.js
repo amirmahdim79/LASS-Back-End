@@ -9,13 +9,11 @@ const Joi = require('joi');
 const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
-        required: true,
         minlength: 3,
         maxlength: 50
     },
     lastName: {
         type: String,
-        required: true,
         minlength: 3,
         maxlength: 50
     },
@@ -36,6 +34,12 @@ const userSchema = new mongoose.Schema({
     permissions: {
         type: Array,
         default: []
+    },
+
+    type: {
+        type: String,
+        enum: ['master', 'phd', 'undergrad'],
+        required: true,
     },
 
     url: {
