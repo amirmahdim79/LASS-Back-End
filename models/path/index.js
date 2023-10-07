@@ -12,6 +12,11 @@ const pathSchema = new mongoose.Schema({
         ref: MODELS.LAB
     },
 
+    Student: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: MODELS.LAB
+    },
+
     name: {
         type: String,
         minlength: 1,
