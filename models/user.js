@@ -3,7 +3,7 @@ const config = require('config')
 const jwt = require('jsonwebtoken')
 const GLOBALCONST = require('../constant')
 const crypto = require('crypto');
-const { MODELS } = require('../constant/models')
+const { MODELS, TYPES } = require('../constant/models')
 const Joi = require('joi');
 
 const userSchema = new mongoose.Schema({
@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
 
     type: {
         type: String,
-        enum: ['master', 'phd', 'undergrad'],
+        enum: TYPES,
         required: true,
     },
 

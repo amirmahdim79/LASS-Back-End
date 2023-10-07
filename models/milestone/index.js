@@ -7,16 +7,24 @@ const Joi = require('joi');
 const crypto = require('crypto');
 
 const milestoneSchema = new mongoose.Schema({
-    //TODO: add flow; name sug: Flow|Path|Journey|Steps
-    // Flow: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: MODELS.SUPERVISOR
-    // },
+    Path: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: MODELS.PATH
+    },
 
     name: {
         type: String,
         minlength: 1,
         maxlength: 100
+    },
+
+    status: {
+        type: Boolean,
+        default: false,
+    },
+
+    dueDate: {
+        type: Date,
     },
 
     isActive: {

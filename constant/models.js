@@ -6,7 +6,10 @@ const MODELS = {
     SUPERVISOR: 'Supervisor',
     MILESTONE: 'Milestone',
     ADMIN: 'Admin',
+    PATH: 'Path',
 }
+
+const TYPES = ['master', 'phd', 'undergrad']
 
 const SUBMODELS = {
 
@@ -14,5 +17,6 @@ const SUBMODELS = {
 
 module.exports = {
     MODELS,
-    SUBMODELS
+    SUBMODELS,
+    TYPES,
 }
