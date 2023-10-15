@@ -59,9 +59,7 @@ const isSupervisor = async (req, res, next) => {
     if (!token) return res.status(401).send('Access denied.')
 
     try {
-        console.log(token)
         const decoded = jwt.verify(token, config.get(GLOBALCONST.JWTPR))
-        console.log(decoded)
         const sups = await Supervisor.findOne({ _id: decoded._id })
         if (!sups) throw new Error('Supervisor not found.');
 
