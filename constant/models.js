@@ -8,6 +8,8 @@ const MODELS = {
     ADMIN: 'Admin',
     PATH: 'Path',
     TASK: 'Task',
+    FILE: 'File',
+    TAG: 'Tag',
 }
 
 const TYPES = ['undergrad', 'master', 'phd', 'postDoc']
