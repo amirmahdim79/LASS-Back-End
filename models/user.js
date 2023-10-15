@@ -7,6 +7,11 @@ const { MODELS, TYPES } = require('../constant/models')
 const Joi = require('joi');
 
 const userSchema = new mongoose.Schema({
+    Labs: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: MODELS.LAB
+    }],
+
     firstName: {
         type: String,
         minlength: 3,

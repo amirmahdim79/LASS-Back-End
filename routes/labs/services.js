@@ -14,12 +14,55 @@ const postCreateLab = async (req, res) => {
     const lab = new Lab(_.pick(req.body, LABS_FIELD.CREATE))
 
     lab.Supervisor = sups._id
-    lab.url = crypto.randomBytes(6).toString('hex')
+    lab.url = crypto.randomBytes(3).toString('hex')
     await lab.save()
 
     res.send(_.pick(lab, LABS_FIELD.CREATE_RES))
 }
 
+//get all labs
+const getLabs = async (req, res) => {
+    const labs = await Lab.find()
+
+    res.send(labs)
+}
+
+//get lab by Id or url
+const getLabByField = async (req, res) => {
+    const lab = await Lab.findOne({
+        $or: [
+            { _id: req.params.id }, // Match by id
+            { url: req.params.id }  // Match by URL
+        ]
+    })
+
+    res.send(lab)
+}
+
+//get my lab
+const getMyLab_sups = async (req, res) => {
+    let lab
+    if (req.query.sups) {
+        lab = await Lab.findOne({
+            Supervisor: req.user._id
+        })
+    } else {
+        lab = await Lab.findOne({
+            Students: {
+                $elemMatch: {
+                    $eq: req.user._id
+                }
+            }
+        })
+    }
+    if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
+
+    res.send(lab)
+}
+
 module.exports = {
     postCreateLab,
+    getLabs,
+    getLabByField,
+    getMyLab_sups,
 }

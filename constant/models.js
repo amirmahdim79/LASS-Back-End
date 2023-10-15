@@ -14,6 +14,14 @@ const MODELS = {
 
 const TYPES = ['undergrad', 'master', 'phd', 'postDoc']
 
+const USER_ELIGIBILITY = {
+    'undergrad': 1,
+    'masters': 2,
+    'phd': 3,
+    'postDoc': 4,
+    'supervisor': 10,
+}
+
 const SUBMODELS = {
 
 }
@@ -22,4 +30,5 @@ module.exports = {
     MODELS,
     SUBMODELS,
     TYPES,
+    USER_ELIGIBILITY,
 }
