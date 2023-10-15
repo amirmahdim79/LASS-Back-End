@@ -7,9 +7,10 @@ const MODELS = {
     MILESTONE: 'Milestone',
     ADMIN: 'Admin',
     PATH: 'Path',
+    TASK: 'Task',
 }
 
-const TYPES = ['master', 'phd', 'undergrad']
+const TYPES = ['undergrad', 'master', 'phd', 'postDoc']
 
 const SUBMODELS = {
 

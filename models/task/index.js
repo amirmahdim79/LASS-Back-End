@@ -5,11 +5,28 @@ const GLOBALCONST = require('../../constant')
 const { MODELS, SUBMODELS, TYPES } = require('../../constant/models')
 const Joi = require('joi');
 const crypto = require('crypto');
+const { TASK_TYPES, ACTIVITY_TYPES } = require("./constants")
 
-const pathSchema = new mongoose.Schema({
-    Lab: {
+const taskSchema = new mongoose.Schema({
+    Milestone: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: MODELS.LAB
+        ref: MODELS.MILESTONE
+    },
+
+    type: {
+        type: String,
+        enum: TASK_TYPES,
+        required: true,
+    },
+
+    interval: {
+        type: Number,
+    },
+
+    activity: {
+        type: String,
+        enum: ACTIVITY_TYPES,
+        required: true,
     },
 
     name: {
@@ -24,24 +41,6 @@ const pathSchema = new mongoose.Schema({
         maxlength: 300
     },
 
-    typeDependency: [{
-        type: String,
-        enum: TYPES,
-        required: true,
-    }],
-
-    Milestones: {
-        type: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: MODELS.MILESTONE
-        }],
-        default: []
-    },
-
-    url: {
-        type: String,
-        unique: true
-    },
     isActive: {
         type: Boolean,
         default: true
@@ -51,6 +50,6 @@ const pathSchema = new mongoose.Schema({
     timestamps: true,
 })
 
-const Path = mongoose.model(MODELS.PATH, pathSchema)
+const Task = mongoose.model(MODELS.TASK, taskSchema)
 
-exports.Path = Path
+exports.Task = Task

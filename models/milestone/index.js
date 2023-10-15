@@ -18,13 +18,15 @@ const milestoneSchema = new mongoose.Schema({
         maxlength: 100
     },
 
+    desc: {
+        type: String,
+        minlength: 1,
+        maxlength: 300
+    },
+
     status: {
         type: Boolean,
         default: false,
-    },
-
-    dueDate: {
-        type: Date,
     },
 
     isActive: {
