@@ -37,20 +37,20 @@ router.get('/check', async (req, res) => {
     const token = req.cookies['x-auth-token'] ?? req.header('x-auth-token');
     if (!token) return res.clearCookie('x-auth-token').status(400).send('Login again.')
 
-    let user = {}
+    let sups = {}
     try {
         const decoded = jwt.verify(token, config.get(GLOBALCONST.JWTPR))
-        req.user = decoded
+        req.sups = decoded
         
-        user = await User.findOne({ _id: decoded._id })
-        if (!user) return res.status(400).send(MESSAGES.INVALID_PARAMS)
+        sups = await Supervisor.findOne({ _id: decoded._id })
+        if (!sups) return res.status(400).send(MESSAGES.INVALID_PARAMS)
 
     } catch (ex) {
         res.clearCookie('x-auth-token')
         return res.status(400).send('Login again.')
     }
 
-    res.send(_.pick(user, FIELDS.AUTH_RETURN))
+    res.send(_.pick(sups, FIELDS.AUTH_RETURN))
 })
 
 //logout

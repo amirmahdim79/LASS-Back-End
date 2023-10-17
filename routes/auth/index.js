@@ -7,7 +7,8 @@ const Joi = require('joi');
 const router = express.Router()
 const jwt = require('jsonwebtoken')
 const config = require('config')
-const GLOBALCONST = require('../../constant')
+const GLOBALCONST = require('../../constant');
+const { USER_FIELDS } = require('../users/constants');
 
 //auth
 router.post('/', async (req, res) => {
@@ -49,7 +50,7 @@ router.get('/check', async (req, res) => {
         return res.status(400).send('Login again.')
     }
 
-    res.send(_.pick(user, FIELDS.AUTH_RETURN))
+    res.send(_.pick(user, USER_FIELDS.INFO))
 })
 
 //logout
