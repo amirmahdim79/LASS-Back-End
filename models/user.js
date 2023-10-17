@@ -12,6 +12,11 @@ const userSchema = new mongoose.Schema({
         ref: MODELS.LAB
     }],
 
+    Tags: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: MODELS.TAG
+    }],
+
     firstName: {
         type: String,
         minlength: 3,
@@ -44,7 +49,6 @@ const userSchema = new mongoose.Schema({
     type: {
         type: String,
         enum: TYPES,
-        required: true,
     },
 
     url: {

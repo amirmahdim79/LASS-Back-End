@@ -1,6 +1,6 @@
 const { MODELS } = require('../../constant/models');
 const { User, validateUser, EmailAuthObject } = require('../../models/user');
-const { MESSAGES } = require('./constants')
+const { MESSAGES, USER_FIELDS } = require('./constants')
 const bcrypt = require('bcrypt')
 const _ = require('lodash')
 const config = require('config')
@@ -17,15 +17,19 @@ const crypto = require('crypto');
 //     }
 // })
 
-//check phonenumber
-const postCheckPhonenumber = async (req, res) => {
-    if (!req.body.phonenumber) return res.status(400).send()
-    let user = await User.findOne({ phonenumber: req.body.phonenumber })
-    if (user) return res.status(400).send(MESSAGES.ALREADY_REGISTERED)
+//post create user
+const postCreateUser = async (req, res) => {
+    const exsistingUser = await User.findOne({email: req.body.email})
+    if (exsistingUser) return res.status(400).send(MESSAGES.ALREADY_REGISTERED)
 
-    res.send()
+    const user = new User(_.pick(req.body, USER_FIELDS.SIGNUP))
+
+    user.url = crypto.randomBytes(3).toString('hex')
+    await user.save()
+
+    res.send(_.pick(user, USER_FIELDS.INFO))
 }
 
 module.exports = {
-    postCheckPhonenumber,
+    postCreateUser,
 }
