@@ -24,7 +24,25 @@ const postCreateUser = async (req, res) => {
 
     const user = new User(_.pick(req.body, USER_FIELDS.SIGNUP))
 
+    const salt = await bcrypt.genSalt(10)
+    user.password = await bcrypt.hash(user.password, salt)
+
     user.url = crypto.randomBytes(3).toString('hex')
+    await user.save()
+
+    res.send(_.pick(user, USER_FIELDS.INFO))
+}
+
+//post update user
+const postUpdateUserInfo = async (req, res) => {
+    const user = await User.findOne({_id: req.user._id})
+    if (!user) return res.status(400).send(MESSAGES.USER_NOT_FOUND)
+
+    const updatedFields = _.pick(req.body, USER_FIELDS.UPDATABLE)
+    for (const field in updatedFields) {
+        user[field] = updatedFields[field]
+    }
+
     await user.save()
 
     res.send(_.pick(user, USER_FIELDS.INFO))
@@ -32,4 +50,5 @@ const postCreateUser = async (req, res) => {
 
 module.exports = {
     postCreateUser,
+    postUpdateUserInfo,
 }

@@ -24,8 +24,6 @@ const USER_FIELDS = {
     UPDATABLE: [
         'firstName',
         'lastName',
-        'username',
-        'phonenumber',
         'profilePicture',
     ]
 }
