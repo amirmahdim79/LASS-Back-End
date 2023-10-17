@@ -2,17 +2,21 @@ const auth = require('../../middleware/auth')
 const express = require('express');
 const {
     postCreateUser,
-    postUpdateUserInfo
+    postUpdateUserInfo,
+    getCurrentUser
 }
 = require('./services');
 const multer = require('multer');
 
 const router = express.Router()
 
-//check phone
+//create user(signup)
 router.post('/', postCreateUser)
 
-//check phone
+//update user info
 router.post('/update', auth, postUpdateUserInfo)
+
+//get current user
+router.get('/me', auth, getCurrentUser)
 
 module.exports = router

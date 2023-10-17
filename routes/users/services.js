@@ -48,7 +48,16 @@ const postUpdateUserInfo = async (req, res) => {
     res.send(_.pick(user, USER_FIELDS.INFO))
 }
 
+//get current user
+const getCurrentUser = async (req, res) => {
+    const user = await User.findOne({_id: req.user._id}).populate(USER_FIELDS.REFRENCES.map(field => ({ path: field})))
+    if (!user) return res.status(400).send(MESSAGES.USER_NOT_FOUND)
+
+    res.send(_.pick(user, USER_FIELDS.INFO))
+}
+
 module.exports = {
     postCreateUser,
     postUpdateUserInfo,
+    getCurrentUser,
 }
