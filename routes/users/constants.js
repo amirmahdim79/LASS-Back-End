@@ -19,13 +19,21 @@ const USER_FIELDS = {
         'lastName',
         'email',
         'url',
-        'profilePicture',        
+        'profilePicture',    
+        'type',
+        'Tags',
+        'Labs',
     ],
     UPDATABLE: [
         'firstName',
         'lastName',
         'profilePicture',
-    ]
+        'type',
+    ],
+    REFRENCES: [
+        'Labs',
+        'Tags',
+    ],
 }
 
 module.exports = { 

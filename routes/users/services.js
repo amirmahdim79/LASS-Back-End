@@ -8,6 +8,7 @@ const nodemailer = require('nodemailer');
 const { checkEmailFormat } = require('../../utils/emailRegexChecker');
 const { generateRandNum } = require('../../utils/randomNumberGen');
 const crypto = require('crypto');
+const { Tag } = require('../../models/tag');
 
 // const transporter = nodemailer.createTransport({
 //     service: config.get('email_service'),
@@ -21,7 +22,6 @@ const crypto = require('crypto');
 const postCreateUser = async (req, res) => {
     const exsistingUser = await User.findOne({email: req.body.email})
     if (exsistingUser) return res.status(400).send(MESSAGES.ALREADY_REGISTERED)
-
     const user = new User(_.pick(req.body, USER_FIELDS.SIGNUP))
 
     const salt = await bcrypt.genSalt(10)
@@ -35,7 +35,7 @@ const postCreateUser = async (req, res) => {
 
 //post update user
 const postUpdateUserInfo = async (req, res) => {
-    const user = await User.findOne({_id: req.user._id})
+    const user = await User.findOne({_id: req.user._id}).populate(USER_FIELDS.REFRENCES.map(field => ({ path: field})))
     if (!user) return res.status(400).send(MESSAGES.USER_NOT_FOUND)
 
     const updatedFields = _.pick(req.body, USER_FIELDS.UPDATABLE)
