@@ -20,6 +20,14 @@ const labSchema = new mongoose.Schema({
         default: []
     },
 
+    Paths: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: MODELS.PATH
+        }],
+        default: []
+    },
+
     name: {
         type: String,
         minlength: 1,

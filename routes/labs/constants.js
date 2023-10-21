@@ -14,7 +14,32 @@ const LABS_FIELD = {
         'Supervisor',
         'name',
         'url',
-    ]
+    ],
+    INFO: [
+        'Supervisor',
+        'Students',
+        'name',
+        'url',
+    ],
+    POPULATE: [
+        {
+            path: 'Students',
+            select: '-password',
+        },
+        {
+            path: 'Supervisor',
+            select: '-password',
+        },
+        {
+            path: 'Paths',
+            populate: {
+                path: 'Milestones',
+                populate: {
+                    path: 'Tasks',
+                }
+            }
+        }
+    ],
 }
 
 module.exports = { 

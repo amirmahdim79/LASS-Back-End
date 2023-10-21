@@ -9,11 +9,12 @@ const home = require('../routes/home');
 const auth = require('../routes/auth');
 const authAdmin = require('../routes/authAdmin');
 const authSupervisor = require('../routes/authSupervisor');
-const admins = require('../routes/admin');
-const users = require('../routes/users');
+const admin = require('../routes/admin');
+const user = require('../routes/users');
 const labs = require('../routes/labs');
 const data = require('../routes/data');
-const supervisors = require('../routes/supervisors');
+const supervisor = require('../routes/supervisors');
+const path = require('../routes/paths');
 
 module.exports = (app) => {
     //Middlewares
@@ -38,11 +39,12 @@ module.exports = (app) => {
     app.use('/api-lass/auth', auth)
     app.use('/api-lass/auth/admin', authAdmin)
     app.use('/api-lass/auth/supervisor', authSupervisor)
-    app.use('/api-lass/user', users)
+    app.use('/api-lass/user', user)
     app.use('/api-lass/labs', labs)
     app.use('/api-lass/data', data)
-    app.use('/api-lass/supervisor', supervisors)
-    app.use('/api-lass/admin', admins)
+    app.use('/api-lass/supervisor', supervisor)
+    app.use('/api-lass/admin', admin)
+    app.use('/api-lass/path', path)
 
     //Custom middlewares
     app.use(logger)

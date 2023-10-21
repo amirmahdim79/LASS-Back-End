@@ -1,22 +1,31 @@
 const MESSAGES = {
-    USER_NOT_FOUND: 'Supervisor not found.',
-    NO_ACCESS: 'Access denied',
-    ALREADY_REGISTERED: 'Already Exists',
+    LAB_NOT_FOUND: 'Lab not found.',
 }
 
-const LABS_FIELD = {
+const PATH_FIELDS = {
     CREATE: [
         'name',
-        'email',
+        'desc',
+        'typeDependency',
     ],
     CREATE_RES: [
-        'Supervisor',
+        'Lab',
         'name',
+        'desc',
+        'typeDependency',
+        'url',
+    ],
+    INFO: [
+        'Lab',
+        'name',
+        'desc',
+        'typeDependency',
+        'Milestones',
         'url',
     ]
 }
 
 module.exports = { 
     MESSAGES,
-    LABS_FIELD,
+    PATH_FIELDS,
 }

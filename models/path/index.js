@@ -15,7 +15,8 @@ const pathSchema = new mongoose.Schema({
     name: {
         type: String,
         minlength: 1,
-        maxlength: 100
+        maxlength: 100,
+        required: true,
     },
 
     desc: {

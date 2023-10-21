@@ -2,24 +2,33 @@ const { User } = require('../../models/user');
 const bcrypt = require('bcrypt')
 const _ = require('lodash');
 const crypto = require('crypto');
-const { LABS_FIELD, MESSAGES } = require('./constants');
+const { PATH_FIELDS, MESSAGES } = require('./constants');
 const { Lab } = require('../../models/lab');
 const { Supervisor } = require('../../models/supervisor');
+const { Path } = require('../../models/path');
+const { Milestone } = require('../../models/milestone');
 
-//post create cup for user(Admin)
-const postCreateLab = async (req, res) => {
-    const sups = await Supervisor.findOne({email: req.body.email})
-    if (!sups) return res.status(400).send(MESSAGES.USER_NOT_FOUND)
+//post create path for lab(Sups)
+const postCreatePath = async (req, res) => {
+    const lab = await Lab.findOne({
+        Supervisor: req.user._id
+    })
+    if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
 
-    const lab = new Lab(_.pick(req.body, LABS_FIELD.CREATE))
+    const path = new Path(_.pick(req.body, PATH_FIELDS.CREATE))
+    path.Lab = lab
 
-    lab.Supervisor = sups._id
-    lab.url = crypto.randomBytes(6).toString('hex')
-    await lab.save()
+    path.url = crypto.randomBytes(3).toString('hex')
 
-    res.send(_.pick(lab, LABS_FIELD.CREATE_RES))
+    await path.save()
+
+    lab.Paths.push(path._id)
+
+    lab.save()
+
+    res.send(_.pick(path, PATH_FIELDS.CREATE_RES))
 }
 
 module.exports = {
-    postCreateLab,
+    postCreatePath,
 }

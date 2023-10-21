@@ -12,7 +12,7 @@ const MODELS = {
     TAG: 'Tag',
 }
 
-const TYPES = ['undergrad', 'master', 'phd', 'postDoc']
+const TYPES = ['undergrad', 'masters', 'phd', 'postDoc', 'intern']
 
 const USER_ELIGIBILITY = {
     'undergrad': 1,

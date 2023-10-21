@@ -23,6 +23,7 @@ const postCreateLab = async (req, res) => {
 //get all labs
 const getLabs = async (req, res) => {
     const labs = await Lab.find()
+    .populate(LABS_FIELD.POPULATE)
 
     res.send(labs)
 }
@@ -35,6 +36,7 @@ const getLabByField = async (req, res) => {
             { url: req.params.id }  // Match by URL
         ]
     })
+    .populate(LABS_FIELD.POPULATE)
 
     res.send(lab)
 }
@@ -46,6 +48,7 @@ const getMyLab_sups = async (req, res) => {
         lab = await Lab.findOne({
             Supervisor: req.user._id
         })
+        .populate(LABS_FIELD.POPULATE)
     } else {
         lab = await Lab.findOne({
             Students: {
@@ -54,6 +57,7 @@ const getMyLab_sups = async (req, res) => {
                 }
             }
         })
+        .populate(LABS_FIELD.POPULATE)
     }
     if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
 
