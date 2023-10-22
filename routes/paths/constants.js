@@ -14,6 +14,7 @@ const PATH_FIELDS = {
         'desc',
         'typeDependency',
         'url',
+        '_id',
     ],
     INFO: [
         'Lab',
@@ -22,6 +23,7 @@ const PATH_FIELDS = {
         'typeDependency',
         'Milestones',
         'url',
+        '_id',
     ]
 }
 

@@ -7,6 +7,7 @@ const ACTIVITY_TYPES = [
     'upload',
     'download',
     'write-upload',
+    'milestone',
 ]
 
 module.exports = {

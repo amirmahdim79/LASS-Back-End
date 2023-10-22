@@ -5,6 +5,8 @@ const crypto = require('crypto');
 const { LABS_FIELD, MESSAGES } = require('./constants');
 const { Lab } = require('../../models/lab');
 const { Supervisor } = require('../../models/supervisor');
+const { Milestone } = require('../../models/milestone');
+const { Task } = require('../../models/task');
 
 //post create cup for user(Admin)
 const postCreateLab = async (req, res) => {

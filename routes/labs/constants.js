@@ -14,12 +14,14 @@ const LABS_FIELD = {
         'Supervisor',
         'name',
         'url',
+        '_id',
     ],
     INFO: [
         'Supervisor',
         'Students',
         'name',
         'url',
+        '_id',
     ],
     POPULATE: [
         {

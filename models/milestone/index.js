@@ -12,10 +12,16 @@ const milestoneSchema = new mongoose.Schema({
         ref: MODELS.PATH
     },
 
+    Tasks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: MODELS.TASK
+    }],
+
     name: {
         type: String,
         minlength: 1,
-        maxlength: 100
+        maxlength: 100,
+        required: true,
     },
 
     desc: {

@@ -15,6 +15,8 @@ const labs = require('../routes/labs');
 const data = require('../routes/data');
 const supervisor = require('../routes/supervisors');
 const path = require('../routes/paths');
+const milestone = require('../routes/milestones');
+const task = require('../routes/tasks');
 
 module.exports = (app) => {
     //Middlewares
@@ -45,6 +47,8 @@ module.exports = (app) => {
     app.use('/api-lass/supervisor', supervisor)
     app.use('/api-lass/admin', admin)
     app.use('/api-lass/path', path)
+    app.use('/api-lass/milestone', milestone)
+    app.use('/api-lass/task', task)
 
     //Custom middlewares
     app.use(logger)
