@@ -7,6 +7,7 @@ const {
     getLabs,
     getLabByField,
     getMyLab_sups,
+    enrollStudent,
 }
 = require('./services');
 
@@ -23,6 +24,9 @@ router.get('/my', auth, getMyLab_sups)
 
 // get one lab
 router.get('/:id', isSuperAdmin, getLabByField)
+
+// enroll new student
+router.post('/enroll', isSupervisor, enrollStudent)
 
 
 

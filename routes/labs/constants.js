@@ -1,5 +1,6 @@
 const MESSAGES = {
     USER_NOT_FOUND: 'Supervisor not found.',
+    STUDENT_NOT_FOUND: 'Student not found.',
     NO_ACCESS: 'Access denied',
     ALREADY_REGISTERED: 'Already Exists',
     LAB_NOT_FOUND: 'Lab not found.',
