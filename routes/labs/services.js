@@ -60,6 +60,18 @@ const getMyLab_sups = async (req, res) => {
             }
         })
         .populate(LABS_FIELD.POPULATE)
+
+        const user = await User.findOne({ _id: req.user._id })
+
+        const userPath = lab.Paths.find((p) => 
+            p.typeDependency.includes(user.type)
+        )
+
+        console.log(userPath)
+        console.log(user.type)
+        console.log(lab.Paths)
+
+        lab.Paths = [userPath]
     }
     if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
 
