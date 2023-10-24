@@ -67,10 +67,6 @@ const getMyLab_sups = async (req, res) => {
             p.typeDependency.includes(user.type)
         )
 
-        console.log(userPath)
-        console.log(user.type)
-        console.log(lab.Paths)
-
         lab.Paths = [userPath]
     }
     if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)

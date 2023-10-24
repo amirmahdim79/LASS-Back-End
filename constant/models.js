@@ -23,7 +23,8 @@ const USER_ELIGIBILITY = {
 }
 
 const SUBMODELS = {
-
+    MILESTONE_STATUS: 'MilestoneStatus',
+    TASK_STATUS: 'TaskStatus',
 }
 
 module.exports = {
