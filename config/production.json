@@ -1,5 +1,5 @@
 {
     "name": "Thesis - Prod",
-    "dbpath": "",
+    "dbpath": "mongodb://admin:Temppassword2011@45.159.149.133:27017/lass?authMechanism=DEFAULT",
     "fileCloudUrl": ""
 }

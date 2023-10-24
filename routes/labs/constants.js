@@ -39,6 +39,9 @@ const LABS_FIELD = {
                 path: 'Milestones',
                 populate: {
                     path: 'Tasks',
+                    populate: {
+                        path: 'status',
+                    }
                 }
             }
         }

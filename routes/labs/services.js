@@ -7,6 +7,7 @@ const { Lab } = require('../../models/lab');
 const { Supervisor } = require('../../models/supervisor');
 const { Milestone } = require('../../models/milestone');
 const { Task } = require('../../models/task');
+const { TaskStatus } = require('../../models/taskStatus');
 
 //post create cup for user(Admin)
 const postCreateLab = async (req, res) => {
@@ -51,6 +52,7 @@ const getMyLab_sups = async (req, res) => {
             Supervisor: req.user._id
         })
         .populate(LABS_FIELD.POPULATE)
+        if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
     } else {
         lab = await Lab.findOne({
             Students: {
@@ -60,6 +62,7 @@ const getMyLab_sups = async (req, res) => {
             }
         })
         .populate(LABS_FIELD.POPULATE)
+        if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
 
         const user = await User.findOne({ _id: req.user._id })
 
@@ -67,9 +70,18 @@ const getMyLab_sups = async (req, res) => {
             p.typeDependency.includes(user.type)
         )
 
-        lab.Paths = [userPath]
+        userPath.Milestones = userPath.Milestones.map((m) => {
+            m.status = m.status[user._id] ?? {}
+
+            m.Tasks = m.Tasks.map((t) => {
+                t.status = t.status[user._id] ?? {}
+
+                return t
+            })
+
+            return m
+        })
     }
-    if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
 
     res.send(lab)
 }
