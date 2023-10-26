@@ -30,10 +30,10 @@ const milestoneSchema = new mongoose.Schema({
         maxlength: 300
     },
 
-    status: {
-        type: Object,
-        default: {}
-    },
+    status: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: SUBMODELS.MILESTONE_STATUS
+    }],
 
     isActive: {
         type: Boolean,

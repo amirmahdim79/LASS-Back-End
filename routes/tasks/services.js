@@ -45,10 +45,7 @@ const completeTask = async (req, res) => {
     taskStatus.status = true
     await taskStatus.save()
 
-    task.status = {
-        ...task.status,
-        [req.user._id]: taskStatus._id
-    }
+    task.status.push(taskStatus._id)
     await task.save()
 
     res.send(_.pick(taskStatus, TASK_STATUS_FIELDS.INFO))

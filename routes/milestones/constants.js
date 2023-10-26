@@ -4,6 +4,7 @@ const MESSAGES = {
     NO_ACCESS: 'Access denied',
     ALREADY_REGISTERED: 'Already Exists',
     LAB_NOT_FOUND: 'Lab not found.',
+    MILESTONE_NOT_FOUND: 'Milestone not found.',
 }
 
 const MILESTONES_FIELD = {

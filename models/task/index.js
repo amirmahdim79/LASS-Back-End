@@ -29,10 +29,10 @@ const taskSchema = new mongoose.Schema({
         required: true,
     },
 
-    status: {
-        type: Object,
-        default: {}
-    },
+    status: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: SUBMODELS.TASK_STATUS
+    }],
 
     name: {
         type: String,

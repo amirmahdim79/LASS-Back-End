@@ -8,6 +8,8 @@ const { Supervisor } = require('../../models/supervisor');
 const { Milestone } = require('../../models/milestone');
 const { Task } = require('../../models/task');
 const { TaskStatus } = require('../../models/taskStatus');
+const { MilestoneStatus } = require('../../models/milestoneStatus');
+const { default: mongoose } = require('mongoose');
 
 //post create cup for user(Admin)
 const postCreateLab = async (req, res) => {
@@ -71,16 +73,28 @@ const getMyLab_sups = async (req, res) => {
         )
 
         userPath.Milestones = userPath.Milestones.map((m) => {
-            m.status = m.status[user._id] ?? {}
+            const userMilesstoneStatus = m.status.find((s) => {
+                return s.User.equals(mongoose.Types.ObjectId(user._id))
+            })
+
+            m.status = [userMilesstoneStatus]
 
             m.Tasks = m.Tasks.map((t) => {
-                t.status = t.status[user._id] ?? {}
+                const userTaskStatus = t.status.find((s) => {
+                    return s.User.equals(mongoose.Types.ObjectId(user._id))
+                })
+
+                t.status = [userTaskStatus]
 
                 return t
             })
 
             return m
         })
+
+        console.log(userPath.Milestones[0])
+
+        lab.Paths = [userPath]
     }
 
     res.send(lab)

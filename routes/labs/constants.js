@@ -37,12 +37,17 @@ const LABS_FIELD = {
             path: 'Paths',
             populate: {
                 path: 'Milestones',
-                populate: {
-                    path: 'Tasks',
-                    populate: {
+                populate: [
+                    {
+                        path: 'Tasks',
+                        populate: {
+                            path: 'status',
+                        }
+                    },
+                    {
                         path: 'status',
                     }
-                }
+                ],
             }
         }
     ],
