@@ -44,6 +44,7 @@ const completeMilestone = async (req, res) => {
     }
 
     milestoneStatus.status = true
+    milestoneStatus.doneDate = Date.now()
     await milestoneStatus.save()
 
     milestone.status.push(milestoneStatus._id)

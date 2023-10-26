@@ -43,6 +43,7 @@ const completeTask = async (req, res) => {
     }
 
     taskStatus.status = true
+    taskStatus.doneDate = Date.now()
     await taskStatus.save()
 
     task.status.push(taskStatus._id)
