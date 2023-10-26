@@ -14,10 +14,10 @@ const router = express.Router()
 // Create new milestone for path
 router.post('/', isSupervisor, postCreateTask)
 
-// Create new milestone for path
+// TODO: just development api
 router.post('/complete', auth, completeTask)
 
-// Create new milestone for path
+// TODO: just development api
 router.get('/status', auth, getTaskStatus)
 
 module.exports = router

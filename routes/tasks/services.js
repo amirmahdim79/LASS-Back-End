@@ -60,6 +60,10 @@ const getTaskStatus = async (req, res) => {
     res.send(status)
 }
 
+const postDoTask = async (req, res) => {
+    
+}
+
 module.exports = {
     postCreateTask,
     completeTask,
