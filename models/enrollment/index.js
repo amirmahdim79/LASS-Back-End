@@ -6,41 +6,42 @@ const { MODELS, SUBMODELS } = require('../../constant/models')
 const Joi = require('joi');
 const crypto = require('crypto');
 
-const taskStatusSchema = new mongoose.Schema({
-    Task: {
+const enrollmentSchema = new mongoose.Schema({
+    Lab: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: MODELS.TASK,
+        ref: MODELS.LAB,
         required: true
     },
 
-    User: {
+    Student: {
         type: mongoose.Schema.Types.ObjectId,
         ref: MODELS.USER,
         required: true
     },
 
-    status: {
+    supervisorSign: {
         type: Boolean,
         default: false,
     },
 
-    doneData: {
+    userSign: {
+        type: Boolean,
+        default: false,
+    },
+
+    enrolled: {
+        type: Boolean,
+        default: false,
+    },
+
+    enrolledDate: {
         type: Date,
     },
-
-    data: {
-        fileUrl,
-    },
-
-    isActive: {
-        type: Boolean,
-        default: true
-    }
 
 }, {
     timestamps: true,
 })
 
-const TaskStatus = mongoose.model(SUBMODELS.TASK_STATUS, taskStatusSchema)
+const Enrollment = mongoose.model(SUBMODELS.LAB_ENROLLMENT, enrollmentSchema)
 
-exports.TaskStatus = TaskStatus
+exports.Enrollment = Enrollment

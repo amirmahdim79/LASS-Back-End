@@ -92,8 +92,6 @@ const getMyLab_sups = async (req, res) => {
             return m
         })
 
-        console.log(userPath.Milestones[0])
-
         lab.Paths = [userPath]
     }
 
