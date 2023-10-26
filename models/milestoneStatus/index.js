@@ -24,7 +24,7 @@ const milestoneStatusSchema = new mongoose.Schema({
         default: false,
     },
 
-    doneData: {
+    doneDate: {
         type: Date,
     },
 
