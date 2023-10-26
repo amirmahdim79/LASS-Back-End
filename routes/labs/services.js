@@ -10,6 +10,7 @@ const { Task } = require('../../models/task');
 const { TaskStatus } = require('../../models/taskStatus');
 const { MilestoneStatus } = require('../../models/milestoneStatus');
 const { default: mongoose } = require('mongoose');
+const { Enrollment } = require('../../models/enrollment');
 
 //post create cup for user(Admin)
 const postCreateLab = async (req, res) => {
@@ -108,6 +109,18 @@ const enrollStudent = async (req, res) => {
 
     const student = await User.findOne({ email: req.body.email })
     if (!student) return res.status(400).send(MESSAGES.STUDENT_NOT_FOUND)
+
+    //TODO: for the sake of development, we only get the sign from superviosr now
+    const enrollment = new Enrollment({
+        Lab: lab._id,
+        Student: student._id,
+        supervisorSign: true,
+        studentSign: true,
+        enrolled: true,
+        enrolledDate: Date.now()
+    })
+
+    enrollment.save()
 
     lab.Students.push(student)
     student.Labs.push(lab)

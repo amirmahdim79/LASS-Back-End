@@ -24,7 +24,7 @@ const enrollmentSchema = new mongoose.Schema({
         default: false,
     },
 
-    userSign: {
+    studentSign: {
         type: Boolean,
         default: false,
     },
