@@ -7,11 +7,13 @@ const Joi = require('joi');
 const crypto = require('crypto');
 
 const tagSchema = new mongoose.Schema({
-    VoteList: {
-        type: [{
-            type: mongoose.Schema.Types.Mixed,
-        }],
-        default: []
+    VoteList: [{
+        type: mongoose.Schema.Types.Mixed,
+    }],
+
+    File: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: MODELS.FILE
     },
 
     name: {

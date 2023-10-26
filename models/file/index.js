@@ -7,21 +7,14 @@ const Joi = require('joi');
 const crypto = require('crypto');
 
 const fileSchema = new mongoose.Schema({
-    Tags: {
-        type: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: MODELS.TAG
-        }],
-        default: []
-    },
+    Tags: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: MODELS.TAG
+    }],
 
-    interval: {
-        type: Number,
-    },
-
-    path: {
+    alias: {
         type: String,
-        required: true,
+        unique: true,
     },
 
     url: {
@@ -39,6 +32,28 @@ const fileSchema = new mongoose.Schema({
         type: String,
         minlength: 1,
         maxlength: 300
+    },
+
+    cited: {
+        type: Number,
+        default: 0,
+    },
+
+    protected: {
+        type: Boolean,
+        default: false,
+    },
+
+    Initiator: {
+        type: mongoose.Schema.Types.Mixed
+    },
+
+    size: {
+        type: String,
+    },
+
+    format: {
+        type: String,
     },
 
     isActive: {

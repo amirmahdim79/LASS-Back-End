@@ -17,6 +17,7 @@ const supervisor = require('../routes/supervisors');
 const path = require('../routes/paths');
 const milestone = require('../routes/milestones');
 const task = require('../routes/tasks');
+const files = require('../routes/files')
 
 module.exports = (app) => {
     //Middlewares
@@ -49,6 +50,7 @@ module.exports = (app) => {
     app.use('/api-lass/path', path)
     app.use('/api-lass/milestone', milestone)
     app.use('/api-lass/task', task)
+    app.use('/api-lass/files', files)
 
     //Custom middlewares
     app.use(logger)
