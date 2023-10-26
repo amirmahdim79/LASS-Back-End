@@ -55,7 +55,7 @@ const getMyLab_sups = async (req, res) => {
             Supervisor: req.user._id
         })
         .populate(LABS_FIELD.POPULATE)
-        if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
+        if (!lab) return res.send(null)
     } else {
         lab = await Lab.findOne({
             Students: {
@@ -65,7 +65,7 @@ const getMyLab_sups = async (req, res) => {
             }
         })
         .populate(LABS_FIELD.POPULATE)
-        if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
+        if (!lab) return res.send(null)
 
         const user = await User.findOne({ _id: req.user._id })
 
