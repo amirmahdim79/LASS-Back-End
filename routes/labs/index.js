@@ -8,6 +8,7 @@ const {
     getLabByField,
     getMyLab_sups,
     enrollStudent,
+    getAllUsers,
 }
 = require('./services');
 
@@ -21,6 +22,9 @@ router.get('/', isSuperAdmin, getLabs)
 
 // get my lab
 router.get('/my', auth, getMyLab_sups)
+
+// get lab students
+router.get('/students', isSupervisor, getAllUsers)
 
 // get one lab
 router.get('/:id', isSuperAdmin, getLabByField)

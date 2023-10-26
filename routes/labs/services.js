@@ -117,7 +117,20 @@ const enrollStudent = async (req, res) => {
     lab.save()
     student.save()
 
-    res.send('student successfully added to lab')
+    res.send(lab.Students)
+}
+
+const getAllUsers = async (req, res) => {
+    const lab = await Lab.findOne({
+        Supervisor: req.user._id
+    })
+    .populate({
+        path: 'Students',
+        select: '-password',
+    })
+    if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
+
+    res.send(lab.Students)
 }
 
 module.exports = {
@@ -126,4 +139,5 @@ module.exports = {
     getLabByField,
     getMyLab_sups,
     enrollStudent,
+    getAllUsers,
 }
