@@ -14,7 +14,7 @@ const {
 const router = express.Router()
 
 // Create new Lab
-router.post('/', isSuperAdmin, postCreateLab)
+router.post('/', isSupervisor, postCreateLab)
 
 // get all labs
 router.get('/', isSuperAdmin, getLabs)

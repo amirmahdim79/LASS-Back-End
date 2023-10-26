@@ -10,12 +10,14 @@ const LABS_FIELD = {
     CREATE: [
         'name',
         'email',
+        'desc',
     ],
     CREATE_RES: [
         'Supervisor',
         'name',
         'url',
         '_id',
+        'desc',
     ],
     INFO: [
         'Supervisor',
@@ -23,6 +25,7 @@ const LABS_FIELD = {
         'name',
         'url',
         '_id',
+        'desc',
     ],
     POPULATE: [
         {
