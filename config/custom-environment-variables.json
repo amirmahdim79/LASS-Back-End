@@ -1,6 +1,0 @@
-{
-    "jwtPrivateKey": "thesis_jwtPrivateKey",
-    "s3AccessKeyId": "thesis_s3AccessKeyId",
-    "s3SecretAccessKey": "thesis_s3SecretAccessKey",
-    "openaiKey": "thesis_openaiKey"
-}
