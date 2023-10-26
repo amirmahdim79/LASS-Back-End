@@ -111,6 +111,12 @@ const enrollStudent = async (req, res) => {
     if (!student) return res.status(400).send(MESSAGES.STUDENT_NOT_FOUND)
 
     //TODO: for the sake of development, we only get the sign from superviosr now
+    const existing = await Enrollment.findOne({
+        Lab: lab._id,
+        Student: student._id,
+    })
+    if (existing) return res.status(400).send(MESSAGES.USER_ALREADY_ENROLLED)
+
     const enrollment = new Enrollment({
         Lab: lab._id,
         Student: student._id,
@@ -120,7 +126,7 @@ const enrollStudent = async (req, res) => {
         enrolledDate: Date.now()
     })
 
-    enrollment.save()
+    await enrollment.save()
 
     lab.Students.push(student)
     student.Labs.push(lab)

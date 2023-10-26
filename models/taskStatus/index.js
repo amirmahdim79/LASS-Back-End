@@ -29,7 +29,7 @@ const taskStatusSchema = new mongoose.Schema({
     },
 
     data: {
-        fileUrl,
+        fileUrl: '',
     },
 
     isActive: {

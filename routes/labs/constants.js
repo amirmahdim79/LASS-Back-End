@@ -4,6 +4,7 @@ const MESSAGES = {
     NO_ACCESS: 'Access denied',
     ALREADY_REGISTERED: 'Already Exists',
     LAB_NOT_FOUND: 'Lab not found.',
+    USER_ALREADY_ENROLLED: 'User already enrolled',
 }
 
 const LABS_FIELD = {
