@@ -5,6 +5,7 @@ const express = require('express');
 const {
     addNewPaper,
     getFileInfo,
+    getAllPapers
 }
 = require('./services');
 const multer = require('multer');
@@ -18,6 +19,9 @@ var upload = multer({
 
 // add new paper
 router.post('/paper', auth, upload, addNewPaper)
+
+// Create new milestone for path
+router.get('/paper', auth, getAllPapers)
 
 // Create new milestone for path
 router.get('/find/:id', auth, getFileInfo)

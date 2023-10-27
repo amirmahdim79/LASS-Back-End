@@ -58,7 +58,16 @@ const getFileInfo = async (req, res) => {
     res.send(_.pick(file, FILES_FIELD.INFO))
 }
 
+const getAllPapers = async (req, res) => {
+    const files = await File.find({
+        type: 'paper'
+    })
+
+    res.send(files)
+}
+
 module.exports = {
     addNewPaper,
     getFileInfo,
+    getAllPapers,
 }
