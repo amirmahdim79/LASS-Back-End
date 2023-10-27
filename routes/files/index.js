@@ -3,7 +3,7 @@ const authCheck = require('../../middleware/authCheck');
 const { isSuperAdmin, isSupervisor } = require('../../middleware/permissionCheck');
 const express = require('express');
 const {
-    createNewFile,
+    addNewPaper,
     getFileInfo,
 }
 = require('./services');
@@ -16,8 +16,8 @@ var upload = multer({
     limits: { fileSize: 50 * 1024 * 1024 }
 }).single('file')
 
-// Create new milestone for path
-router.post('/', auth, upload, createNewFile)
+// add new paper
+router.post('/paper', auth, upload, addNewPaper)
 
 // Create new milestone for path
 router.get('/find/:id', auth, getFileInfo)

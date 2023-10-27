@@ -17,6 +17,7 @@ const FILES_FIELD = {
         'Initiator',
         'size',
         'format',
+        'type',
     ],
     POPULATE: [
         {

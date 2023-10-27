@@ -12,7 +12,7 @@ const { FILES_FIELD } = require('../../models/file/constant');
 const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
 
 //add new paper
-const createNewFile = async (req, res) => {
+const addNewPaper = async (req, res) => {
     const student = await User.findById(req.user._id)
     const sups = await Supervisor.findById(req.user._id)
     const user = student ?? sups
@@ -52,10 +52,13 @@ const getFileInfo = async (req, res) => {
         ]
     })
 
+    file.cited = file.cited + 1
+    await file.save()
+
     res.send(_.pick(file, FILES_FIELD.INFO))
 }
 
 module.exports = {
-    createNewFile,
+    addNewPaper,
     getFileInfo,
 }
