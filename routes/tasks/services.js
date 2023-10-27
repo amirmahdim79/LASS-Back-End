@@ -40,13 +40,13 @@ const completeTask = async (req, res) => {
             User: req.user._id,
         })
 
+        task.status.push(taskStatus._id)
     }
 
     taskStatus.status = true
     taskStatus.doneDate = Date.now()
     await taskStatus.save()
 
-    task.status.push(taskStatus._id)
     await task.save()
 
     res.send(_.pick(taskStatus, TASK_STATUS_FIELDS.INFO))
@@ -61,7 +61,7 @@ const getTaskStatus = async (req, res) => {
 }
 
 const postDoTask = async (req, res) => {
-    
+
 }
 
 module.exports = {
