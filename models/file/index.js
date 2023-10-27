@@ -5,12 +5,19 @@ const GLOBALCONST = require('../../constant')
 const { MODELS, SUBMODELS, TYPES } = require('../../constant/models')
 const Joi = require('joi');
 const crypto = require('crypto');
+const { FILE_TYPES } = require("./constant")
 
 const fileSchema = new mongoose.Schema({
     Tags: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: MODELS.TAG
     }],
+
+    type: {
+        type: String,
+        enum: FILE_TYPES,
+        required: true,
+    },
 
     alias: {
         type: String,

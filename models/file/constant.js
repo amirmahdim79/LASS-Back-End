@@ -26,6 +26,12 @@ const FILES_FIELD = {
     ],
 }
 
+const FILE_TYPES = [
+    'paper',
+    'report',
+]
+
 module.exports = {
     FILES_FIELD,
+    FILE_TYPES,
 }

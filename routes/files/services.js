@@ -36,6 +36,7 @@ const createNewFile = async (req, res) => {
     newFile.Initiator = user._id
     newFile.size = file.size
     newFile.format = fileFormat
+    newFile.type = 'paper'
 
     await newFile.save()
 
