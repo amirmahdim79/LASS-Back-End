@@ -15,27 +15,41 @@ const fs = require('fs');
 const { cleanUploadedFile } = require('../../utils/cleanUploadedFile');
 const { MINE_PAPER } = require('../../utils/paperMiner');
 const { Vote } = require('../../models/vote');
+const { Tag } = require('../../models/tag');
+const { USER_ELIGIBILITY } = require('../../constant/models');
 
-const createTags = async (tags) => {
-
+const createTags = async (tags = [], file, userId, type = 'ai') => {
+    const tagDocs = tags.map((tag) => ({
+        name: tag,
+        File: file._id,
+        score: USER_ELIGIBILITY[type],
+        Initiator: userId || 'ai',
+    }));
+    
+    Tag.create(tagDocs)
+    .then((createdTags) => {
+        const newTagIds = createdTags.map((tag) => tag._id);
+        file.Tags.push(...newTagIds);
+        return file.save();
+    })
 }
 
 //add new paper
 const addNewPaper = async (req, res) => {
-    // const student = await User.findById(req.user._id)
-    // const sups = await Supervisor.findById(req.user._id)
-    // const user = student ?? sups
+    const student = await User.findById(req.user._id)
+    const sups = await Supervisor.findById(req.user._id)
+    const user = student ?? sups
 
     const file = req.file
     if (!file) return res.status(400).json({ error: MESSAGES.NO_FILE });
     if (!ALLOWED_FORMATS.includes(file.mimetype)) return res.status(400).json({ error: MESSAGES.BAD_FORMAT });
 
-    // const fileName = file.originalname
-    // const fileFormat = fileName.split('.').pop()
-    // const fileAlias = crypto.randomBytes(6).toString('hex')
+    const fileName = file.originalname
+    const fileFormat = fileName.split('.').pop()
+    const fileAlias = crypto.randomBytes(6).toString('hex')
 
-    // const upload_res = await UPLOAD(file, fileAlias + '.' + fileFormat, 'papers', false)
-    // if (!upload_res) return res.status(500).json({ error: MESSAGES.UPLOAD_FAILED });
+    const upload_res = await UPLOAD(file, fileAlias + '.' + fileFormat, 'papers', false)
+    if (!upload_res) return res.status(500).json({ error: MESSAGES.UPLOAD_FAILED });
 
     const newFile = new File(_.pick(req.body, FILES_FIELD))
 
@@ -58,7 +72,9 @@ const addNewPaper = async (req, res) => {
                 .then(async ({ useChatGPT }) => {
                     const prompt = GPT_PROPMTS.MINE_PAPER_TAGS + importantParts
                     const response = await useChatGPT(prompt)
-                    console.log(response)
+                    if (response.tags && response.tags.length > 1) {
+                        createTags(response.tags, newFile)
+                    }
                 })
                 .catch((error) => {
                     console.error(error);
@@ -92,7 +108,7 @@ const getFileInfo = async (req, res) => {
 const getAllPapers = async (req, res) => {
     const files = await File.find({
         type: 'paper'
-    })
+    }).populate(FILES_FIELD.POPULATE)
 
     res.send(files)
 }

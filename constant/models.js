@@ -15,6 +15,7 @@ const MODELS = {
 const TYPES = ['undergrad', 'masters', 'phd', 'postDoc', 'intern']
 
 const USER_ELIGIBILITY = {
+    'ai': 1,
     'undergrad': 1,
     'masters': 2,
     'phd': 3,

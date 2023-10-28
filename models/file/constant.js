@@ -21,8 +21,7 @@ const FILES_FIELD = {
     ],
     POPULATE: [
         {
-            path: 'Initiator',
-            model: MODELS.USER
+            path: 'Tags',
         },
     ],
 }

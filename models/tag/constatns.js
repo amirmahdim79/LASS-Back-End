@@ -3,9 +3,11 @@ const TAG_FIELDS = {
         'File',
         'name',
         'score',
+        'Initiator',
     ],
     INFO: [
         'VoteList',
+        'Initiator',
         'File',
         'name',
         'score',

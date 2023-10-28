@@ -12,6 +12,10 @@ const tagSchema = new mongoose.Schema({
         ref: SUBMODELS.TAG_VOTE
     }],
 
+    Initiator: {
+        type: mongoose.Schema.Types.Mixed
+    },
+
     File: {
         type: mongoose.Schema.Types.ObjectId,
         ref: MODELS.FILE,
