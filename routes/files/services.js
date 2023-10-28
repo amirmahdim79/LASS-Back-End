@@ -15,7 +15,10 @@ const fs = require('fs');
 const { cleanUploadedFile } = require('../../utils/cleanUploadedFile');
 const { MINE_PAPER } = require('../../utils/paperMiner');
 const { Vote } = require('../../models/vote');
-// const { useChatGPT } = require('../../utils/useChatGPT.mjs');
+
+const createTags = async (tags) => {
+
+}
 
 //add new paper
 const addNewPaper = async (req, res) => {
@@ -36,39 +39,36 @@ const addNewPaper = async (req, res) => {
 
     const newFile = new File(_.pick(req.body, FILES_FIELD))
 
-    // newFile.name = req.body.name ?? fileName
-    // newFile.url = UPLOAD_BASE + 'papers/' + fileAlias + '.' + fileFormat
-    // newFile.alias = fileAlias
-    // newFile.Initiator = user._id
-    // newFile.size = file.size
-    // newFile.format = fileFormat
-    // newFile.type = 'paper'
+    newFile.name = req.body.name ?? fileName
+    newFile.url = UPLOAD_BASE + 'papers/' + fileAlias + '.' + fileFormat
+    newFile.alias = fileAlias
+    newFile.Initiator = user._id
+    newFile.size = file.size
+    newFile.format = fileFormat
+    newFile.type = 'paper'
 
-    // await newFile.save()
+    await newFile.save()
 
-    // try {
-    //     const pdf = await PDFParser(file.path, {});
-    //     const textContent = pdf.text;
-    //     const importantParts = MINE_PAPER(textContent)
-    //     if (importantParts.length > 100) {
-    //         import('../../utils/useChatGPT.mjs')
-    //             .then(async ({ useChatGPT }) => {
-    //                 const prompt = GPT_PROPMTS.MINE_PAPER_TAGS + importantParts
-    //                 const response = await useChatGPT(prompt)
-    //                 console.log(response)
-    //             })
-    //             .catch((error) => {
-    //                 console.error(error);
-    //             });
-    //     }
-    // } catch (error) {
-    //     console.error('Error reading PDF:', error);
-    // } finally {
-    //     cleanUploadedFile(file)
-    // }
-
-    const votes = await Vote.find().populate('User')
-    console.log(votes)
+    try {
+        const pdf = await PDFParser(file.path, {});
+        const textContent = pdf.text;
+        const importantParts = MINE_PAPER(textContent)
+        if (importantParts.length > 100) {
+            import('../../utils/useChatGPT.mjs')
+                .then(async ({ useChatGPT }) => {
+                    const prompt = GPT_PROPMTS.MINE_PAPER_TAGS + importantParts
+                    const response = await useChatGPT(prompt)
+                    console.log(response)
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+    } catch (error) {
+        console.error('Error reading PDF:', error);
+    } finally {
+        cleanUploadedFile(file)
+    }
 
     res.send(_.pick(newFile, FILES_FIELD.INFO))
 }
