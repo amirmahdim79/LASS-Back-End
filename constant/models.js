@@ -26,6 +26,7 @@ const SUBMODELS = {
     MILESTONE_STATUS: 'MilestoneStatus',
     TASK_STATUS: 'TaskStatus',
     LAB_ENROLLMENT: 'Enrollment',
+    TAG_VOTE: 'Vote',
 }
 
 module.exports = {

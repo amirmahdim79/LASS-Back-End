@@ -8,18 +8,21 @@ const crypto = require('crypto');
 
 const tagSchema = new mongoose.Schema({
     VoteList: [{
-        type: mongoose.Schema.Types.Mixed,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: SUBMODELS.TAG_VOTE
     }],
 
     File: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: MODELS.FILE
+        ref: MODELS.FILE,
+        required: true,
     },
 
     name: {
         type: String,
         minlength: 1,
-        maxlength: 100
+        maxlength: 100,
+        required: true,
     },
 
     score: {

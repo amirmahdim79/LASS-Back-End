@@ -14,6 +14,7 @@ const PDFParser = require('pdf-parse');
 const fs = require('fs');
 const { cleanUploadedFile } = require('../../utils/cleanUploadedFile');
 const { MINE_PAPER } = require('../../utils/paperMiner');
+const { Vote } = require('../../models/vote');
 // const { useChatGPT } = require('../../utils/useChatGPT.mjs');
 
 //add new paper
@@ -45,26 +46,29 @@ const addNewPaper = async (req, res) => {
 
     // await newFile.save()
 
-    try {
-        const pdf = await PDFParser(file.path, {});
-        const textContent = pdf.text;
-        const importantParts = MINE_PAPER(textContent)
-        if (importantParts.length > 100) {
-            import('../../utils/useChatGPT.mjs')
-                .then(async ({ useChatGPT }) => {
-                    const prompt = GPT_PROPMTS.MINE_PAPER_TAGS + importantParts
-                    const response = await useChatGPT(prompt)
-                    console.log(response)
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        }
-    } catch (error) {
-        console.error('Error reading PDF:', error);
-    } finally {
-        cleanUploadedFile(file)
-    }
+    // try {
+    //     const pdf = await PDFParser(file.path, {});
+    //     const textContent = pdf.text;
+    //     const importantParts = MINE_PAPER(textContent)
+    //     if (importantParts.length > 100) {
+    //         import('../../utils/useChatGPT.mjs')
+    //             .then(async ({ useChatGPT }) => {
+    //                 const prompt = GPT_PROPMTS.MINE_PAPER_TAGS + importantParts
+    //                 const response = await useChatGPT(prompt)
+    //                 console.log(response)
+    //             })
+    //             .catch((error) => {
+    //                 console.error(error);
+    //             });
+    //     }
+    // } catch (error) {
+    //     console.error('Error reading PDF:', error);
+    // } finally {
+    //     cleanUploadedFile(file)
+    // }
+
+    const votes = await Vote.find().populate('User')
+    console.log(votes)
 
     res.send(_.pick(newFile, FILES_FIELD.INFO))
 }
