@@ -2,7 +2,7 @@ const { User } = require('../../models/user');
 const bcrypt = require('bcrypt')
 const _ = require('lodash');
 const crypto = require('crypto');
-const { MILESTONES_FIELD, MESSAGES, ALLOWED_FORMATS } = require('./constants');
+const { MILESTONES_FIELD, MESSAGES, ALLOWED_FORMATS, GPT_PROPMTS } = require('./constants');
 const { Lab } = require('../../models/lab');
 const { Supervisor } = require('../../models/supervisor');
 const { Path } = require('../../models/path');
@@ -13,7 +13,8 @@ const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
 const PDFParser = require('pdf-parse');
 const fs = require('fs');
 const { cleanUploadedFile } = require('../../utils/cleanUploadedFile');
-const { useChatGPT } = require('../../utils/useChatGPT');
+const { MINE_PAPER } = require('../../utils/paperMiner');
+// const { useChatGPT } = require('../../utils/useChatGPT.mjs');
 
 //add new paper
 const addNewPaper = async (req, res) => {
@@ -32,7 +33,7 @@ const addNewPaper = async (req, res) => {
     // const upload_res = await UPLOAD(file, fileAlias + '.' + fileFormat, 'papers', false)
     // if (!upload_res) return res.status(500).json({ error: MESSAGES.UPLOAD_FAILED });
 
-    // const newFile = new File(_.pick(req.body, FILES_FIELD))
+    const newFile = new File(_.pick(req.body, FILES_FIELD))
 
     // newFile.name = req.body.name ?? fileName
     // newFile.url = UPLOAD_BASE + 'papers/' + fileAlias + '.' + fileFormat
@@ -47,11 +48,21 @@ const addNewPaper = async (req, res) => {
     try {
         const pdf = await PDFParser(file.path, {});
         const textContent = pdf.text;
-        useChatGPT()
+        const importantParts = MINE_PAPER(textContent)
+        if (importantParts.length > 100) {
+            import('../../utils/useChatGPT.mjs')
+                .then(async ({ useChatGPT }) => {
+                    const prompt = GPT_PROPMTS.MINE_PAPER_TAGS + importantParts
+                    const response = await useChatGPT(prompt)
+                    console.log(response)
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
     } catch (error) {
         console.error('Error reading PDF:', error);
     } finally {
-        console.log('here')
         cleanUploadedFile(file)
     }
 

@@ -30,12 +30,12 @@ const UPLOAD = async (file, name, folder = '', deleteAfter = true) => {
 
     try {
         const data = await s3.send(new PutObjectCommand(uploadParams));
-        deleteAfter && cleanUploadedFile(file)
         return data
     } catch (err) {
         console.log(err)
-        deleteAfter && cleanUploadedFile(file)
         return false
+    } finally {
+        deleteAfter && cleanUploadedFile(file)
     }
 };
 

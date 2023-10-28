@@ -10,7 +10,12 @@ const ALLOWED_FORMATS = [
     'application/pdf',
 ]
 
+const GPT_PROPMTS = {
+    MINE_PAPER_TAGS: 'Give me a json of an array of a list of 10 most relevant tags to this document: ',
+}
+
 module.exports = { 
     MESSAGES,
     ALLOWED_FORMATS,
+    GPT_PROPMTS,
 }
