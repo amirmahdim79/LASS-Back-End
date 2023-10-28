@@ -20,10 +20,10 @@ var upload = multer({
 // add new paper
 router.post('/paper', auth, upload, addNewPaper)
 
-// Create new milestone for path
+// get all papers
 router.get('/paper', auth, getAllPapers)
 
-// Create new milestone for path
+// find a file by id or alias
 router.get('/find/:id', auth, getFileInfo)
 
 module.exports = router

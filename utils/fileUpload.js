@@ -24,17 +24,17 @@ const uploadParams = {
     Body: 'BODY',
 };
 
-const UPLOAD = async (file, name, folder = '') => {
+const UPLOAD = async (file, name, folder = '', deleteAfter = true) => {
     uploadParams.Key = `${folder}/` + name ?? file.originalname;
     uploadParams.Body = fs.readFileSync(file.path);
 
     try {
         const data = await s3.send(new PutObjectCommand(uploadParams));
-        cleanUploadedFile(file)
+        deleteAfter && cleanUploadedFile(file)
         return data
     } catch (err) {
         console.log(err)
-        cleanUploadedFile(file)
+        deleteAfter && cleanUploadedFile(file)
         return false
     }
 };
