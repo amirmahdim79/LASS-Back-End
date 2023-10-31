@@ -136,12 +136,17 @@ const searchPaper = async (req, res) => {
     const query = req.query.query || ''
 
     const fileRes = await File.find({
-        $or: [
-            { 'alias': { $regex: query, $options: 'i' } },
-            { 'name': { $regex: query, $options: 'i' } },
-            { 'format': { $regex: query, $options: 'i' } },
+        $and: [
+          {
+            $or: [
+              { 'alias': { $regex: query, $options: 'i' } },
+              { 'name': { $regex: query, $options: 'i' } },
+              { 'format': { $regex: query, $options: 'i' } },
+            ],
+          },
+          { 'type': 'paper' },
         ],
-    }).populate(FILES_FIELD.POPULATE)
+      }).populate(FILES_FIELD.POPULATE)
 
     const matchingTags = await Tag.find({
         name: {
