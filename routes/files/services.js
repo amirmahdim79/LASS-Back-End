@@ -63,6 +63,11 @@ const addNewPaper = async (req, res) => {
 
     await newFile.save()
 
+    const tags = req.body.tags
+    if (tags) {
+        createTags(tags, newFile, user._id, sups ? 'supervisor' : student.type)
+    }
+
     try {
         const pdf = await PDFParser(file.path, {});
         const textContent = pdf.text;
