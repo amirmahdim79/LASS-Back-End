@@ -5,7 +5,8 @@ const express = require('express');
 const {
     addNewPaper,
     getFileInfo,
-    getAllPapers
+    getAllPapers,
+    searchPaper,
 }
 = require('./services');
 const multer = require('multer');
@@ -25,5 +26,8 @@ router.get('/paper', auth, getAllPapers)
 
 // find a file by id or alias
 router.get('/find/:id', auth, getFileInfo)
+
+//search files
+router.get('/paper/search', auth, searchPaper)
 
 module.exports = router

@@ -34,6 +34,17 @@ const createTags = async (tags = [], file, userId, type = 'ai') => {
     })
 }
 
+const removeDuplicates = (arr) => {
+    const seen = new Set();
+    return arr.filter((item) => {
+      if (seen.has(item._id)) {
+        return false;
+      }
+      seen.add(item._id);
+      return true;
+    });
+}
+
 //add new paper
 const addNewPaper = async (req, res) => {
     const student = await User.findById(req.user._id)
@@ -118,8 +129,41 @@ const getAllPapers = async (req, res) => {
     res.send(files)
 }
 
+//search for papers
+const searchPaper = async (req, res) => {
+    //id, alias, name, format
+    //tags
+    const query = req.query.query || ''
+
+    const fileRes = await File.find({
+        $or: [
+            { 'alias': { $regex: query, $options: 'i' } },
+            { 'name': { $regex: query, $options: 'i' } },
+            { 'format': { $regex: query, $options: 'i' } },
+        ],
+    }).populate(FILES_FIELD.POPULATE)
+
+    const matchingTags = await Tag.find({
+        name: {
+          $regex: query,
+          $options: 'i',
+        },
+    });
+
+    const tagIds = matchingTags.map((tag) => tag._id);
+
+    const tagRes = await File.find({
+        Tags: { $in: tagIds },
+    }).populate(FILES_FIELD.POPULATE)
+
+    
+
+    res.send(removeDuplicates([...fileRes, ...tagRes]))
+}
+
 module.exports = {
     addNewPaper,
     getFileInfo,
     getAllPapers,
+    searchPaper,
 }
