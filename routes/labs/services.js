@@ -11,6 +11,8 @@ const { TaskStatus } = require('../../models/taskStatus');
 const { MilestoneStatus } = require('../../models/milestoneStatus');
 const { default: mongoose } = require('mongoose');
 const { Enrollment } = require('../../models/enrollment');
+const MAIL_MAN = require('../../utils/mailMan/mailMan')();
+const { EMAIL_TEMPLATE_NAMES } = require('../../utils/mailMan/constants');
 
 //post create cup for user(Admin)
 const postCreateLab = async (req, res) => {
@@ -110,7 +112,7 @@ const enrollStudent = async (req, res) => {
     const student = await User.findOne({ email: req.body.email })
     if (!student) return res.status(400).send(MESSAGES.STUDENT_NOT_FOUND)
 
-    //TODO: for the sake of development, we only get the sign from superviosr now
+    // TODO: for the sake of development, we only get the sign from superviosr now
     const existing = await Enrollment.findOne({
         Lab: lab._id,
         Student: student._id,
@@ -133,6 +135,11 @@ const enrollStudent = async (req, res) => {
 
     lab.save()
     student.save()
+
+    MAIL_MAN.SEND_TEMPLATE(student.email, EMAIL_TEMPLATE_NAMES.LAB_WELCOME, {
+        name: student.firstName,
+        lab_name: lab.name,
+    })
 
     res.send(lab.Students)
 }
