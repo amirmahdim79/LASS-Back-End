@@ -38,9 +38,6 @@ const LABS_FIELD = {
             select: '-password',
         },
         {
-            path: 'Events',
-        },
-        {
             path: 'Paths',
             populate: {
                 path: 'Milestones',

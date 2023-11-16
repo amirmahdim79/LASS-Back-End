@@ -11,8 +11,6 @@ const ACTIVITY_TYPES = [
 
 const EVENT_FIELDS = {
     CREATE: [
-        'Initiator',
-        'initiatorType',
         'name',
         'desc',
         'type',
@@ -21,7 +19,7 @@ const EVENT_FIELDS = {
         'start',
         'end',
         'notifyMe',
-        'Lab',
+        'Collaborators',
     ],
     INFO: [
         'Initiator',
@@ -41,6 +39,7 @@ const EVENT_FIELDS = {
     POPULATE: [
         {
             path: 'Collaborators',
+            select: '-password -permissions',
         },
     ],
 }

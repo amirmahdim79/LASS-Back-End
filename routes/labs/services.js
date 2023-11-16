@@ -9,6 +9,7 @@ const { Milestone } = require('../../models/milestone');
 const { Task } = require('../../models/task');
 const { TaskStatus } = require('../../models/taskStatus');
 const { MilestoneStatus } = require('../../models/milestoneStatus');
+const { Event } = require('../../models/event');
 const { default: mongoose } = require('mongoose');
 const { Enrollment } = require('../../models/enrollment');
 const MAIL_MAN = require('../../utils/mailMan/mailMan')();

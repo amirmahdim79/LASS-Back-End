@@ -13,7 +13,7 @@ const { Event } = require('../../models/event');
 //post create path for lab(Sups)
 const postAddEvent = async (req, res) => {
     const lab = await Lab.findOne({
-        _id: req.Lab
+        _id: req.body.Lab
     })
     if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
 
@@ -27,11 +27,11 @@ const postAddEvent = async (req, res) => {
     const event = new Event(_.pick(req.body, EVENT_FIELDS.CREATE))
     event.Initiator = Initiator
     event.initiatorType = initiatorType
-    event.Lab = Lab._id
+    event.Lab = lab._id
 
-    await event.save()
+    await (await event.save()).populate(EVENT_FIELDS.POPULATE)
 
-    res.send(_.pick(event, EVENT_FIELDS.INFO))
+    res.send(_.omit(_.pick(event, EVENT_FIELDS.INFO), 'Initiator'))
 }
 
 module.exports = {
