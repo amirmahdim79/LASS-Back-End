@@ -19,6 +19,7 @@ const milestone = require('../routes/milestones');
 const task = require('../routes/tasks');
 const files = require('../routes/files')
 const tags = require('../routes/tags')
+const events = require('../routes/events')
 
 module.exports = (app) => {
     //Middlewares
@@ -53,6 +54,7 @@ module.exports = (app) => {
     app.use('/api-lass/task', task)
     app.use('/api-lass/files', files)
     app.use('/api-lass/tags', tags)
+    app.use('/api-lass/events', events)
 
     //Custom middlewares
     app.use(logger)

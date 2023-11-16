@@ -9,7 +9,7 @@ const { Path } = require('../../models/path');
 const { Milestone } = require('../../models/milestone');
 
 //post create path for lab(Sups)
-const postCreatePath = async (req, res) => {
+const postAddEvent = async (req, res) => {
     const lab = await Lab.findOne({
         Supervisor: req.user._id
     })

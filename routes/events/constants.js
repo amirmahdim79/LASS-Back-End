@@ -1,5 +1,5 @@
 const MESSAGES = {
-    LAB_NOT_FOUND: 'Lab not found.',
+    EVENT_NOT_FOUND: 'Event not found.',
 }
 
 module.exports = { 

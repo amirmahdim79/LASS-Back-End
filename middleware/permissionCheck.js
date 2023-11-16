@@ -5,6 +5,7 @@ const { User } = require('../models/user')
 const { Log } = require('../models/log')
 const { Admin } = require('../models/admin')
 const { Supervisor } = require('../models/supervisor')
+const { CREATE_LOG } = require('../utils/snitch')
 
 const isSuperAdmin = async (req, res, next) => {
     const token = req.header('x-auth-token') || req.cookies['x-auth-token'];
@@ -21,32 +22,7 @@ const isSuperAdmin = async (req, res, next) => {
         req.user = decoded
         next()
 
-        const ipAddress = req.id || req?.connection.remoteAddress
-        const userAgent = req.headers['user-agent']
-        const {
-            method,
-            originalUrl: url,
-            body: requestData,
-            params,
-            query,
-            headers
-        } = req;
-
-        const newLog = new Log({
-            User: req.user,
-            type: 'super-admin-action',
-            api: {
-                ipAddress,
-                method,
-                url,
-                userAgent,
-                requestData,
-                params,
-                query,
-                headers
-            }
-        })
-        newLog.save()
+        CREATE_LOG(req, 'super-admin-action')
 
     } catch (ex) {
         res.clearCookie('x-auth-token')
@@ -66,32 +42,33 @@ const isSupervisor = async (req, res, next) => {
         req.user = decoded
         next()
 
-        const ipAddress = req.id || req?.connection.remoteAddress
-        const userAgent = req.headers['user-agent']
-        const {
-            method,
-            originalUrl: url,
-            body: requestData,
-            params,
-            query,
-            headers
-        } = req;
+        CREATE_LOG(req, 'supervisor-action')
 
-        const newLog = new Log({
-            User: req.user,
-            type: 'supervisor-action',
-            api: {
-                ipAddress,
-                method,
-                url,
-                userAgent,
-                requestData,
-                params,
-                query,
-                headers
-            }
-        })
-        newLog.save()
+    } catch (ex) {
+        res.clearCookie('x-auth-token')
+        res.status(400).send('Invalid token.')
+    }
+}
+
+
+const isCoSupervisor = async (req, res, next) => {
+    const token = req.header('x-auth-token') || req.cookies['x-auth-token'];
+    if (!token) return res.status(401).send('Access denied.')
+
+    try {
+        const decoded = jwt.verify(token, config.get(GLOBALCONST.JWTPR))
+        let user = await Supervisor.findOne({ _id: decoded._id })
+        if (!user) {
+            user = await User.findOne({ _id: decoded._id })
+        }
+        if (!user) throw new Error('Supervisor not found.');
+
+        if (!user.permissions.includes['co-supervisor']) throw new Error('Access denied.');
+
+        req.user = decoded
+        next()
+
+        CREATE_LOG(req, 'supervisor-action')
 
     } catch (ex) {
         res.clearCookie('x-auth-token')
@@ -102,4 +79,5 @@ const isSupervisor = async (req, res, next) => {
 module.exports = {
     isSuperAdmin,
     isSupervisor,
+    isCoSupervisor,
 }

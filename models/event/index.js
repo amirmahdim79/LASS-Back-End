@@ -65,6 +65,11 @@ const eventSchema = new mongoose.Schema({
     isActive: {
         type: Boolean,
         default: true
+    },
+
+    notifyMe: {
+        type: Boolean,
+        default: false
     }
 
 }, {

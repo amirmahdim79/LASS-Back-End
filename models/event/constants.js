@@ -20,6 +20,7 @@ const EVENT_FIELDS = {
         'activity',
         'start',
         'end',
+        'notifyMe',
     ],
     INFO: [
         'Initiator',
@@ -32,7 +33,8 @@ const EVENT_FIELDS = {
         'start',
         'end',
         'isActive',
-        'Collaborators'
+        'Collaborators',
+        'notifyMe',
     ],
     POPULATE: [
         {
