@@ -28,14 +28,6 @@ const labSchema = new mongoose.Schema({
         default: []
     },
 
-    Events: {
-        type: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: MODELS.EVENT
-        }],
-        default: []
-    },
-
     name: {
         type: String,
         minlength: 1,

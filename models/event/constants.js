@@ -21,6 +21,7 @@ const EVENT_FIELDS = {
         'start',
         'end',
         'notifyMe',
+        'Lab',
     ],
     INFO: [
         'Initiator',
@@ -35,6 +36,7 @@ const EVENT_FIELDS = {
         'isActive',
         'Collaborators',
         'notifyMe',
+        'Lab',
     ],
     POPULATE: [
         {

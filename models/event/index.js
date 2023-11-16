@@ -19,6 +19,12 @@ const eventSchema = new mongoose.Schema({
         required: true,
     },
 
+    Lab: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: MODELS.LAB,
+        required: true,
+    },
+
     name: {
         type: String,
         required: true,
