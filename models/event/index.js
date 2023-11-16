@@ -13,7 +13,7 @@ const eventSchema = new mongoose.Schema({
         required: true,
     },
 
-    InitiatorType: {
+    initiatorType: {
         type: String,
         enum: INITIATOR_TYPES,
         required: true,

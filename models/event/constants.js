@@ -12,7 +12,7 @@ const ACTIVITY_TYPES = [
 const EVENT_FIELDS = {
     CREATE: [
         'Initiator',
-        'InitiatorType',
+        'initiatorType',
         'name',
         'desc',
         'type',
@@ -25,7 +25,7 @@ const EVENT_FIELDS = {
     ],
     INFO: [
         'Initiator',
-        'InitiatorType',
+        'initiatorType',
         'name',
         'desc',
         'type',

@@ -7,26 +7,31 @@ const { Lab } = require('../../models/lab');
 const { Supervisor } = require('../../models/supervisor');
 const { Path } = require('../../models/path');
 const { Milestone } = require('../../models/milestone');
+const { EVENT_FIELDS } = require('../../models/event/constants');
+const { Event } = require('../../models/event');
 
 //post create path for lab(Sups)
 const postAddEvent = async (req, res) => {
     const lab = await Lab.findOne({
-        Supervisor: req.user._id
+        _id: req.Lab
     })
     if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
 
-    const path = new Path(_.pick(req.body, PATH_FIELDS.CREATE))
-    path.Lab = lab
+    let Initiator = await Supervisor.findById(req.user._id)
+    if (!Initiator) {
+        Initiator = await User.findById(req.user._id)
+    }
+    if (!Initiator) return res.status(400).send(MESSAGES.NO_INITIATOR)
+    const initiatorType = Initiator.MODEL_TYPE
 
-    path.url = crypto.randomBytes(3).toString('hex')
+    const event = new Event(_.pick(req.body, EVENT_FIELDS.CREATE))
+    event.Initiator = Initiator
+    event.initiatorType = initiatorType
+    event.Lab = Lab._id
 
-    await path.save()
+    await event.save()
 
-    lab.Paths.push(path._id)
-
-    lab.save()
-
-    res.send(_.pick(path, PATH_FIELDS.CREATE_RES))
+    res.send(_.pick(event, EVENT_FIELDS.INFO))
 }
 
 module.exports = {
