@@ -1,6 +1,6 @@
 const auth = require('../../middleware/auth')
 const authCheck = require('../../middleware/authCheck');
-const { isSuperAdmin, isSupervisor } = require('../../middleware/permissionCheck');
+const { isSuperAdmin, isSupervisor, isCoSupervisor } = require('../../middleware/permissionCheck');
 const express = require('express');
 const {
     postCreatePath,
@@ -9,7 +9,7 @@ const {
 
 const router = express.Router()
 
-// Create new Lab
-router.post('/', isSupervisor, postCreatePath)
+// Add new event
+router.post('/', isCoSupervisor, postAddEvent)
 
 module.exports = router

@@ -56,14 +56,17 @@ const isCoSupervisor = async (req, res, next) => {
     if (!token) return res.status(401).send('Access denied.')
 
     try {
+        const isSups = false
         const decoded = jwt.verify(token, config.get(GLOBALCONST.JWTPR))
         let user = await Supervisor.findOne({ _id: decoded._id })
         if (!user) {
             user = await User.findOne({ _id: decoded._id })
+        } else {
+            isSups = true
         }
         if (!user) throw new Error('Supervisor not found.');
 
-        if (!user.permissions.includes['co-supervisor']) throw new Error('Access denied.');
+        if (!isSups && !user.permissions.includes['co-supervisor']) throw new Error('Access denied.');
 
         req.user = decoded
         next()

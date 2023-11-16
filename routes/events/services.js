@@ -30,5 +30,5 @@ const postAddEvent = async (req, res) => {
 }
 
 module.exports = {
-    postCreatePath,
+    postAddEvent,
 }
