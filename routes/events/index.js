@@ -3,7 +3,7 @@ const authCheck = require('../../middleware/authCheck');
 const { isSuperAdmin, isSupervisor, isCoSupervisor } = require('../../middleware/permissionCheck');
 const express = require('express');
 const {
-    postCreatePath,
+    postAddEvent,
 }
 = require('./services');
 
