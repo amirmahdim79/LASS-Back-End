@@ -45,7 +45,12 @@ const supervisorSchema = new mongoose.Schema({
 
     profilePicture: {
         type: String,
-    }
+    },
+
+    MODEL_TYPE: {
+        type: String,
+        default: MODELS.SUPERVISOR
+    },
 }, {
     timestamps: true,
 })

@@ -40,6 +40,10 @@ const labSchema = new mongoose.Schema({
         maxlength: 300
     },
 
+    logo: {
+        type: String,
+    },
+
     url: {
         type: String,
         unique: true

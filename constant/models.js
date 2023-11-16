@@ -10,9 +10,15 @@ const MODELS = {
     TASK: 'Task',
     FILE: 'File',
     TAG: 'Tag',
+    EVENT: 'Event',
 }
 
 const TYPES = ['undergrad', 'masters', 'phd', 'postDoc', 'intern']
+
+const INITIATOR_TYPES = [
+    MODELS.USER,
+    MODELS.SUPERVISOR,
+]
 
 const USER_ELIGIBILITY = {
     'ai': 1,
@@ -35,4 +41,5 @@ module.exports = {
     SUBMODELS,
     TYPES,
     USER_ELIGIBILITY,
+    INITIATOR_TYPES,
 }
