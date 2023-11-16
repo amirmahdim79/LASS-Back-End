@@ -34,6 +34,25 @@ const postAddEvent = async (req, res) => {
     res.send(_.omit(_.pick(event, EVENT_FIELDS.INFO), 'Initiator'))
 }
 
+//get lab events
+const getLabEvents = async (req, res) => {
+    const lab = await Lab.findOne({
+        _id: req.body.Lab
+    })
+    if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
+
+    let GOT_ACCESS = false
+    if ((lab.Supervisor.equals(req.user._id)) || (lab.Students.includes(req.user._id))) GOT_ACCESS = true
+    if (!GOT_ACCESS) return res.status(400).send(MESSAGES.ACCESS_DENIED)
+
+    const events = await Event.find({
+        Lab: lab._id
+    }).populate(EVENT_FIELDS.POPULATE).select('-Initiator.password -Initiator.roles')
+
+    res.send(events)
+}
+
 module.exports = {
     postAddEvent,
+    getLabEvents,
 }
