@@ -79,8 +79,41 @@ const isCoSupervisor = async (req, res, next) => {
     }
 }
 
+const hasPermissions = (permissions = []) => {
+    return async (req, res, next) => {
+        const token = req.header('x-auth-token') || req.cookies['x-auth-token'];
+        if (!token) return res.status(401).send('Access denied.')
+    
+        try {
+            let isSups = false
+            const decoded = jwt.verify(token, config.get(GLOBALCONST.JWTPR))
+            let user = await Supervisor.findOne({ _id: decoded._id })
+            if (!user) {
+                user = await User.findOne({ _id: decoded._id })
+            } else {
+                isSups = true
+            }
+            if (!user) throw new Error('User not found.');
+
+            const hasAllPermissions = permissions.every(permission => user.permissions.includes(permission));
+    
+            if (!isSups && !hasAllPermissions) throw new Error('Access denied.');
+    
+            req.user = decoded
+            next()
+    
+            CREATE_LOG(req, 'supervisor-action')
+    
+        } catch (ex) {
+            res.clearCookie('x-auth-token')
+            res.status(400).send('Invalid token.')
+        }
+    }
+}
+
 module.exports = {
     isSuperAdmin,
     isSupervisor,
     isCoSupervisor,
+    hasPermissions,
 }

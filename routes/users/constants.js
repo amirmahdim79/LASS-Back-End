@@ -23,6 +23,7 @@ const USER_FIELDS = {
         'type',
         'Tags',
         'Labs',
+        'permissions',
     ],
     UPDATABLE: [
         'firstName',

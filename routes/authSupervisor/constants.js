@@ -11,6 +11,7 @@ const FIELDS = {
         'phonenumber',
         'url',
         'profilePicture',
+        'roles',
     ]
 }
 
