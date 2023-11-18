@@ -37,20 +37,9 @@ const postAddEvent = async (req, res) => {
 
 //get lab events
 const getLabEvents = async (req, res) => {
-    let dateFilter = {}
     const date = req.query.date ?? Date()
     const startOfWeek = MOMENT(date).startOf('week')
-        const endOfWeek = MOMENT(date).endOf('week')
-        console.log(MOMENT(date))
-        console.log(startOfWeek)
-        console.log(endOfWeek)
-
-        dateFilter = {
-            start: {
-                $gte: startOfWeek,
-                $lt: endOfWeek,
-            },
-    };
+    const endOfWeek = MOMENT(date).endOf('week')
 
     const lab = await Lab.findOne({
         _id: req.params.id
@@ -62,7 +51,10 @@ const getLabEvents = async (req, res) => {
     if (!GOT_ACCESS) return res.status(400).send(MESSAGES.ACCESS_DENIED)
 
     const events = await Event.find({
-        ...dateFilter,
+        start: {
+            $gte: startOfWeek,
+            $lt: endOfWeek,
+        },
         Lab: lab._id,
     }).populate(EVENT_FIELDS.POPULATE).select('-Initiator.password -Initiator.permissions')
 
