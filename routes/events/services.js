@@ -38,9 +38,8 @@ const postAddEvent = async (req, res) => {
 //get lab events
 const getLabEvents = async (req, res) => {
     let dateFilter = {}
-    const date = req.query.date
-    if (date) {
-        const startOfWeek = MOMENT(date).startOf('week')
+    const date = req.query.date ?? Date()
+    const startOfWeek = MOMENT(date).startOf('week')
         const endOfWeek = MOMENT(date).endOf('week')
         console.log(MOMENT(date))
         console.log(startOfWeek)
@@ -51,8 +50,7 @@ const getLabEvents = async (req, res) => {
                 $gte: startOfWeek,
                 $lt: endOfWeek,
             },
-        };
-    }
+    };
 
     const lab = await Lab.findOne({
         _id: req.params.id
