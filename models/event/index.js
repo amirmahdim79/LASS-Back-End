@@ -46,6 +46,7 @@ const eventSchema = new mongoose.Schema({
         type: String,
         enum: EVENT_TYPES,
         required: true,
+        default: 'fixed',
     },
 
     interval: {

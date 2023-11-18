@@ -9,7 +9,7 @@ const { Path } = require('../../models/path');
 const { Milestone } = require('../../models/milestone');
 const { EVENT_FIELDS } = require('../../models/event/constants');
 const { Event } = require('../../models/event');
-const { MOMENT } = require('../../utils/dateHandler');
+const { MOMENT, generateWeeklyDates, generateMonthlyDates } = require('../../utils/dateHandler');
 
 //post create path for lab(Sups)
 const postAddEvent = async (req, res) => {
@@ -18,6 +18,17 @@ const postAddEvent = async (req, res) => {
     })
     if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
 
+    if (!req.body.start || !req.body.end) return res.status(400).send(MESSAGES.TIME_NOT_PROVIDED)
+
+    const overlap = await Event.find({
+        $or: [
+            { start: { $lt: req.body.end }, end: { $gt: req.body.start } }, // Event starts before 'end' and ends after 'start'
+            { start: { $gte: req.body.start, $lt: req.body.end } },             // Event starts between 'start' and 'end'
+            { end: { $gt: req.body.start, $lte: req.body.end } },               // Event ends between 'start' and 'end'
+        ],
+    })
+    if (overlap.length > 0) return res.status(400).send(MESSAGES.EVENT_HAS_OVERLAP)
+
     let Initiator = await Supervisor.findById(req.user._id)
     if (!Initiator) {
         Initiator = await User.findById(req.user._id)
@@ -25,14 +36,59 @@ const postAddEvent = async (req, res) => {
     if (!Initiator) return res.status(400).send(MESSAGES.NO_INITIATOR)
     const initiatorType = Initiator.MODEL_TYPE
 
-    const event = new Event(_.pick(req.body, EVENT_FIELDS.CREATE))
-    event.Initiator = Initiator
-    event.initiatorType = initiatorType
-    event.Lab = lab._id
+    const type = req.body.type
+    const interval = req.body.interval
+    const target = req.body.target ?? MOMENT(new Date()).endOf('year')
+    let startDates = []
+    let endDates = []
+    if (type !== 'fixed') {
+        if (interval === undefined || interval === null) return res.status(400).send(MESSAGES.NO_INTERVAL_PROVIDED)
 
-    await (await event.save()).populate(EVENT_FIELDS.POPULATE)
+        if (type === 'weekly') {
+            if (interval > 6 || interval < 0) return res.status(400).send(MESSAGES.INVALID_INTERVAL)
 
-    res.send(_.omit(_.pick(event, EVENT_FIELDS.INFO), 'Initiator'))
+            const weeklyStartDates = generateWeeklyDates(req.body.start, target, interval);
+            const weeklyEndDates = generateWeeklyDates(req.body.end, target, interval);
+            startDates = [...weeklyStartDates]
+            endDates = [...weeklyEndDates]
+        }
+        if (type === 'monthly') {
+            if (interval > 31 || interval < 1) return res.status(400).send(MESSAGES.INVALID_INTERVAL)
+
+            const monthlyStartDates = generateMonthlyDates(req.body.start, target, interval);
+            const monthlyEndDates = generateMonthlyDates(req.body.start, target, interval);
+            startDates = [...monthlyStartDates]
+            endDates = [...monthlyEndDates]
+        }
+    }
+
+    if ((startDates.length === endDates.length) && (startDates.length > 0)) {
+        const events = startDates.map((eventData, index) => {
+            const event = new Event({
+                ..._.pick(req.body, EVENT_FIELDS.CREATE),
+                start: eventData.toDate(),
+                end: endDates[index].toDate()
+            });
+            event.Initiator = Initiator;
+            event.initiatorType = initiatorType;
+            event.Lab = lab._id;
+            return event;
+        });
+
+        const savedEvents = await Event.insertMany(events);
+        const populatedEvents = await Event.populate(savedEvents, EVENT_FIELDS.POPULATE);
+
+        res.send(populatedEvents)
+    } else {
+        const event = new Event(_.pick(req.body, EVENT_FIELDS.CREATE))
+        event.Initiator = Initiator
+        event.initiatorType = initiatorType
+        event.Lab = lab._id
+    
+        await (await event.save()).populate(EVENT_FIELDS.POPULATE)
+
+        res.send(_.omit(_.pick(event, EVENT_FIELDS.INFO), 'Initiator'))
+    }
 }
 
 //get lab events
@@ -61,10 +117,6 @@ const getLabEvents = async (req, res) => {
         ...dateFilter,
         Lab: lab._id,
     }).populate(EVENT_FIELDS.POPULATE).select('-Initiator.password -Initiator.permissions')
-
-    events.map((e) => {
-        console.log('event: ', MOMENT(e.start))
-    })
 
     res.send(events)
 }

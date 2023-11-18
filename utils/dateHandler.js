@@ -84,6 +84,56 @@ const isSameWeek = (a = new Date(), b) => {
     return first.isSame(sec, 'week')
 }
 
+const changeDayOfWeek = (originalDate, newDayOfWeek) => {
+    const modifiedDate = moment(originalDate).isoWeekday(newDayOfWeek);
+    return modifiedDate;
+}
+
+function changeDayOfMonth(originalDate, newDayOfMonth) {
+    const modifiedDate = moment(originalDate).date(newDayOfMonth);
+    return modifiedDate;
+}
+
+const generateWeeklyDates = (start, target, dayOfWeek) => {
+    const dates = [];
+    let currentDate = (dayOfWeek !== undefined && dayOfWeek !== null) ? changeDayOfWeek(moment(start), dayOfWeek) : moment(start)
+    let targetDate = moment(target)
+    let killSwitch = 0
+  
+    while (currentDate.isSameOrBefore(targetDate)) {
+        if (killSwitch > 100) break 
+        const newDate = (dayOfWeek !== undefined && dayOfWeek !== null) ? changeDayOfWeek(moment(currentDate.clone()), dayOfWeek) : currentDate.clone()
+        if (!newDate.isBefore(new Date())) {
+            dates.push(newDate);
+        }
+
+        currentDate.add(7, 'days');
+        killSwitch += 1
+    }
+  
+    return dates;
+}
+
+const generateMonthlyDates = (start, target, dayOfMonth) => {
+    const dates = [];
+    let currentDate = (dayOfMonth !== undefined && dayOfMonth !== null) ? changeDayOfMonth(moment(start), dayOfMonth) : moment(start)
+    let targetDate = moment(target)
+    let killSwitch = 0
+  
+    while (currentDate.isSameOrBefore(targetDate)) {
+        if (killSwitch > 100) break 
+        const newDate = (dayOfMonth !== undefined && dayOfMonth !== null) ? changeDayOfMonth(moment(currentDate.clone()), dayOfMonth) : currentDate.clone()
+        if (!newDate.isBefore(new Date())) {
+            dates.push(newDate);
+        }
+
+        currentDate.add(1, 'month');
+        killSwitch += 1
+    }
+  
+    return dates;
+  }
+
 module.exports = {
     MOMENT: moment,
     isNextDay,
@@ -94,4 +144,8 @@ module.exports = {
     dayDiffExcludeHours,
     getYesterday,
     isSameWeek,
+    generateWeeklyDates,
+    generateMonthlyDates,
+    changeDayOfWeek,
+    changeDayOfMonth,
 }
