@@ -4,6 +4,12 @@ require('moment-timezone');
 // Set the timezone to Iran
 moment.tz.setDefault('Asia/Tehran');
 
+moment.updateLocale('en', {
+    week: {
+        dow: 6, // Saturday
+    },
+});
+
 const dayDiff = (a, b) => {
     const date1 = moment(a)
     const date2 = moment(b)
@@ -71,6 +77,13 @@ const getYesterday = (a) => {
     return yesterday
 }
 
+const isSameWeek = (a = new Date(), b) => {
+    const first = moment(a)
+    const sec = moment(b)
+    
+    return first.isSame(sec, 'week')
+}
+
 module.exports = {
     MOMENT: moment,
     isNextDay,
@@ -80,4 +93,5 @@ module.exports = {
     dayDiff,
     dayDiffExcludeHours,
     getYesterday,
+    isSameWeek,
 }

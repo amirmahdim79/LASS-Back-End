@@ -33,7 +33,7 @@ const supervisorSchema = new mongoose.Schema({
         minlength: 8,
     },
 
-    roles: {
+    permissions: {
         type: Array,
         default: []
     },

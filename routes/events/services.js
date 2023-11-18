@@ -9,6 +9,7 @@ const { Path } = require('../../models/path');
 const { Milestone } = require('../../models/milestone');
 const { EVENT_FIELDS } = require('../../models/event/constants');
 const { Event } = require('../../models/event');
+const { MOMENT } = require('../../utils/dateHandler');
 
 //post create path for lab(Sups)
 const postAddEvent = async (req, res) => {
@@ -36,8 +37,25 @@ const postAddEvent = async (req, res) => {
 
 //get lab events
 const getLabEvents = async (req, res) => {
+    let dateFilter = {}
+    const date = req.query.date
+    if (date) {
+        const startOfWeek = MOMENT(date).startOf('week')
+        const endOfWeek = MOMENT(date).endOf('week')
+        console.log(MOMENT(date))
+        console.log(startOfWeek)
+        console.log(endOfWeek)
+
+        dateFilter = {
+            start: {
+                $gte: startOfWeek,
+                $lt: endOfWeek,
+            },
+        };
+    }
+
     const lab = await Lab.findOne({
-        _id: req.body.Lab
+        _id: req.params.id
     })
     if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
 
@@ -46,8 +64,13 @@ const getLabEvents = async (req, res) => {
     if (!GOT_ACCESS) return res.status(400).send(MESSAGES.ACCESS_DENIED)
 
     const events = await Event.find({
-        Lab: lab._id
-    }).populate(EVENT_FIELDS.POPULATE).select('-Initiator.password -Initiator.roles')
+        ...dateFilter,
+        Lab: lab._id,
+    }).populate(EVENT_FIELDS.POPULATE).select('-Initiator.password -Initiator.permissions')
+
+    events.map((e) => {
+        console.log('event: ', MOMENT(e.start))
+    })
 
     res.send(events)
 }
