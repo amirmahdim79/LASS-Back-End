@@ -20,14 +20,14 @@ const postAddEvent = async (req, res) => {
 
     if (!req.body.start || !req.body.end) return res.status(400).send(MESSAGES.TIME_NOT_PROVIDED)
 
-    const overlap = await Event.find({
-        $or: [
-            { start: { $lt: req.body.end }, end: { $gt: req.body.start } }, // Event starts before 'end' and ends after 'start'
-            { start: { $gte: req.body.start, $lt: req.body.end } },             // Event starts between 'start' and 'end'
-            { end: { $gt: req.body.start, $lte: req.body.end } },               // Event ends between 'start' and 'end'
-        ],
-    })
-    if (overlap.length > 0) return res.status(400).send(MESSAGES.EVENT_HAS_OVERLAP)
+    // const overlap = await Event.find({
+    //     $or: [
+    //         { start: { $lt: req.body.end }, end: { $gt: req.body.start } }, // Event starts before 'end' and ends after 'start'
+    //         { start: { $gte: req.body.start, $lt: req.body.end } },             // Event starts between 'start' and 'end'
+    //         { end: { $gt: req.body.start, $lte: req.body.end } },               // Event ends between 'start' and 'end'
+    //     ],
+    // })
+    // if (overlap.length > 0) return res.status(400).send(MESSAGES.EVENT_HAS_OVERLAP)
 
     let Initiator = await Supervisor.findById(req.user._id)
     if (!Initiator) {
@@ -69,7 +69,7 @@ const postAddEvent = async (req, res) => {
                 start: eventData.toDate(),
                 end: endDates[index].toDate()
             });
-            event.Initiator = Initiator;
+            event.Initiator = Initiator._id;
             event.initiatorType = initiatorType;
             event.Lab = lab._id;
             return event;
