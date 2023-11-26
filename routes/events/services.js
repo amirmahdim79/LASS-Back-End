@@ -38,6 +38,7 @@ const postAddEvent = async (req, res) => {
 
     const type = req.body.type
     const interval = req.body.interval
+    console.log(req.body.target)
     const target = req.body.target ?? MOMENT(new Date()).endOf('year')
     let startDates = []
     let endDates = []
@@ -55,12 +56,15 @@ const postAddEvent = async (req, res) => {
         if (type === 'monthly') {
             if (interval > 31 || interval < 1) return res.status(400).send(MESSAGES.INVALID_INTERVAL)
 
-            const monthlyStartDates = generateMonthlyDates(req.body.start, target, interval);
-            const monthlyEndDates = generateMonthlyDates(req.body.start, target, interval);
+            const monthlyStartDates = generateMonthlyDates(req.body.start, target);
+            const monthlyEndDates = generateMonthlyDates(req.body.end, target);
             startDates = [...monthlyStartDates]
             endDates = [...monthlyEndDates]
         }
     }
+
+    console.log('startDates', startDates)
+    console.log('endDates', endDates)
 
     if ((startDates.length === endDates.length) && (startDates.length > 0)) {
         const events = startDates.map((eventData, index) => {

@@ -89,7 +89,6 @@ const hasPermissions = (permissions = []) => {
             const decoded = jwt.verify(token, config.get(GLOBALCONST.JWTPR))
             let user = await Supervisor.findOne({ _id: decoded._id })
             if (!user) {
-                console.log('here???')
                 user = await User.findOne({ _id: decoded._id })
             } else {
                 isSups = true

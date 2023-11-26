@@ -114,12 +114,12 @@ const generateWeeklyDates = (start, target, dayOfWeek) => {
     return dates;
 }
 
-const generateMonthlyDates = (start, target, dayOfMonth) => {
+const generateMonthlyDates = (start, target, dayOfMonth = null) => {
     const dates = [];
     let currentDate = (dayOfMonth !== undefined && dayOfMonth !== null) ? changeDayOfMonth(moment(start), dayOfMonth) : moment(start)
     let targetDate = moment(target)
     let killSwitch = 0
-  
+
     while (currentDate.isSameOrBefore(targetDate)) {
         if (killSwitch > 100) break 
         const newDate = (dayOfMonth !== undefined && dayOfMonth !== null) ? changeDayOfMonth(moment(currentDate.clone()), dayOfMonth) : currentDate.clone()
@@ -132,7 +132,7 @@ const generateMonthlyDates = (start, target, dayOfMonth) => {
     }
   
     return dates;
-  }
+}
 
 module.exports = {
     MOMENT: moment,
