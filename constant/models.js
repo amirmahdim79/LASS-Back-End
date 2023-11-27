@@ -11,6 +11,7 @@ const MODELS = {
     FILE: 'File',
     TAG: 'Tag',
     EVENT: 'Event',
+    GROUP: 'Group',
 }
 
 const TYPES = ['undergrad', 'masters', 'phd', 'postDoc', 'intern']

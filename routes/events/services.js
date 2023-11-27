@@ -63,9 +63,6 @@ const postAddEvent = async (req, res) => {
         }
     }
 
-    console.log('startDates', startDates)
-    console.log('endDates', endDates)
-
     if ((startDates.length === endDates.length) && (startDates.length > 0)) {
         const events = startDates.map((eventData, index) => {
             const event = new Event({

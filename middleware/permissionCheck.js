@@ -105,8 +105,8 @@ const hasPermissions = (permissions = []) => {
             CREATE_LOG(req, 'supervisor-action')
     
         } catch (ex) {
-            res.clearCookie('x-auth-token')
-            res.status(400).send('Invalid token.')
+            // res.clearCookie('x-auth-token')
+            res.status(400).send('No permission.')
         }
     }
 }
