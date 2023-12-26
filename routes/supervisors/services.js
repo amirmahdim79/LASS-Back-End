@@ -8,6 +8,7 @@ const { checkEmailFormat } = require('../../utils/emailRegexChecker');
 const { generateRandNum } = require('../../utils/randomNumberGen');
 const crypto = require('crypto');
 const { validateSupervisor, Supervisor } = require('../../models/supervisor');
+const { File } = require('../../models/file');
 
 // const transporter = nodemailer.createTransport({
 //     service: config.get('email_service'),
@@ -35,6 +36,27 @@ const postCreateSupervisor = async (req, res) => {
     res.header('x-auth-token', token).send(_.pick(sups, SUPS_FIELDS.INFO))
 }
 
+//add to sups recent files
+const addRecentFile = async (req, res) => {
+    const supervisor = await Supervisor.findOne({_id: req.user._id})
+    if (!supervisor) return res.status(400).send(MESSAGES.USER_NOT_FOUND)
+
+    const file = await File.findOne({_id: req.body.File, isActive: true})
+    if (!file) return res.status(400).send(MESSAGES.FILE_NOT_FOUND)
+
+    if (supervisor.RecentFiles.includes(file._id)) return res.status(400).send(MESSAGES.FILE_ALREADY_ADDED)
+
+    supervisor.RecentFiles.push(file._id)
+    await supervisor.save()
+
+    await supervisor.populate('RecentFiles')
+
+    res.send(supervisor.RecentFiles.filter(file => {
+        return file.isActive
+    }))
+}
+
 module.exports = {
     postCreateSupervisor,
+    addRecentFile,
 }

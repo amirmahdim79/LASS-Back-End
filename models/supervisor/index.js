@@ -51,6 +51,14 @@ const supervisorSchema = new mongoose.Schema({
         type: String,
         default: MODELS.SUPERVISOR
     },
+
+    RecentFiles: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: MODELS.FILE
+        }],
+        default: []
+    }
 }, {
     timestamps: true,
 })
