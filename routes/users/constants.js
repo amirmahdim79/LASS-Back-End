@@ -3,7 +3,9 @@ const MESSAGES = {
     USER_NOT_FOUND: 'User not found.',
     UNAUTHORIZED: 'Unauthorized action.',
     EMAIL_INCORRECT: 'Incorrect email address.',
-    INCORRECT_CODE: 'Incorrect code.'
+    INCORRECT_CODE: 'Incorrect code.',
+    FILE_NOT_FOUND: 'File not found.',
+    FILE_ALREADY_ADDED: 'File is already added.',
 }
 
 const USER_FIELDS = {
@@ -24,16 +26,19 @@ const USER_FIELDS = {
         'Tags',
         'Labs',
         'permissions',
+        'Recent_files',
     ],
     UPDATABLE: [
         'firstName',
         'lastName',
         'profilePicture',
         'type',
+        'Recent_files',
     ],
     REFRENCES: [
         'Labs',
         'Tags',
+        'Recent_files',
     ],
 }
 

@@ -63,6 +63,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: MODELS.USER
     },
+
+    RecentFiles: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: MODELS.FILE
+        }],
+        default: []
+    }
 }, {
     timestamps: true,
 })

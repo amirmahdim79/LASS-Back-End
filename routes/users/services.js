@@ -1,5 +1,6 @@
 const { MODELS } = require('../../constant/models');
 const { User, validateUser, EmailAuthObject } = require('../../models/user');
+const { File } = require('../../models/file');
 const { MESSAGES, USER_FIELDS } = require('./constants')
 const bcrypt = require('bcrypt')
 const _ = require('lodash')
@@ -56,8 +57,27 @@ const getCurrentUser = async (req, res) => {
     res.send(_.pick(user, USER_FIELDS.INFO))
 }
 
+//add to users recent files
+const addRecentFile = async (req, res) => {
+    const user = await User.findOne({_id: req.user._id}).populate('RecentFiles')
+    if (!user) return res.status(400).send(MESSAGES.USER_NOT_FOUND)
+
+    const file = await File.findOne({_id: req.body.File, isActive: true})
+    if (!file) return res.status(400).send(MESSAGES.FILE_NOT_FOUND)
+
+    if (user.RecentFiles.includes(file._id)) return res.status(400).send(MESSAGES.FILE_ALREADY_ADDED)
+
+    user.RecentFiles.push(file._id)
+    await user.save()
+
+    res.send(user.RecentFiles.filter(file => {
+        return file.isActive
+    }))
+}
+
 module.exports = {
     postCreateUser,
     postUpdateUserInfo,
     getCurrentUser,
+    addRecentFile,
 }

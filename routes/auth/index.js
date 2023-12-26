@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
         maxAge: 7 * 24 * 60 * 1000,
         secure: true,
     })
-    res.send(_.pick(user, FIELDS.AUTH_RETURN))
+    res.send(_.pick(user, USER_FIELDS.INFO))
 })
 
 //check credentials
