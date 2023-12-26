@@ -59,7 +59,7 @@ const getCurrentUser = async (req, res) => {
 
 //add to users recent files
 const addRecentFile = async (req, res) => {
-    const user = await User.findOne({_id: req.user._id}).populate('RecentFiles')
+    const user = await User.findOne({_id: req.user._id})
     if (!user) return res.status(400).send(MESSAGES.USER_NOT_FOUND)
 
     const file = await File.findOne({_id: req.body.File, isActive: true})
@@ -69,6 +69,8 @@ const addRecentFile = async (req, res) => {
 
     user.RecentFiles.push(file._id)
     await user.save()
+
+    await user.populate('RecentFiles')
 
     res.send(user.RecentFiles.filter(file => {
         return file.isActive
