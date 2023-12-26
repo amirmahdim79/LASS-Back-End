@@ -26,10 +26,33 @@ const createGroup = async (req, res) => {
     res.send(group)
 }
 
+//delete group
+const deleteGroup = async (req, res) => {
+    const group = await Group.findOne({
+        _id: req.body.Group
+    })
+    if (!group) return res.status(400).send(MESSAGES.GROUP_NOT_EXISTS)
+
+    const lab = await Lab.findOne({
+        _id: group.Lab,
+        $or: [
+            { Students: { $in: [req.user._id] } },
+            { Supervisor: req.user._id }
+        ]
+    })
+    if (!lab) return res.status(400).send(MESSAGES.NO_PERMISSION)
+
+    group.isActive = false
+    await group.save()
+
+    res.send(MESSAGES.DELETED_SUCCESSFULLY)
+}
+
 //get groups
 const getGroups = async (req, res) => {
     const groups = await Group.find({
-        Lab: req.params.lab
+        Lab: req.params.lab,
+        isActive: true,
     }).populate(GROUP_FIELDS.POPULATE)
 
     res.send(groups)
@@ -38,4 +61,5 @@ const getGroups = async (req, res) => {
 module.exports = {
     createGroup,
     getGroups,
+    deleteGroup,
 }

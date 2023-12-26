@@ -7,6 +7,9 @@ const MESSAGES = {
     ALREADY_REGISTERED: 'Already Exists',
     STATUS_NOT_FOUND: 'Status not found.',
     USERS_NOT_PROVIDED: 'You must at least add two users to a group.',
+    GROUP_NOT_EXISTS: 'Group does not exists.',
+    NO_PERMISSION: 'You dont have permission.',
+    DELETED_SUCCESSFULLY: 'Group deleted successfully.',
 }
 
 module.exports = { 
