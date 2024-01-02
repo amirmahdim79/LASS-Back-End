@@ -21,7 +21,8 @@ const SUPS_FIELDS = {
         'lastName',
         'email',
         'url',
-        'profilePicture',        
+        'profilePicture',
+        'RecentFiles',
     ],
     UPDATABLE: [
         'firstName',
@@ -29,6 +30,7 @@ const SUPS_FIELDS = {
         'username',
         'phonenumber',
         'profilePicture',
+        'RecentFiles',
     ]
 }
 

@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken')
 const config = require('config')
 const GLOBALCONST = require('../../constant');
 const { Supervisor } = require('../../models/supervisor');
+const { SUPS_FIELDS } = require('../supervisors/constants');
 
 //auth
 router.post('/', async (req, res) => {
@@ -29,7 +30,7 @@ router.post('/', async (req, res) => {
         maxAge: 1 * 24 * 60 * 1000,
         secure: true,
     })
-    res.send(_.pick(sups, FIELDS.AUTH_RETURN))
+    res.send(_.pick(sups, SUPS_FIELDS.INFO))
 })
 
 //check credentials
@@ -50,7 +51,7 @@ router.get('/check', async (req, res) => {
         return res.status(400).send('Login again.')
     }
 
-    res.send(_.pick(sups, FIELDS.AUTH_RETURN))
+    res.send(_.pick(sups, SUPS_FIELDS.INFO))
 })
 
 //logout

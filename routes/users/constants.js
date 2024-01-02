@@ -26,19 +26,19 @@ const USER_FIELDS = {
         'Tags',
         'Labs',
         'permissions',
-        'Recent_files',
+        'RecentFiles',
     ],
     UPDATABLE: [
         'firstName',
         'lastName',
         'profilePicture',
         'type',
-        'Recent_files',
+        'RecentFiles',
     ],
     REFRENCES: [
         'Labs',
         'Tags',
-        'Recent_files',
+        'RecentFiles',
     ],
 }
 
