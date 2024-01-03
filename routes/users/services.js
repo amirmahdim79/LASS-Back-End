@@ -1,7 +1,7 @@
 const { MODELS } = require('../../constant/models');
 const { User, validateUser, EmailAuthObject } = require('../../models/user');
 const { File } = require('../../models/file');
-const { MESSAGES, USER_FIELDS } = require('./constants')
+const { MESSAGES, USER_FIELDS, ALLOWED_FORMATS } = require('./constants')
 const bcrypt = require('bcrypt')
 const _ = require('lodash')
 const config = require('config')
@@ -10,6 +10,7 @@ const { checkEmailFormat } = require('../../utils/emailRegexChecker');
 const { generateRandNum } = require('../../utils/randomNumberGen');
 const crypto = require('crypto');
 const { Tag } = require('../../models/tag');
+const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
 
 // const transporter = nodemailer.createTransport({
 //     service: config.get('email_service'),
@@ -77,9 +78,34 @@ const addRecentFile = async (req, res) => {
     }))
 }
 
+//update profile picture
+const uploadProfilePicture = async (req, res) => {
+    const user = await User.findOne({_id: req.user._id})
+    if (!user) return res.status(400).send(MESSAGES.USER_NOT_FOUND)
+
+    const file = req.file
+    if (!file) return res.status(400).json({ error: MESSAGES.NO_FILE });
+    if (!ALLOWED_FORMATS.includes(file.mimetype)) return res.status(400).json({ error: MESSAGES.BAD_FORMAT });
+
+    const fileName = file.originalname
+    const fileFormat = fileName.split('.').pop()
+    const fileAlias = crypto.randomBytes(6).toString('hex')
+
+    const upload_res = await UPLOAD(file, fileAlias + '.' + fileFormat, 'profiles')
+    if (!upload_res) return res.status(500).json({ error: MESSAGES.UPLOAD_FAILED });
+
+    const url = UPLOAD_BASE + 'profiles/' + fileAlias + '.' + fileFormat
+
+    user.profilePicture = url
+    await user.save()
+
+    res.send(_.pick(user, USER_FIELDS.INFO))
+}
+
 module.exports = {
     postCreateUser,
     postUpdateUserInfo,
     getCurrentUser,
     addRecentFile,
+    uploadProfilePicture,
 }

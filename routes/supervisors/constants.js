@@ -8,6 +8,12 @@ const MESSAGES = {
     FILE_ALREADY_ADDED: 'File is already added.',
 }
 
+const ALLOWED_FORMATS = [
+    'image/jpeg',
+    'image/png',
+    'image/gif'
+]
+
 const SUPS_FIELDS = {
     SIGNUP: [
         'firstName',
@@ -37,4 +43,5 @@ const SUPS_FIELDS = {
 module.exports = { 
     MESSAGES, 
     SUPS_FIELDS,
+    ALLOWED_FORMATS,
 }

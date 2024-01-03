@@ -6,7 +6,16 @@ const MESSAGES = {
     INCORRECT_CODE: 'Incorrect code.',
     FILE_NOT_FOUND: 'File not found.',
     FILE_ALREADY_ADDED: 'File is already added.',
+    NO_FILE: 'No file was provided.',
+    BAD_FORMAT: 'Bad format.',
+    UPLOAD_FAILED: 'Upload failed',
 }
+
+const ALLOWED_FORMATS = [
+    'image/jpeg',
+    'image/png',
+    'image/gif'
+]
 
 const USER_FIELDS = {
     SIGNUP: [
@@ -45,4 +54,5 @@ const USER_FIELDS = {
 module.exports = { 
     MESSAGES, 
     USER_FIELDS,
+    ALLOWED_FORMATS,
 }

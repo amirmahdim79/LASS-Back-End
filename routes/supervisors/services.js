@@ -1,5 +1,5 @@
 const { MODELS } = require('../../constant/models');
-const { MESSAGES, SUPS_FIELDS } = require('./constants')
+const { MESSAGES, SUPS_FIELDS, ALLOWED_FORMATS } = require('./constants')
 const bcrypt = require('bcrypt')
 const _ = require('lodash')
 const config = require('config')
@@ -9,6 +9,7 @@ const { generateRandNum } = require('../../utils/randomNumberGen');
 const crypto = require('crypto');
 const { validateSupervisor, Supervisor } = require('../../models/supervisor');
 const { File } = require('../../models/file');
+const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
 
 // const transporter = nodemailer.createTransport({
 //     service: config.get('email_service'),
@@ -56,7 +57,32 @@ const addRecentFile = async (req, res) => {
     }))
 }
 
+//update profile picture
+const uploadProfilePicture = async (req, res) => {
+    const sup = await Supervisor.findOne({_id: req.user._id})
+    if (!sup) return res.status(400).send(MESSAGES.USER_NOT_FOUND)
+
+    const file = req.file
+    if (!file) return res.status(400).json({ error: MESSAGES.NO_FILE });
+    if (!ALLOWED_FORMATS.includes(file.mimetype)) return res.status(400).json({ error: MESSAGES.BAD_FORMAT });
+
+    const fileName = file.originalname
+    const fileFormat = fileName.split('.').pop()
+    const fileAlias = crypto.randomBytes(6).toString('hex')
+
+    const upload_res = await UPLOAD(file, fileAlias + '.' + fileFormat, 'profiles')
+    if (!upload_res) return res.status(500).json({ error: MESSAGES.UPLOAD_FAILED });
+
+    const url = UPLOAD_BASE + 'profiles/' + fileAlias + '.' + fileFormat
+
+    sup.profilePicture = url
+    await sup.save()
+
+    res.send(_.pick(sup, SUPS_FIELDS.INFO))
+}
+
 module.exports = {
     postCreateSupervisor,
     addRecentFile,
+    uploadProfilePicture,
 }
