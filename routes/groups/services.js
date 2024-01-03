@@ -58,8 +58,39 @@ const getGroups = async (req, res) => {
     res.send(groups)
 }
 
+//update a group
+const updateGroup = async (req, res) => {
+    const group = await Group.findOne({
+        _id: req.body.Group
+    })
+    if (!group) return res.status(400).send(MESSAGES.GROUP_NOT_EXISTS)
+
+    const lab = await Lab.findOne({
+        _id: group.Lab,
+        $or: [
+            { Students: { $in: [req.user._id] } },
+            { Supervisor: req.user._id }
+        ]
+    })
+    if (!lab) return res.status(400).send(MESSAGES.NO_PERMISSION)
+
+    if (req.body.group) {
+        group.Users = group.Users.filter((user) => {
+            return !user._id.equals(req.body.User)
+        })
+    }
+    if (req.body.name) group.name = req.body.name
+
+    await group.save()
+
+    await group.populate(GROUP_FIELDS.POPULATE)
+    
+    res.send(group)
+}
+
 module.exports = {
     createGroup,
     getGroups,
     deleteGroup,
+    updateGroup,
 }

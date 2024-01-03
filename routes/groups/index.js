@@ -6,6 +6,7 @@ const {
     createGroup,
     getGroups,
     deleteGroup,
+    updateGroup,
 }
 = require('./services');
 
@@ -16,6 +17,9 @@ router.post('/', hasPermissions(['groups']), createGroup)
 
 // Delete a group
 router.post('/delete', hasPermissions(['groups']), deleteGroup)
+
+// Update a group
+router.post('/update', hasPermissions(['groups']), updateGroup)
 
 // Get lab groups
 router.get('/:lab', auth, getGroups)
