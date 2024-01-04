@@ -14,7 +14,8 @@ const forumSchema = new mongoose.Schema({
 
     Lab: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: MODELS.LAB
+        ref: MODELS.LAB,
+        required: true,
     },
 
     name: {
@@ -30,9 +31,10 @@ const forumSchema = new mongoose.Schema({
         maxlength: 300
     },
 
-    Messages: {
-
-    },
+    Messages: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: SUBMODELS.MESSAGE
+    }],
 
     MessagesStatus: [
         //user map to number of read messages
