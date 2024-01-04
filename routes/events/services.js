@@ -10,6 +10,7 @@ const { Milestone } = require('../../models/milestone');
 const { EVENT_FIELDS } = require('../../models/event/constants');
 const { Event } = require('../../models/event');
 const { MOMENT, generateWeeklyDates, generateMonthlyDates } = require('../../utils/dateHandler');
+const { Forum } = require('../../models/forum');
 
 //post create path for lab(Sups)
 const postAddEvent = async (req, res) => {
@@ -38,7 +39,6 @@ const postAddEvent = async (req, res) => {
 
     const type = req.body.type
     const interval = req.body.interval
-    console.log(req.body.target)
     const target = req.body.target ?? MOMENT(new Date()).endOf('year')
     let startDates = []
     let endDates = []
@@ -76,8 +76,22 @@ const postAddEvent = async (req, res) => {
             return event;
         });
 
+        const forums = startDates.map((eventData, index) => {
+            const forum = new Forum({
+                name: req.body.name,
+                desc: req.body.desc,
+                Users: req.body.Collaborators,
+                Lab: lab._id,
+                start: eventData.toDate(),
+            })
+
+            return forum
+        })
+
         const savedEvents = await Event.insertMany(events);
         const populatedEvents = await Event.populate(savedEvents, EVENT_FIELDS.POPULATE);
+
+        const savedForums = await Forum.insertMany(forums)
 
         res.send(populatedEvents)
     } else {
@@ -87,6 +101,16 @@ const postAddEvent = async (req, res) => {
         event.Lab = lab._id
     
         await (await event.save()).populate(EVENT_FIELDS.POPULATE)
+
+        const forum = new Forum({
+            name: req.body.name,
+            desc: req.body.desc,
+            Users: req.body.Collaborators,
+            Lab: lab._id,
+            start: req.body.start,
+        })
+
+        await forum.save()
 
         res.send(_.omit(_.pick(event, EVENT_FIELDS.INFO), 'Initiator'))
     }
