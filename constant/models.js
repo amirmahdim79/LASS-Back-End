@@ -12,6 +12,7 @@ const MODELS = {
     TAG: 'Tag',
     EVENT: 'Event',
     GROUP: 'Group',
+    GROUP: 'Forum',
 }
 
 const TYPES = ['undergrad', 'masters', 'phd', 'postDoc', 'intern']
@@ -35,6 +36,7 @@ const SUBMODELS = {
     TASK_STATUS: 'TaskStatus',
     LAB_ENROLLMENT: 'Enrollment',
     TAG_VOTE: 'Vote',
+    MESSAGE: 'Message',
 }
 
 module.exports = {
