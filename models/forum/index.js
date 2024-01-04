@@ -7,6 +7,12 @@ const Joi = require('joi');
 const crypto = require('crypto');
 
 const forumSchema = new mongoose.Schema({
+    Supervisor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: MODELS.SUPERVISOR,
+        required: true,
+    },
+
     Users: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: MODELS.USER

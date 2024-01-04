@@ -83,6 +83,7 @@ const postAddEvent = async (req, res) => {
                 Users: req.body.Collaborators,
                 Lab: lab._id,
                 start: eventData.toDate(),
+                Supervisor: lab.Supervisor,
             })
 
             return forum
@@ -108,6 +109,7 @@ const postAddEvent = async (req, res) => {
             Users: req.body.Collaborators,
             Lab: lab._id,
             start: req.body.start,
+            Supervisor: lab.Supervisor,
         })
 
         await forum.save()

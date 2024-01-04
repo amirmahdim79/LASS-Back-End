@@ -5,6 +5,8 @@ const express = require('express');
 const {
     getLabForums,
     getForums,
+    sendMessage,
+    getForum,
 }
 = require('./services');
 
@@ -18,6 +20,12 @@ router.get('/:lab', hasPermissions(['forums']), getLabForums)
 
 // Get user forums
 router.get('/user/:lab', auth, getForums)
+
+// Get a forum
+router.get('/info/:forum', auth, getForum)
+
+// Send message to a forum
+router.post('/message', auth, sendMessage)
 
 
 module.exports = router
