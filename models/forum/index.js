@@ -40,6 +40,11 @@ const forumSchema = new mongoose.Schema({
         //user map to number of read messages
     ],
 
+    start: {
+        type: Date,
+        required: true,
+    },
+
     isActive: {
         type: Boolean,
         default: true
