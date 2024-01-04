@@ -80,6 +80,13 @@ const sendMessage = async (req, res) => {
     
     forum.Messages.push(newMessage._id)
 
+    forum.MessagesStatus = {
+        ...forum.MessagesStatus,
+        [user._id]: {
+            lastMessageSeen: newMessage._id
+        }
+    }
+
     await forum.save()
 
     await forum.populate(FORUM_FIELDS.POPULATE)
@@ -100,6 +107,15 @@ const getForum = async (req, res) => {
     const forumPermission = (IS_SUPS && forum.Supervisor.equals(user._id)) || user.permissions.includes('forums') || forum.Users.includes(user._id)
 
     if (!forumPermission) return res.status(400).send(MESSAGES.NO_PERMISSION)
+
+    forum.MessagesStatus = {
+        ...forum.MessagesStatus,
+        [user._id]: {
+            lastMessageSeen: forum.Messages.slice(-1)[0]
+        }
+    }
+
+    await forum.save()
 
     await forum.populate(FORUM_FIELDS.POPULATE)
 

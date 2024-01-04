@@ -42,9 +42,9 @@ const forumSchema = new mongoose.Schema({
         ref: SUBMODELS.MESSAGE
     }],
 
-    MessagesStatus: [
+    MessagesStatus: {
         //user map to number of read messages
-    ],
+    },
 
     start: {
         type: Date,
