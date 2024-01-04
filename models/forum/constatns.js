@@ -4,6 +4,7 @@ const FORUM_FIELDS = {
         'name',
         'desc',
         'Lab',
+        'Start',
     ],
     INFO: [
         'Users',
@@ -12,6 +13,7 @@ const FORUM_FIELDS = {
         'Lab',
         'Messages',
         'MessagesStatus',
+        'Start',
         '_id',
     ],
     POPULATE: [
