@@ -6,12 +6,14 @@ const { Group } = require('../../models/group');
 const { GROUP_FIELDS } = require('../../models/group/constatns');
 const { Lab } = require('../../models/lab');
 const { MESSAGES } = require('./constants');
+const { Forum } = require('../../models/forum');
+const { Message } = require('../../models/message');
+const { FORUM_FIELDS } = require('../../models/forum/constatns');
 
-//create group
-const createGroup = async (req, res) => {
-    if (!req.body.Users || req.body.Users.length < 2) return res.status(400).send(MESSAGES.USERS_NOT_PROVIDED)
+//get Lab forums (sups)
+const getLabForums = async (req, res) => {
     const lab = await Lab.findOne({
-        _id: req.body.Lab,
+        _id: req.params.lab,
         $or: [
             { Students: { $in: [req.user._id] } },
             { Supervisor: req.user._id }
@@ -19,78 +21,35 @@ const createGroup = async (req, res) => {
     })
     if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
 
-    const group = new Group(_.pick(req.body, GROUP_FIELDS.CREATE))
-
-    await group.save()
-
-    res.send(group)
-}
-
-//delete group
-const deleteGroup = async (req, res) => {
-    const group = await Group.findOne({
-        _id: req.body.Group
-    })
-    if (!group) return res.status(400).send(MESSAGES.GROUP_NOT_EXISTS)
-
-    const lab = await Lab.findOne({
-        _id: group.Lab,
-        $or: [
-            { Students: { $in: [req.user._id] } },
-            { Supervisor: req.user._id }
-        ]
-    })
-    if (!lab) return res.status(400).send(MESSAGES.NO_PERMISSION)
-
-    group.isActive = false
-    await group.save()
-
-    res.send(MESSAGES.DELETED_SUCCESSFULLY)
-}
-
-//get groups
-const getGroups = async (req, res) => {
-    const groups = await Group.find({
+    const forums = await Forum.find({
         Lab: req.params.lab,
         isActive: true,
-    }).populate(GROUP_FIELDS.POPULATE)
+    }).populate(FORUM_FIELDS.POPULATE)
 
-    res.send(groups)
+    res.send(forums)
 }
 
-//update a group
-const updateGroup = async (req, res) => {
-    const group = await Group.findOne({
-        _id: req.body.Group
-    })
-    if (!group) return res.status(400).send(MESSAGES.GROUP_NOT_EXISTS)
-
+//get Lab forums for a user
+const getForums = async (req, res) => {
     const lab = await Lab.findOne({
-        _id: group.Lab,
+        _id: req.params.lab,
         $or: [
             { Students: { $in: [req.user._id] } },
             { Supervisor: req.user._id }
         ]
     })
-    if (!lab) return res.status(400).send(MESSAGES.NO_PERMISSION)
+    if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
 
-    if (req.body.group) {
-        group.Users = group.Users.filter((user) => {
-            return !user._id.equals(req.body.User)
-        })
-    }
-    if (req.body.name) group.name = req.body.name
+    const forums = await Forum.find({
+        Lab: req.params.lab,
+        isActive: true,
+        Collaborators: { $in: [req.user._id] }
+    }).populate(FORUM_FIELDS.POPULATE)
 
-    await group.save()
-
-    await group.populate(GROUP_FIELDS.POPULATE)
-    
-    res.send(group)
+    res.send(forums)
 }
 
 module.exports = {
-    createGroup,
-    getGroups,
-    deleteGroup,
-    updateGroup,
+    getLabForums,
+    getForums,
 }

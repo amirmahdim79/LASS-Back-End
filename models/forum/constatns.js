@@ -19,7 +19,7 @@ const FORUM_FIELDS = {
     POPULATE: [
         {
             path: 'Users',
-            select: '-password -permissions',
+            select: '-password -permissions -RecentFiles -Labs -createdAt -updatedAt',
         },
         {
             path: 'Messages',
