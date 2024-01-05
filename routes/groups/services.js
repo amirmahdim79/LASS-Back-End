@@ -74,7 +74,7 @@ const updateGroup = async (req, res) => {
     })
     if (!lab) return res.status(400).send(MESSAGES.NO_PERMISSION)
 
-    if (req.body.group) {
+    if (req.body.User) {
         group.Users = group.Users.filter((user) => {
             return !user._id.equals(req.body.User)
         })
