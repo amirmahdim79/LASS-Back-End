@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
     const { error } = validate(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
-    let sups = await Supervisor.findOne({ email: req.body.email })
+    let sups = await Supervisor.findOne({ email: req.body.email }).populate('RecentFiles')
     if (!sups) return res.status(400).send(MESSAGES.INVALID_PARAMS)
 
     const validPassword = await bcrypt.compare(req.body.password, sups.password)
@@ -43,7 +43,7 @@ router.get('/check', async (req, res) => {
         const decoded = jwt.verify(token, config.get(GLOBALCONST.JWTPR))
         req.sups = decoded
         
-        sups = await Supervisor.findOne({ _id: decoded._id })
+        sups = await Supervisor.findOne({ _id: decoded._id }).populate('RecentFiles')
         if (!sups) return res.status(400).send(MESSAGES.INVALID_PARAMS)
 
     } catch (ex) {

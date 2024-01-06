@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
     const { error } = validate(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
-    let user = await User.findOne({ email: req.body.email })
+    let user = await User.findOne({ email: req.body.email }).populate('RecentFiles')
     if (!user) return res.status(400).send(MESSAGES.INVALID_PARAMS)
 
     const validPassword = await bcrypt.compare(req.body.password, user.password)
@@ -42,7 +42,7 @@ router.get('/check', async (req, res) => {
         const decoded = jwt.verify(token, config.get(GLOBALCONST.JWTPR))
         req.user = decoded
         
-        user = await User.findOne({ _id: decoded._id })
+        user = await User.findOne({ _id: decoded._id }).populate('RecentFiles')
         if (!user) return res.status(400).send(MESSAGES.INVALID_PARAMS)
 
     } catch (ex) {
