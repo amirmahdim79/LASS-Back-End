@@ -11,6 +11,7 @@ const { EVENT_FIELDS } = require('../../models/event/constants');
 const { Event } = require('../../models/event');
 const { MOMENT, generateWeeklyDates, generateMonthlyDates } = require('../../utils/dateHandler');
 const { Forum } = require('../../models/forum');
+const { PresenceForm } = require('../../models/presenceForm');
 
 //post create path for lab(Sups)
 const postAddEvent = async (req, res) => {
@@ -76,6 +77,8 @@ const postAddEvent = async (req, res) => {
             return event;
         });
 
+        const presenceForms = []
+
         const forums = startDates.map((eventData, index) => {
             const forum = new Forum({
                 name: req.body.name,
@@ -86,6 +89,15 @@ const postAddEvent = async (req, res) => {
                 Supervisor: lab.Supervisor,
             })
 
+            const presenceForm = new PresenceForm({
+                Forum: forum._id,
+                list: presenceList,
+            })
+    
+            forum.PresenceForm = presenceForm._id
+
+            presenceForms.push(presenceForm)
+
             return forum
         })
 
@@ -93,6 +105,7 @@ const postAddEvent = async (req, res) => {
         const populatedEvents = await Event.populate(savedEvents, EVENT_FIELDS.POPULATE);
 
         const savedForums = await Forum.insertMany(forums)
+        await PresenceForm.insertMany(presenceForms)
 
         res.send(populatedEvents)
     } else {
@@ -112,7 +125,20 @@ const postAddEvent = async (req, res) => {
             Supervisor: lab.Supervisor,
         })
 
+        const presenceList = {}
+        req.body.Collaborators.forEach(id => {
+            presenceList[id] = { status: true }
+        })
+
+        const presenceForm = new PresenceForm({
+            Forum: forum._id,
+            list: presenceList,
+        })
+
+        forum.PresenceForm = presenceForm._id
+
         await forum.save()
+        await presenceForm.save()
 
         res.send(_.omit(_.pick(event, EVENT_FIELDS.INFO), 'Initiator'))
     }

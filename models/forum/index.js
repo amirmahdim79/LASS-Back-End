@@ -51,6 +51,11 @@ const forumSchema = new mongoose.Schema({
         required: true,
     },
 
+    PresenceForm: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: SUBMODELS.PRESENCE_FORM
+    },
+
     isActive: {
         type: Boolean,
         default: true

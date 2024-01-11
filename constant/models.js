@@ -37,6 +37,7 @@ const SUBMODELS = {
     LAB_ENROLLMENT: 'Enrollment',
     TAG_VOTE: 'Vote',
     MESSAGE: 'Message',
+    PRESENCE_FORM: 'PresenceForm',
 }
 
 module.exports = {

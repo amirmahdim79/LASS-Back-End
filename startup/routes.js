@@ -22,6 +22,7 @@ const tags = require('../routes/tags')
 const events = require('../routes/events')
 const groups = require('../routes/groups')
 const forum = require('../routes/forum')
+const presence = require('../routes/presence')
 
 module.exports = (app) => {
     //Middlewares
@@ -59,6 +60,7 @@ module.exports = (app) => {
     app.use('/api-lass/events', events)
     app.use('/api-lass/groups', groups)
     app.use('/api-lass/forum', forum)
+    app.use('/api-lass/presence', presence)
 
     //Custom middlewares
     app.use(logger)

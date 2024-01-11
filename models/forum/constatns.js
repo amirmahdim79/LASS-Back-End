@@ -6,6 +6,7 @@ const FORUM_FIELDS = {
         'Lab',
         'Start',
         'Supervisor',
+        'PresenceForm',
     ],
     INFO: [
         'Users',
@@ -16,6 +17,7 @@ const FORUM_FIELDS = {
         'MessagesStatus',
         'Start',
         'Supervisor',
+        'PresenceForm',
         '_id',
     ],
     POPULATE: [
@@ -25,6 +27,9 @@ const FORUM_FIELDS = {
         },
         {
             path: 'Messages',
+        },
+        {
+            path: 'PresenceForm',
         },
     ],
 }
