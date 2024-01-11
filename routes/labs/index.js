@@ -15,7 +15,7 @@ const {
 const router = express.Router()
 
 // Create new Lab
-router.post('/', isSupervisor, postCreateLab)
+router.post('/', hasPermissions(['lab']), postCreateLab)
 
 // get all labs
 router.get('/', isSuperAdmin, getLabs)
@@ -24,14 +24,16 @@ router.get('/', isSuperAdmin, getLabs)
 router.get('/my', auth, getMyLab_sups)
 
 // get lab students
-router.get('/students', isSupervisor, getAllUsers)
+router.get('/students', hasPermissions(['lab']), getAllUsers)
 
 // get one lab
 router.get('/:id', isSuperAdmin, getLabByField)
 
 // enroll new student
-router.post('/enroll', isSupervisor, enrollStudent)
+router.post('/enroll', hasPermissions(['lab']), enrollStudent)
 
+// remove a student
+router.post('/remove-student', hasPermissions(['lab']), enrollStudent)
 
 
 module.exports = router
