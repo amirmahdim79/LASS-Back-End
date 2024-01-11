@@ -10,6 +10,7 @@ const crypto = require('crypto');
 const { validateSupervisor, Supervisor } = require('../../models/supervisor');
 const { File } = require('../../models/file');
 const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
+const { User } = require('../../models/user');
 
 // const transporter = nodemailer.createTransport({
 //     service: config.get('email_service'),
@@ -81,8 +82,27 @@ const uploadProfilePicture = async (req, res) => {
     res.send(_.pick(sup, SUPS_FIELDS.INFO))
 }
 
+//give permission to a user
+const givePermission = async (req, res) => {
+    const student = await User.findOne({
+        email: req.body.email,
+    })
+    if (!student) return res.status(404).send(MESSAGES.USER_NOT_FOUND)
+
+    const newPermission = req.body.permission
+    if (!newPermission) return res.status(404).send(MESSAGES.NO_PERMISSION_GIVEN)
+
+    if (!student.permissions.includes(newPermission)) {
+        student.permissions.push(newPermission)
+        await student.save()
+    }
+
+    res.send(MESSAGES.PERMISSION_ADDED)
+}
+
 module.exports = {
     postCreateSupervisor,
     addRecentFile,
     uploadProfilePicture,
+    givePermission,
 }

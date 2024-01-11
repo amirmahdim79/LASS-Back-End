@@ -6,6 +6,8 @@ const MESSAGES = {
     INCORRECT_CODE: 'Incorrect code.',
     FILE_NOT_FOUND: 'File not found.',
     FILE_ALREADY_ADDED: 'File is already added.',
+    NO_PERMISSION_GIVEN: 'No permission is given in the request.',
+    PERMISSION_ADDED: 'Permission added.',
 }
 
 const ALLOWED_FORMATS = [

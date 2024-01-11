@@ -1,6 +1,6 @@
 const auth = require('../../middleware/auth')
 const authCheck = require('../../middleware/authCheck');
-const { isSuperAdmin, isSupervisor } = require('../../middleware/permissionCheck');
+const { isSuperAdmin, isSupervisor, hasPermissions } = require('../../middleware/permissionCheck');
 const express = require('express');
 const {
     postCreateLab,
@@ -9,6 +9,7 @@ const {
     getMyLab_sups,
     enrollStudent,
     getAllUsers,
+    removeUser,
 }
 = require('./services');
 
