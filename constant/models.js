@@ -13,6 +13,7 @@ const MODELS = {
     EVENT: 'Event',
     GROUP: 'Group',
     FORUM: 'Forum',
+    REPORT: 'Report',
 }
 
 const TYPES = ['undergrad', 'masters', 'phd', 'postDoc', 'intern']
