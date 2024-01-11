@@ -8,6 +8,7 @@ const MINUTE_MAN = {
 
         for (const user of users) {
             user.sand -= 1;
+            //notify supervisor if sand is negative
             await user.save();
         }
     },

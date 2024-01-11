@@ -14,6 +14,7 @@ const { default: mongoose } = require('mongoose');
 const { Enrollment } = require('../../models/enrollment');
 const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 const { EMAIL_TEMPLATE_NAMES } = require('../../utils/mailMan/constants');
+const { USER_FIELDS } = require('../users/constants');
 
 //post create cup for user(Admin)
 const postCreateLab = async (req, res) => {
@@ -168,6 +169,16 @@ const removeUser = async (req, res) => {
     res.send('API NOT YET COMPLETE')
 }
 
+//get a users info
+const getUserInfo = async (req, res) => {
+    const student = await User.findOne({
+        _id: req.query.id,
+        isActive: true,
+    })
+
+    res.send(_.pick(student, USER_FIELDS.INFO))
+}
+
 module.exports = {
     postCreateLab,
     getLabs,
@@ -176,4 +187,5 @@ module.exports = {
     enrollStudent,
     getAllUsers,
     removeUser,
+    getUserInfo,
 }

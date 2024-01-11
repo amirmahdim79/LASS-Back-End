@@ -10,13 +10,15 @@ const {
     enrollStudent,
     getAllUsers,
     removeUser,
+    getUserInfo,
 }
 = require('./services');
+const labCheck = require('../../middleware/labCheck');
 
 const router = express.Router()
 
 // Create new Lab
-router.post('/', hasPermissions(['lab']), postCreateLab)
+router.post('/', isSupervisor, hasPermissions(['lab']), postCreateLab)
 
 // get all labs
 router.get('/', isSuperAdmin, getLabs)
@@ -25,16 +27,19 @@ router.get('/', isSuperAdmin, getLabs)
 router.get('/my', auth, getMyLab_sups)
 
 // get lab students
-router.get('/students', hasPermissions(['lab']), getAllUsers)
+router.get('/students', auth, hasPermissions(['lab']), getAllUsers)
+
+// get a lab student
+router.get('/student', auth, labCheck, hasPermissions(['lab']), getUserInfo)
 
 // get one lab
 router.get('/:id', isSuperAdmin, getLabByField)
 
 // enroll new student
-router.post('/enroll', hasPermissions(['lab']), enrollStudent)
+router.post('/enroll', auth, hasPermissions(['lab']), enrollStudent)
 
 // remove a student
-router.post('/remove-student', hasPermissions(['lab']), removeUser)
+router.post('/remove-student', auth, hasPermissions(['lab']), removeUser)
 
 
 module.exports = router

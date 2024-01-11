@@ -19,8 +19,9 @@ module.exports = () => {
         // });
     });
 
-    cron.schedule('0 20 * * *', () => {
+    cron.schedule('0 0 * * *', () => {
         LOG_ACTIVITY('SCHEDULER', 'SAND_UPDATE')
+        console.log('SAND_UPDATE', 'SAND_UPDATE')
         MINUTE_MAN.updateSand()
     });
 }
