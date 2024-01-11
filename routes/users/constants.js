@@ -36,6 +36,8 @@ const USER_FIELDS = {
         'Labs',
         'permissions',
         'RecentFiles',
+        'smarties',
+        'sand',
     ],
     UPDATABLE: [
         'firstName',

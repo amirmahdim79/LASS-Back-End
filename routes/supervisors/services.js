@@ -11,6 +11,7 @@ const { validateSupervisor, Supervisor } = require('../../models/supervisor');
 const { File } = require('../../models/file');
 const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
 const { User } = require('../../models/user');
+const { USER_FIELDS } = require('../users/constants');
 
 // const transporter = nodemailer.createTransport({
 //     service: config.get('email_service'),
@@ -100,9 +101,43 @@ const givePermission = async (req, res) => {
     res.send(MESSAGES.PERMISSION_ADDED)
 }
 
+//add sand to a user
+const addSand = async (req, res) => {
+    const student = await User.findOne({
+        email: req.body.email,
+    })
+    if (!student) return res.status(404).send(MESSAGES.USER_NOT_FOUND)
+
+    const sandToAdd = req.body.sand
+    if (!sandToAdd || typeof sandToAdd !== 'number') return res.status(400).send(MESSAGES.PROVIDE_SAND_VALUE)
+
+    student.sand += sandToAdd
+    await student.save()
+
+    res.send(_.pick(student, USER_FIELDS.INFO))
+}
+
+//add sand to a user
+const addSmarties = async (req, res) => {
+    const student = await User.findOne({
+        email: req.body.email,
+    })
+    if (!student) return res.status(404).send(MESSAGES.USER_NOT_FOUND)
+
+    const smartiesAmount = req.body.smarties
+    if (!smartiesAmount || typeof smartiesAmount !== 'number' || smartiesAmount < 1) return res.status(400).send(MESSAGES.PROVIDE_SMARTIES_VALUE)
+
+    student.smarties += smartiesAmount
+    await student.save()
+
+    res.send(_.pick(student, USER_FIELDS.INFO))
+}
+
 module.exports = {
     postCreateSupervisor,
     addRecentFile,
     uploadProfilePicture,
     givePermission,
+    addSand,
+    addSmarties,
 }

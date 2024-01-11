@@ -8,6 +8,8 @@ const MESSAGES = {
     FILE_ALREADY_ADDED: 'File is already added.',
     NO_PERMISSION_GIVEN: 'No permission is given in the request.',
     PERMISSION_ADDED: 'Permission added.',
+    PROVIDE_SAND_VALUE: 'No sand value is provided.',
+    PROVIDE_SMARTIES_VALUE: 'No smarties value is provided.',
 }
 
 const ALLOWED_FORMATS = [

@@ -29,6 +29,15 @@ const CREATE_LOG = (req, type) => {
     newLog.save()
 }
 
+const LOG_ACTIVITY = (type = 'LOG', info = '') => {
+    const newLog = new Log({
+        type: type,
+        info: info,
+    })
+    newLog.save()
+}
+
 module.exports = {
     CREATE_LOG,
+    LOG_ACTIVITY,
 }

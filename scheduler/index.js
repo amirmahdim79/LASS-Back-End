@@ -1,6 +1,8 @@
 const cron = require('node-cron');
 
-const config = require('config')
+const config = require('config');
+const { LOG_ACTIVITY } = require('../utils/snitch');
+const { MINUTE_MAN } = require('../utils/minuteMan');
 
 module.exports = () => {
     cron.schedule('0 10 * * *', () => {
@@ -15,5 +17,10 @@ module.exports = () => {
         // transporter.sendMail(mailOptions, function(error, info) {
 
         // });
+    });
+
+    cron.schedule('0 20 * * *', () => {
+        LOG_ACTIVITY('SCHEDULER', 'SAND_UPDATE')
+        MINUTE_MAN.updateSand()
     });
 }

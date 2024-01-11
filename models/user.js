@@ -70,7 +70,19 @@ const userSchema = new mongoose.Schema({
             ref: MODELS.FILE
         }],
         default: []
-    }
+    },
+
+    smarties: {
+        type: Number,
+        default: 0,
+    },
+
+    sand: {
+        type: Number,
+        default: 30,
+    },
+
+
 }, {
     timestamps: true,
 })
