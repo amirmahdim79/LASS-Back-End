@@ -158,6 +158,16 @@ const getAllUsers = async (req, res) => {
     res.send(lab.Students)
 }
 
+//remove a user from lab
+const removeUser = async (req, res) => {
+    const student = await User.findOne({
+        email: req.body.email
+    })
+    if (!student) res.status(404).send(MESSAGES.USER_NOT_FOUND)
+
+    res.send('API NOT YET COMPLETE')
+}
+
 module.exports = {
     postCreateLab,
     getLabs,
@@ -165,4 +175,5 @@ module.exports = {
     getMyLab_sups,
     enrollStudent,
     getAllUsers,
+    removeUser,
 }

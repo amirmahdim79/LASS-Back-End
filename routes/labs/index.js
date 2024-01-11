@@ -33,7 +33,7 @@ router.get('/:id', isSuperAdmin, getLabByField)
 router.post('/enroll', hasPermissions(['lab']), enrollStudent)
 
 // remove a student
-router.post('/remove-student', hasPermissions(['lab']), enrollStudent)
+router.post('/remove-student', hasPermissions(['lab']), removeUser)
 
 
 module.exports = router
