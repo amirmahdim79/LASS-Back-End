@@ -127,7 +127,7 @@ const postAddEvent = async (req, res) => {
 
         const presenceList = {}
         req.body.Collaborators.forEach(id => {
-            presenceList[id] = { status: true }
+            presenceList[id] = { status: 'present' }
         })
 
         const presenceForm = new PresenceForm({
