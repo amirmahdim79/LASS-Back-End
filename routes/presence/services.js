@@ -30,6 +30,8 @@ const updatePresence = async (req, res) => {
 
     presenceForm.list = req.body.list
 
+    await presenceForm.save()
+
     res.send(presenceForm)
 }
 
