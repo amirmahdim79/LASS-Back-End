@@ -13,7 +13,7 @@ const presenceFormSchema = new mongoose.Schema({
         required: true,
     },
 
-    list: [
+    list: {
         /*
             {
                 id: {
@@ -21,7 +21,7 @@ const presenceFormSchema = new mongoose.Schema({
                 }
             }
         */
-    ],
+    },
 
     isActive: {
         type: Boolean,
