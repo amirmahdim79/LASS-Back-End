@@ -11,7 +11,7 @@ const labCheck = require('../../middleware/labCheck');
 const router = express.Router()
 
 // update presence form
-router.post('/', labCheck, hasPermissions(['forums']), updatePresence)
+router.post('/', auth, labCheck, hasPermissions(['forums']), updatePresence)
 
 
 module.exports = router
