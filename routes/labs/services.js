@@ -15,6 +15,7 @@ const { Enrollment } = require('../../models/enrollment');
 const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 const { EMAIL_TEMPLATE_NAMES } = require('../../utils/mailMan/constants');
 const { USER_FIELDS } = require('../users/constants');
+const { Constant } = require('../../models/constant');
 
 //post create cup for user(Admin)
 const postCreateLab = async (req, res) => {
@@ -179,6 +180,15 @@ const getUserInfo = async (req, res) => {
     res.send(_.pick(student, USER_FIELDS.INFO))
 }
 
+//get permissions
+const getPermissions = async (req, res) => {
+    const permissions = await Constant.findOne({
+        key: "PERMISSIONS",
+    })
+
+    res.send(permissions)
+}
+
 module.exports = {
     postCreateLab,
     getLabs,
@@ -188,4 +198,5 @@ module.exports = {
     getAllUsers,
     removeUser,
     getUserInfo,
+    getPermissions,
 }

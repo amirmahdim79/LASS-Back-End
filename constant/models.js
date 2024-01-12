@@ -14,6 +14,7 @@ const MODELS = {
     GROUP: 'Group',
     FORUM: 'Forum',
     REPORT: 'Report',
+    CONSTANT: 'Constant',
 }
 
 const TYPES = ['undergrad', 'masters', 'phd', 'postDoc', 'intern']

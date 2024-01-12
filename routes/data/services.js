@@ -1,4 +1,5 @@
 const { Data } = require('../../models/data');
+const { Constant } = require('../../models/constant');
 const { User } = require('../../models/user');
 const { MESSAGES } = require('./constants')
 const _ = require('lodash')
