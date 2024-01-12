@@ -26,6 +26,10 @@ const FORUM_FIELDS = {
             select: '-password -permissions -RecentFiles -Labs -createdAt -updatedAt',
         },
         {
+            path: 'Supervisor',
+            select: '-password -permissions -RecentFiles -Labs -createdAt -updatedAt',
+        },
+        {
             path: 'Messages',
         },
         {
