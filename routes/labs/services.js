@@ -189,6 +189,19 @@ const getPermissions = async (req, res) => {
     res.send(permissions)
 }
 
+//get leaderboard
+const getLeaderboard = async (req, res) => {
+    const lab = await Lab.findOne({
+        _id: req.query.lab
+    }).populate(LABS_FIELD.POPULATE)
+    if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
+
+    let leaderboard = lab.Students
+    leaderboard.sort((a, b) => b.smarties - a.smarties)
+
+    res.send(leaderboard)
+}
+
 module.exports = {
     postCreateLab,
     getLabs,
@@ -199,4 +212,5 @@ module.exports = {
     removeUser,
     getUserInfo,
     getPermissions,
+    getLeaderboard,
 }

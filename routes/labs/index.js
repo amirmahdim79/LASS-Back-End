@@ -12,6 +12,7 @@ const {
     removeUser,
     getUserInfo,
     getPermissions,
+    getLeaderboard,
 }
 = require('./services');
 const labCheck = require('../../middleware/labCheck');
@@ -33,9 +34,13 @@ router.get('/students', auth, hasPermissions(['lab']), getAllUsers)
 // get a lab student
 router.get('/student', auth, labCheck, hasPermissions(['lab']), getUserInfo)
 
-
 // get permission list
 router.get('/permissions', auth, getPermissions)
+
+// get leaderboard
+router.get('/leaderboard', auth, labCheck, getLeaderboard)
+
+
 
 // get one lab
 router.get('/:id', isSuperAdmin, getLabByField)
