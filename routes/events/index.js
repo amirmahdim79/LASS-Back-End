@@ -13,7 +13,7 @@ const router = express.Router()
 // Add new event
 router.post('/', hasPermissions(['events']), postAddEvent)
 
-// Add new event
+// get lab events
 router.get('/lab/:id', auth, getLabEvents)
 
 module.exports = router

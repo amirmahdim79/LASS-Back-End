@@ -15,6 +15,7 @@ const MODELS = {
     FORUM: 'Forum',
     REPORT: 'Report',
     CONSTANT: 'Constant',
+    USER_TASK: 'UserTask',
 }
 
 const TYPES = ['undergrad', 'masters', 'phd', 'postDoc', 'intern']

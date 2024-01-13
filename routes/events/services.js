@@ -89,6 +89,11 @@ const postAddEvent = async (req, res) => {
                 Supervisor: lab.Supervisor,
             })
 
+            const presenceList = {}
+            req.body.Collaborators.forEach(id => {
+                presenceList[id] = { status: 'present' }
+            })
+
             const presenceForm = new PresenceForm({
                 Forum: forum._id,
                 list: presenceList,

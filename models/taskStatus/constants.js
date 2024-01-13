@@ -2,13 +2,14 @@ const TASK_STATUS_FIELDS = {
     CREATE: [
         'Task',
         'User',
-        'Data'
+        'data'
     ],
     INFO: [
         'Task',
         'User',
-        'Data',
+        'data',
         'Status',
+        'doneDate',
         '_id',
     ],
     POPULATE: [
