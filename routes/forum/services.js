@@ -20,6 +20,7 @@ function extractEmails(text, emails, matchEmail) {
     let match;
   
     while ((match = regex.exec(text)) !== null) {
+        if (matches.includes(match[1])) continue
         if (emails.includes(match[1]) || match[1] === matchEmail) {
             matches.push(match[1])
         }
