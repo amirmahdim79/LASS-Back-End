@@ -109,7 +109,7 @@ const sendMessage = async (req, res) => {
     const emails = extractEmails(text, userEmailList, forum.Supervisor.email)
     emails.forEach(email => {
         MAIL_MAN.SEND_TEMPLATE(email, 'FORUM_MENTION', {
-            name: user.name + ' ' + user.lastName,
+            name: user.firstName + ' ' + user.lastName,
             text,
         })
     })
