@@ -48,8 +48,13 @@ const userTaskSchema = new mongoose.Schema({
         required: true,
     },
 
-    file: {
-        type: String,
+    doneDate: {
+        type: Date,
+    },
+
+    File: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: MODELS.FILE,
     },
 
     type: {

@@ -13,8 +13,19 @@ const MESSAGES = {
     GROUP_NOT_EXISTS: 'Group does not exists.',
     NO_PERMISSION: 'You dont have permission.',
     DELETED_SUCCESSFULLY: 'Group deleted successfully.',
+    USER_TASK_NOT_FOUND: 'User task not found.',
+    NO_FILE: 'You must upload a file.',
+    BAD_FORMAT: 'Bad format.',
+    UPLOAD_FAILED: 'Upload failed',
 }
+
+const ALLOWED_FORMATS = [
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/pdf',
+]
 
 module.exports = { 
     MESSAGES,
+    ALLOWED_FORMATS,
 }

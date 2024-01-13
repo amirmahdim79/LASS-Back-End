@@ -7,7 +7,7 @@ const USER_TASK_FIELDS = {
         'Event',
         'status',
         'dueDate',
-        'file',
+        'File',
         'type',
     ],
     INFO: [
@@ -18,7 +18,8 @@ const USER_TASK_FIELDS = {
         'Event',
         'status',
         'dueDate',
-        'file',
+        'doneDate',
+        'File',
         'type',
         '_id',
     ],
