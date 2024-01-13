@@ -1,12 +1,21 @@
 const TEMPLATES = {
     LAB_WELCOME: {
-        SUBJECT: '',
+        SUBJECT: 'Welcome to ILAB',
         CONTENT: `Dear *name*, welcome to *lab_name*! we hope you have a great journey ahead of you. Best, LASS team.`,
         KEYS: [
             'name',
             'lab_name',
         ]
-    }
+    },
+    FORUM_MENTION: {
+        SUBJECT: 'New forum mention',
+        CONTENT: `You have a new message from *name*: *text*`,
+        KEYS: [
+            'name',
+            'text',
+        ]
+    },
+    
     
 }
 

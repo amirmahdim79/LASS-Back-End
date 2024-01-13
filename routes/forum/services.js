@@ -12,6 +12,19 @@ const { FORUM_FIELDS } = require('../../models/forum/constatns');
 const { MESSAGE_FIELDS } = require('../../models/message/constatns');
 const { MODELS } = require('../../constant/models');
 const { Supervisor } = require('../../models/supervisor');
+const MAIL_MAN = require('../../utils/mailMan/mailMan');
+
+function extractEmails(text, emails) {
+    const regex = /\*([^*]+)\*/g;
+    const matches = [];
+    let match;
+  
+    while ((match = regex.exec(text)) !== null) {
+        if (emails.includes(match[1])) matches.push(match[1])
+    }
+  
+    return matches;
+}
 
 //get Lab forums (sups)
 const getLabForums = async (req, res) => {
@@ -88,8 +101,15 @@ const sendMessage = async (req, res) => {
     }
 
     await forum.save()
-
     await forum.populate(FORUM_FIELDS.POPULATE)
+
+    const emails = extractEmails(text, forum.Users)
+    emails.forEach(email => {
+        MAIL_MAN.SEND_TEMPLATE(email, 'FORUM_MENTION', {
+            name: user.name + ' ' + user.lastName,
+            text,
+        })
+    })
 
     res.send(forum)
 }
