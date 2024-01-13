@@ -16,7 +16,7 @@ const router = express.Router()
 // router.post('/', isSupervisor, createGroup)
 
 // Get lab forums
-router.get('/:lab', hasPermissions(['forums']), getLabForums)
+router.get('/:lab', auth, hasPermissions(['forums']), getLabForums)
 
 // Get user forums
 router.get('/user/:lab', auth, getForums)

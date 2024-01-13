@@ -12,6 +12,7 @@ const { Event } = require('../../models/event');
 const { MOMENT, generateWeeklyDates, generateMonthlyDates } = require('../../utils/dateHandler');
 const { Forum } = require('../../models/forum');
 const { PresenceForm } = require('../../models/presenceForm');
+const { UserTask } = require('../../models/userTask');
 const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 
 const sendEmailToCollaborators = (users) => {
@@ -29,6 +30,9 @@ const postAddEvent = async (req, res) => {
     if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
 
     if (!req.body.start || !req.body.end) return res.status(400).send(MESSAGES.TIME_NOT_PROVIDED)
+
+    const hasForum = true //TODO: this has to be dynamic
+    const taskType = req.body.taskType ?? false
 
     // const overlap = await Event.find({
     //     $or: [
@@ -130,6 +134,23 @@ const postAddEvent = async (req, res) => {
         event.Lab = lab._id
     
         await (await event.save()).populate(EVENT_FIELDS.POPULATE)
+
+        if (taskType) {
+            const userTasks = req.body.Collaborators.map((user, index) => {
+                const userTask = new UserTask({
+                    name: req.body.name,
+                    desc: req.body.desc,
+                    User: user,
+                    Lab: lab._id,
+                    Event: event._id,
+                    dueDate: req.body.start.toDate(),
+                    type: taskType,
+                })
+    
+                return userTask
+            })
+            await UserTask.insertMany(userTasks)
+        }
 
         const forum = new Forum({
             name: req.body.name,
