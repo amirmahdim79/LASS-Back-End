@@ -178,7 +178,7 @@ const getUserInfo = async (req, res) => {
     })
 
     const lab = await Lab.findOne({
-        Supervisor: req.query.lab
+        _id: req.query.lab
     }).populate(LABS_FIELD.POPULATE)
 
     const userPath = lab.Paths.find((p) => 
