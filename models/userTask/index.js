@@ -33,10 +33,10 @@ const userTaskSchema = new mongoose.Schema({
         required: true,
     },
 
-    Event: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: MODELS.EVENT,
-    },
+    // Event: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: MODELS.EVENT,
+    // },
 
     status: {
         type: Boolean,

@@ -142,7 +142,7 @@ const postAddEvent = async (req, res) => {
                     desc: req.body.desc,
                     User: user,
                     Lab: lab._id,
-                    Event: event._id,
+                    // Event: event._id,
                     dueDate: req.body.start,
                     type: taskType,
                 })
