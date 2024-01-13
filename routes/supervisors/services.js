@@ -47,9 +47,13 @@ const addRecentFile = async (req, res) => {
     const file = await File.findOne({_id: req.body.File, isActive: true})
     if (!file) return res.status(400).send(MESSAGES.FILE_NOT_FOUND)
 
-    if (supervisor.RecentFiles.includes(file._id)) return res.status(400).send(MESSAGES.FILE_ALREADY_ADDED)
+    const newRecentFiles = supervisor.RecentFiles.filter(recent => {
+        return !recent.equals(file._id)
+    })
+    newRecentFiles.push(file._id)
 
-    supervisor.RecentFiles.push(file._id)
+    supervisor.RecentFiles = [...newRecentFiles].slice(-10)
+
     await supervisor.save()
 
     await supervisor.populate('RecentFiles')

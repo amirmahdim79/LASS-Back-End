@@ -66,9 +66,13 @@ const addRecentFile = async (req, res) => {
     const file = await File.findOne({_id: req.body.File, isActive: true})
     if (!file) return res.status(400).send(MESSAGES.FILE_NOT_FOUND)
 
-    if (user.RecentFiles.includes(file._id)) return res.status(400).send(MESSAGES.FILE_ALREADY_ADDED)
+    const newRecentFiles = user.RecentFiles.filter(recent => {
+        return !recent.equals(file._id)
+    })
+    newRecentFiles.push(file._id)
 
-    user.RecentFiles.push(file._id)
+    user.RecentFiles = [...newRecentFiles].slice(-10)
+
     await user.save()
 
     await user.populate('RecentFiles')
