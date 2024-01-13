@@ -5,6 +5,7 @@ const GLOBALCONST = require('../../constant')
 const { MODELS, SUBMODELS, TYPES } = require('../../constant/models')
 const Joi = require('joi');
 const crypto = require('crypto');
+const { USER_TASK_TYPES } = require("./constatns")
 
 const userTaskSchema = new mongoose.Schema({
     name: {
@@ -52,7 +53,10 @@ const userTaskSchema = new mongoose.Schema({
     },
 
     type: {
-        //todo
+        type: String,
+        enum: USER_TASK_TYPES,
+        required: true,
+        default: 'upload'
     },
 
     isActive: {

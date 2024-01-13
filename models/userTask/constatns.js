@@ -1,4 +1,4 @@
-const FORUM_FIELDS = {
+const USER_TASK_FIELDS = {
     CREATE: [
         'name',
         'desc',
@@ -8,6 +8,7 @@ const FORUM_FIELDS = {
         'status',
         'dueDate',
         'file',
+        'type',
     ],
     INFO: [
         'name',
@@ -18,6 +19,7 @@ const FORUM_FIELDS = {
         'status',
         'dueDate',
         'file',
+        'type',
         '_id',
     ],
     POPULATE: [
@@ -28,6 +30,12 @@ const FORUM_FIELDS = {
     ],
 }
 
+const USER_TASK_TYPES = [
+    'upload',
+    'paper',
+]
+
 module.exports = { 
-    FORUM_FIELDS
+    USER_TASK_FIELDS,
+    USER_TASK_TYPES,
 }
