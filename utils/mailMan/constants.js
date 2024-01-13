@@ -15,6 +15,11 @@ const TEMPLATES = {
             'text',
         ]
     },
+    EVENT_CREATION: {
+        SUBJECT: 'New events',
+        CONTENT: `You are added to new events. Login to see your calendar.`,
+        KEYS: []
+    },
     
     
 }

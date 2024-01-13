@@ -12,6 +12,14 @@ const { Event } = require('../../models/event');
 const { MOMENT, generateWeeklyDates, generateMonthlyDates } = require('../../utils/dateHandler');
 const { Forum } = require('../../models/forum');
 const { PresenceForm } = require('../../models/presenceForm');
+const MAIL_MAN = require('../../utils/mailMan/mailMan')();
+
+const sendEmailToCollaborators = (users) => {
+    const emails = users.map((user) => user.email)
+    emails.forEach(email => {
+        MAIL_MAN.SEND_TEMPLATE(email, 'EVENT_CREATION', {})
+    })
+}
 
 //post create path for lab(Sups)
 const postAddEvent = async (req, res) => {
@@ -112,6 +120,8 @@ const postAddEvent = async (req, res) => {
         const savedForums = await Forum.insertMany(forums)
         await PresenceForm.insertMany(presenceForms)
 
+        sendEmailToCollaborators(req.body.Collaborators)
+
         res.send(populatedEvents)
     } else {
         const event = new Event(_.pick(req.body, EVENT_FIELDS.CREATE))
@@ -144,6 +154,8 @@ const postAddEvent = async (req, res) => {
 
         await forum.save()
         await presenceForm.save()
+
+        sendEmailToCollaborators(req.body.Collaborators)
 
         res.send(_.omit(_.pick(event, EVENT_FIELDS.INFO), 'Initiator'))
     }

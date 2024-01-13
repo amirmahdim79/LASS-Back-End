@@ -7,7 +7,7 @@ const { TEMPLATES, REPLACER } = require('./constants');
 
 const MAIL_MAN = () => {
     const BASE_EMAIL = config.get('email_address')
-    
+
     const transporter = nodemailer.createTransport({
         service: config.get('email_service'),
         auth: {
@@ -27,7 +27,7 @@ const MAIL_MAN = () => {
         transporter.sendMail(mailOptions);
     }
 
-    //templates = [LAB_WELCOME, ]
+    //templates = [LAB_WELCOME, FORUM_MENTION, EVENT_CREATION]
     const SEND_TEMPLATE = (TO, template, keys) => {
         const mailOptions = {
             from: BASE_EMAIL,
