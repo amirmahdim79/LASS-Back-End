@@ -177,7 +177,38 @@ const getUserInfo = async (req, res) => {
         isActive: true,
     })
 
-    res.send(_.pick(student, USER_FIELDS.INFO))
+    const lab = await Lab.findOne({
+        Supervisor: req.query.lab
+    }).populate(LABS_FIELD.POPULATE)
+
+    const userPath = lab.Paths.find((p) => 
+        p.typeDependency.includes(student.type)
+    )
+
+    userPath.Milestones = userPath.Milestones.map((m) => {
+        const userMilesstoneStatus = m.status.find((s) => {
+            return s.User.equals(mongoose.Types.ObjectId(student._id))
+        })
+
+        m.status = [userMilesstoneStatus]
+
+        m.Tasks = m.Tasks.map((t) => {
+            const userTaskStatus = t.status.find((s) => {
+                return s.User.equals(mongoose.Types.ObjectId(student._id))
+            })
+
+            t.status = [userTaskStatus]
+
+            return t
+        })
+
+        return m
+    })
+
+    res.send({
+        ..._.pick(student, USER_FIELDS.INFO),
+        path: userPath,
+    })
 }
 
 //get permissions
