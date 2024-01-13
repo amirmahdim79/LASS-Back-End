@@ -20,7 +20,10 @@ const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 
 //do a upload task
 const doUploadTask = async (req, res) => {
-    const userTask = await UserTask.findById(req.body.UserTask)
+    const userTask = await UserTask.findOne({
+        _id: req.body.UserTask,
+        User: req.user._id,
+    })
     if (!userTask) res.status(400).send(MESSAGES.USER_TASK_NOT_FOUND)
 
 
@@ -57,7 +60,10 @@ const doUploadTask = async (req, res) => {
 
 //do paper task
 const doPaperTask = async (req, res) => {
-    const userTask = await UserTask.findById(req.body.UserTask)
+    const userTask = await UserTask.findOne({
+        _id: req.body.UserTask,
+        User: req.user._id,
+    })
     if (!userTask) res.status(400).send(MESSAGES.USER_TASK_NOT_FOUND)
 
     userTask.status(true)
