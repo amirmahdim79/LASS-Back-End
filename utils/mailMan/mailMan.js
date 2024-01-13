@@ -8,6 +8,12 @@ const { TEMPLATES, REPLACER } = require('./constants');
 const MAIL_MAN = () => {
     const BASE_EMAIL = config.get('email_address')
 
+    console.log(
+        BASE_EMAIL,
+        config.get('email_service'),
+        config.get('email_password')
+    )
+
     const transporter = nodemailer.createTransport({
         service: config.get('email_service'),
         auth: {
