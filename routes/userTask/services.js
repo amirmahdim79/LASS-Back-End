@@ -15,6 +15,7 @@ const { MODELS } = require('../../constant/models');
 const { Supervisor } = require('../../models/supervisor');
 const { UserTask } = require('../../models/userTask');
 const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
+const { USER_TASK_FIELDS } = require('../../models/userTask/constatns');
 const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 
 //do a upload task
@@ -50,9 +51,24 @@ const doUploadTask = async (req, res) => {
     userTask.File = newFile._id
 
     await userTask.save()
+
+    res.send(_.pick(userTask, USER_TASK_FIELDS.INFO))
+}
+
+//do paper task
+const doPaperTask = async (req, res) => {
+    const userTask = await UserTask.findById(req.body.UserTask)
+    if (!userTask) res.status(400).send(MESSAGES.USER_TASK_NOT_FOUND)
+
+    userTask.status(true)
+    userTask.doneDate(Date.now())
+    await userTask.save()
+
+
 }
 
 
 module.exports = {
     doUploadTask,
+    doPaperTask
 }

@@ -124,7 +124,7 @@ const postAddEvent = async (req, res) => {
         const savedForums = await Forum.insertMany(forums)
         await PresenceForm.insertMany(presenceForms)
 
-        sendEmailToCollaborators(req.body.Collaborators)
+        // sendEmailToCollaborators(req.body.Collaborators)
 
         res.send(populatedEvents)
     } else {
@@ -143,7 +143,7 @@ const postAddEvent = async (req, res) => {
                     User: user,
                     Lab: lab._id,
                     Event: event._id,
-                    dueDate: req.body.start.toDate(),
+                    dueDate: req.body.start,
                     type: taskType,
                 })
     
@@ -176,7 +176,7 @@ const postAddEvent = async (req, res) => {
         await forum.save()
         await presenceForm.save()
 
-        sendEmailToCollaborators(req.body.Collaborators)
+        // sendEmailToCollaborators(req.body.Collaborators)
 
         res.send(_.omit(_.pick(event, EVENT_FIELDS.INFO), 'Initiator'))
     }

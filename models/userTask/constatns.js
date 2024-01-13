@@ -24,10 +24,9 @@ const USER_TASK_FIELDS = {
         '_id',
     ],
     POPULATE: [
-        // {
-        //     path: 'Users',
-        //     select: '-password -permissions -RecentFiles -Labs -createdAt -updatedAt',
-        // },
+        {
+            path: 'File',
+        },
     ],
 }
 

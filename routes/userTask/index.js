@@ -4,6 +4,7 @@ const { isSuperAdmin, isSupervisor, hasPermissions } = require('../../middleware
 const express = require('express');
 const {
     doUploadTask,
+    doPaperTask,
 }
 = require('./services');
 
@@ -18,6 +19,9 @@ var upload = multer({
 
 // do a upload task
 router.post('/upload', auth, upload, doUploadTask)
+
+// do a paper task
+router.post('/paper', auth, doPaperTask)
 
 
 module.exports = router
