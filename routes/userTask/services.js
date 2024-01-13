@@ -16,6 +16,7 @@ const { Supervisor } = require('../../models/supervisor');
 const { UserTask } = require('../../models/userTask');
 const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
 const { USER_TASK_FIELDS } = require('../../models/userTask/constatns');
+const { FILES_FIELD } = require('../../models/file/constant');
 const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 
 //do a upload task
@@ -35,10 +36,10 @@ const doUploadTask = async (req, res) => {
     const fileFormat = fileName.split('.').pop()
     const fileAlias = crypto.randomBytes(6).toString('hex')
 
-    const upload_res = await UPLOAD(file, fileAlias + '.' + fileFormat, 'reports', false)
+    const upload_res = await UPLOAD(file, fileAlias + '.' + fileFormat, 'reports')
     if (!upload_res) return res.status(500).json({ error: MESSAGES.UPLOAD_FAILED });
 
-    const newFile = new File(_.pick(req.body, FILES_FIELD))
+    const newFile = new File(_.pick(req.body, FILES_FIELD.CREATE))
 
     newFile.name = req.body.name ?? fileName
     newFile.url = UPLOAD_BASE + 'reports/' + fileAlias + '.' + fileFormat
@@ -49,8 +50,8 @@ const doUploadTask = async (req, res) => {
 
     await newFile.save()
 
-    userTask.status(true)
-    userTask.doneDate(Date.now())
+    userTask.status = true
+    userTask.doneDate = Date.now()
     userTask.File = newFile._id
 
     await userTask.save()
@@ -66,11 +67,11 @@ const doPaperTask = async (req, res) => {
     })
     if (!userTask) res.status(400).send(MESSAGES.USER_TASK_NOT_FOUND)
 
-    userTask.status(true)
-    userTask.doneDate(Date.now())
+    userTask.status = true
+    userTask.doneDate = Date.now()
     await userTask.save()
 
-
+    res.send(_.pick(userTask, USER_TASK_FIELDS.INFO))
 }
 
 

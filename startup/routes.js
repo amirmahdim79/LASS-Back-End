@@ -62,7 +62,7 @@ module.exports = (app) => {
     app.use('/api-lass/groups', groups)
     app.use('/api-lass/forum', forum)
     app.use('/api-lass/presence', presence)
-    app.use('/api-lass/userTask', userTask)
+    app.use('/api-lass/userTasks', userTask)
 
     //Custom middlewares
     app.use(logger)
