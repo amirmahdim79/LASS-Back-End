@@ -56,6 +56,10 @@ const doUploadTask = async (req, res) => {
 
     await userTask.save()
 
+    const user = await User.findById(req.user._id)
+    user.smarties += 10
+    await user.save()
+
     res.send(_.pick(userTask, USER_TASK_FIELDS.INFO))
 }
 
@@ -71,11 +75,26 @@ const doPaperTask = async (req, res) => {
     userTask.doneDate = Date.now()
     await userTask.save()
 
+    const user = await User.findById(req.user._id)
+    user.smarties += 10
+    await user.save()
+
     res.send(_.pick(userTask, USER_TASK_FIELDS.INFO))
 }
+
+//get user tasks
+const getUserTasks = async (req, res) => {
+    const userTasks = await UserTask.find({
+        User: req.user._id,
+    })
+
+    res.send(userTasks)
+}
+
 
 
 module.exports = {
     doUploadTask,
-    doPaperTask
+    doPaperTask,
+    getUserTasks,
 }
