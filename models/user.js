@@ -82,6 +82,10 @@ const userSchema = new mongoose.Schema({
         default: 30,
     },
 
+    sid: {
+        type: Number,
+    }
+
 
 }, {
     timestamps: true,

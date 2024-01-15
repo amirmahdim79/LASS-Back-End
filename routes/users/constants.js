@@ -23,6 +23,7 @@ const USER_FIELDS = {
         'lastName',
         'email',
         'password',
+        'sid',
     ],
     INFO: [
         '_id',
@@ -38,6 +39,7 @@ const USER_FIELDS = {
         'RecentFiles',
         'smarties',
         'sand',
+        'sid',
     ],
     UPDATABLE: [
         'firstName',

@@ -31,7 +31,7 @@ const postAddEvent = async (req, res) => {
 
     if (!req.body.start || !req.body.end) return res.status(400).send(MESSAGES.TIME_NOT_PROVIDED)
 
-    const hasForum = true //TODO: this has to be dynamic
+    const hasForum = req.body.hasOwnProperty('hasForum') ? req.body.hasForum : true
     const taskType = req.body.taskType ?? false
 
     // const overlap = await Event.find({
@@ -152,29 +152,31 @@ const postAddEvent = async (req, res) => {
             await UserTask.insertMany(userTasks)
         }
 
-        const forum = new Forum({
-            name: req.body.name,
-            desc: req.body.desc,
-            Users: req.body.Collaborators,
-            Lab: lab._id,
-            start: req.body.start,
-            Supervisor: lab.Supervisor,
-        })
-
-        const presenceList = {}
-        req.body.Collaborators.forEach(id => {
-            presenceList[id] = { status: 'present' }
-        })
-
-        const presenceForm = new PresenceForm({
-            Forum: forum._id,
-            list: presenceList,
-        })
-
-        forum.PresenceForm = presenceForm._id
-
-        await forum.save()
-        await presenceForm.save()
+        if (hasForum) {
+            const forum = new Forum({
+                name: req.body.name,
+                desc: req.body.desc,
+                Users: req.body.Collaborators,
+                Lab: lab._id,
+                start: req.body.start,
+                Supervisor: lab.Supervisor,
+            })
+    
+            const presenceList = {}
+            req.body.Collaborators.forEach(id => {
+                presenceList[id] = { status: 'present' }
+            })
+    
+            const presenceForm = new PresenceForm({
+                Forum: forum._id,
+                list: presenceList,
+            })
+    
+            forum.PresenceForm = presenceForm._id
+    
+            await forum.save()
+            await presenceForm.save()
+        }
 
         // sendEmailToCollaborators(req.body.Collaborators)
 
