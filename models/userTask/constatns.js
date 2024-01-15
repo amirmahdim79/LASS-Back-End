@@ -9,6 +9,7 @@ const USER_TASK_FIELDS = {
         'dueDate',
         'File',
         'type',
+        'smarties',
     ],
     INFO: [
         'name',
@@ -21,6 +22,7 @@ const USER_TASK_FIELDS = {
         'doneDate',
         'File',
         'type',
+        'smarties',
         '_id',
     ],
     POPULATE: [

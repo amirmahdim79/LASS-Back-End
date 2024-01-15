@@ -64,6 +64,11 @@ const userTaskSchema = new mongoose.Schema({
         default: 'upload'
     },
 
+    smarties: {
+        type: Number,
+        default: 0
+    },
+
     isActive: {
         type: Boolean,
         default: true

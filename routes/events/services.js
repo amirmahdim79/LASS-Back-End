@@ -33,6 +33,7 @@ const postAddEvent = async (req, res) => {
 
     const hasForum = req.body.hasOwnProperty('hasForum') ? req.body.hasForum : true
     const taskType = req.body.taskType ?? false
+    if (req.body.hasOwnProperty('taskType') && !req.body.hasOwnProperty('smarties')) return res.status(400).send(MESSAGES.TASK_SMARTIES)
 
     // const overlap = await Event.find({
     //     $or: [
@@ -145,6 +146,7 @@ const postAddEvent = async (req, res) => {
                     // Event: event._id,
                     dueDate: req.body.start,
                     type: taskType,
+                    smarties: req.body.smarties,
                 })
     
                 return userTask

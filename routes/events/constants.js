@@ -7,6 +7,7 @@ const MESSAGES = {
     EVENT_HAS_OVERLAP: 'Event has overlap',
     NO_INTERVAL_PROVIDED: 'No interval is provided.',
     INVALID_INTERVAL: 'Invalid interval.',
+    TASK_SMARTIES: 'A task type event should have smarties amount.',
 }
 
 module.exports = { 

@@ -57,7 +57,7 @@ const doUploadTask = async (req, res) => {
     await userTask.save()
 
     const user = await User.findById(req.user._id)
-    user.smarties += 10
+    user.smarties += userTask.smarties
     await user.save()
 
     res.send(_.pick(userTask, USER_TASK_FIELDS.INFO))
@@ -76,7 +76,7 @@ const doPaperTask = async (req, res) => {
     await userTask.save()
 
     const user = await User.findById(req.user._id)
-    user.smarties += 10
+    user.smarties += userTask.smarties
     await user.save()
 
     res.send(_.pick(userTask, USER_TASK_FIELDS.INFO))
