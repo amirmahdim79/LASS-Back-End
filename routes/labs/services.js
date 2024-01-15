@@ -16,6 +16,7 @@ const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 const { EMAIL_TEMPLATE_NAMES } = require('../../utils/mailMan/constants');
 const { USER_FIELDS } = require('../users/constants');
 const { Constant } = require('../../models/constant');
+const { UserTask } = require('../../models/userTask');
 
 //post create cup for user(Admin)
 const postCreateLab = async (req, res) => {
@@ -147,6 +148,7 @@ const enrollStudent = async (req, res) => {
     res.send(lab.Students)
 }
 
+//get lab users
 const getAllUsers = async (req, res) => {
     const lab = await Lab.findOne({
         Supervisor: req.user._id
@@ -233,6 +235,32 @@ const getLeaderboard = async (req, res) => {
     res.send(leaderboard)
 }
 
+//get lab users info
+const getLabUsersInfo = async (req, res) => {
+    const lab = await Lab.findOne({
+        _id: req.query.lab
+    })
+    .populate({
+        path: 'Students',
+        select: '-password',
+    })
+    if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
+
+    const users = lab.Students
+    const result = await Promise.all(users.map(async user => {
+        const tasks = await UserTask.find({
+            User: user._id,
+            Lab: lab._id
+        }).sort({ dueDate: 1 })
+        return {
+            ..._.pick(user, USER_FIELDS.INFO),
+            Tasks: tasks,
+        }
+    }))
+
+    res.send(result)
+}
+
 module.exports = {
     postCreateLab,
     getLabs,
@@ -244,4 +272,5 @@ module.exports = {
     getUserInfo,
     getPermissions,
     getLeaderboard,
+    getLabUsersInfo,
 }
