@@ -29,7 +29,7 @@ router.post('/paper', auth, doPaperTask)
 router.get('/', auth, getUserTasks)
 
 // get user tasks
-router.get('/task', auth, getUserTask)
+router.get('/task/:id', auth, getUserTask)
 
 
 module.exports = router

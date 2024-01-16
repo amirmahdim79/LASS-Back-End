@@ -95,7 +95,7 @@ const getUserTasks = async (req, res) => {
 const getUserTask = async (req, res) => {
     const userTask = await UserTask.findOne({
         User: req.user._id,
-        _id: req.body.Task,
+        _id: req.params.id,
     })
     if (!userTask) res.status(400).send(MESSAGES.USER_TASK_NOT_FOUND)
 
