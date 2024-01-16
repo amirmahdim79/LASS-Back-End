@@ -91,10 +91,22 @@ const getUserTasks = async (req, res) => {
     res.send(userTasks)
 }
 
+//get user task
+const getUserTask = async (req, res) => {
+    const userTask = await UserTask.findOne({
+        User: req.user._id,
+        _id: req.body.Task,
+    })
+    if (!userTask) res.status(400).send(MESSAGES.USER_TASK_NOT_FOUND)
+
+    res.send(userTask)
+}
+
 
 
 module.exports = {
     doUploadTask,
     doPaperTask,
     getUserTasks,
+    getUserTask,
 }

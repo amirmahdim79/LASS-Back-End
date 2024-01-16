@@ -6,6 +6,7 @@ const {
     doUploadTask,
     doPaperTask,
     getUserTasks,
+    getUserTask,
 }
 = require('./services');
 
@@ -26,6 +27,9 @@ router.post('/paper', auth, doPaperTask)
 
 // get user tasks
 router.get('/', auth, getUserTasks)
+
+// get user tasks
+router.get('/task', auth, getUserTask)
 
 
 module.exports = router
