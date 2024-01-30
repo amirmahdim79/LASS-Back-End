@@ -14,6 +14,7 @@ const {
     getPermissions,
     getLeaderboard,
     getLabUsersInfo,
+    getAlumni,
 }
 = require('./services');
 const labCheck = require('../../middleware/labCheck');
@@ -31,6 +32,9 @@ router.get('/my', auth, getMyLab_sups)
 
 // get lab students
 router.get('/students', auth, hasPermissions(['lab']), getAllUsers)
+
+// get lab students
+router.get('/alumni', auth, hasPermissions(['lab']), getAlumni)
 
 // get lab students
 router.get('/students/info', auth, hasPermissions(['lab']), getLabUsersInfo)

@@ -162,6 +162,20 @@ const getAllUsers = async (req, res) => {
     res.send(lab.Students)
 }
 
+//get lab users
+const getAlumni = async (req, res) => {
+    const lab = await Lab.findOne({
+        Supervisor: req.user._id
+    })
+    .populate({
+        path: 'Alumni',
+        select: '-password',
+    })
+    if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
+
+    res.send(lab.Alumni)
+}
+
 //remove a user from lab
 const removeUser = async (req, res) => {
     const student = await User.findOne({
@@ -275,4 +289,5 @@ module.exports = {
     getPermissions,
     getLeaderboard,
     getLabUsersInfo,
+    getAlumni,
 }

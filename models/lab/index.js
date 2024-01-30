@@ -20,6 +20,14 @@ const labSchema = new mongoose.Schema({
         default: []
     },
 
+    Alumni: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: MODELS.USER
+        }],
+        default: []
+    },
+
     Paths: {
         type: [{
             type: mongoose.Schema.Types.ObjectId,

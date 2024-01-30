@@ -27,10 +27,15 @@ const LABS_FIELD = {
         'url',
         '_id',
         'desc',
+        'Alumni',
     ],
     POPULATE: [
         {
             path: 'Students',
+            select: '-password',
+        },
+        {
+            path: 'Alumni',
             select: '-password',
         },
         {
