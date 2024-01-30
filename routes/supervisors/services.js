@@ -94,13 +94,29 @@ const givePermission = async (req, res) => {
     })
     if (!student) return res.status(404).send(MESSAGES.USER_NOT_FOUND)
 
-    const newPermission = req.body.permission
-    if (!newPermission) return res.status(404).send(MESSAGES.NO_PERMISSION_GIVEN)
+    const filterList = []
 
-    if (!student.permissions.includes(newPermission)) {
-        student.permissions.push(newPermission)
-        await student.save()
-    }
+    const newPermissions = req.body.permissions
+    if (!newPermissions) return res.status(404).send(MESSAGES.NO_PERMISSION_GIVEN)
+
+    Object.keys(newPermissions).forEach(key => {
+        const permission = key
+        const value = newPermissions[permission]
+
+        if (value) {
+            if (!student.permissions.includes(permission)) {
+                student.permissions.push(permission)
+            }
+        } else {
+            filterList.push(permission)
+        }
+    });
+
+    student.permissions = student.permissions.filter((p) => {
+        return !filterList.includes(p)
+    })
+
+    await student.save()
 
     res.send(MESSAGES.PERMISSION_ADDED)
 }
