@@ -215,8 +215,10 @@ const getUserInfo = async (req, res) => {
 
 //get permissions
 const getPermissions = async (req, res) => {
+    const withDesc = req.query.withDesc
+
     const permissions = await Constant.findOne({
-        key: "PERMISSIONS",
+        key: withDesc ? "PERMISSIONS_WITH_DESC" : "PERMISSIONS",
     })
 
     res.send(permissions)
