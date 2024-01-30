@@ -40,6 +40,11 @@ const taskSchema = new mongoose.Schema({
         maxlength: 100
     },
 
+    sandGain: {
+        type: Number,
+        required: true,
+    },
+
     desc: {
         type: String,
         minlength: 1,
