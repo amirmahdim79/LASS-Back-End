@@ -10,6 +10,8 @@ const { Milestone } = require('../../models/milestone');
 const { Task } = require('../../models/task');
 const { TaskStatus } = require('../../models/taskStatus');
 const { TASK_STATUS_FIELDS } = require('../../models/taskStatus/constants');
+const { ALLOWED_FORMATS } = require('../files/constants');
+const { UPLOAD } = require('../../utils/fileUpload');
 
 //post create task for a milestone(Sups)
 const postCreateTask = async (req, res) => {
@@ -60,12 +62,119 @@ const getTaskStatus = async (req, res) => {
     res.send(status)
 }
 
-const postDoTask = async (req, res) => {
+//do a paper task
+const postDoPaperTask = async (req, res) => {
+    const task = await Task.findOne({ _id: req.body.Task })
+    if (!task) return res.status(400).send(MESSAGES.TASK_NOT_FOUND)
 
+    let taskStatus = await TaskStatus.findOne({ Task: task.id, User: req.user._id })
+    if (!taskStatus) {
+        taskStatus = new TaskStatus({
+            Task: task.id,
+            User: req.user._id,
+        })
+
+        task.status.push(taskStatus._id)
+    }
+
+    taskStatus.status = true
+    taskStatus.doneDate = Date.now()
+    await taskStatus.save()
+
+    await task.save()
+
+    const user = await User.findById(req.user._id)
+    user.sand += task.sandGain
+    await user.save()
+
+    res.send({
+        Task: _.pick(task, TASK_FIELDS.INFO),
+        taskStatus: _.pick(taskStatus, TASK_STATUS_FIELDS.INFO)
+    })
+}
+
+//do an upload task
+const postUploadTask = async (req, res) => {
+    const task = await Task.findOne({ _id: req.body.Task })
+    if (!task) return res.status(400).send(MESSAGES.TASK_NOT_FOUND)
+
+    let taskStatus = await TaskStatus.findOne({ Task: task.id, User: req.user._id })
+    if (!taskStatus) {
+        taskStatus = new TaskStatus({
+            Task: task.id,
+            User: req.user._id,
+        })
+
+        task.status.push(taskStatus._id)
+    }
+
+    const file = req.file
+    if (!file) return res.status(400).json({ error: MESSAGES.NO_FILE });
+    if (!ALLOWED_FORMATS.includes(file.mimetype)) return res.status(400).json({ error: MESSAGES.BAD_FORMAT });
+
+    const fileName = file.originalname
+    const fileFormat = fileName.split('.').pop()
+    const fileAlias = crypto.randomBytes(6).toString('hex')
+
+    const upload_res = await UPLOAD(file, fileAlias + '.' + fileFormat, 'milestone_tasks')
+    if (!upload_res) return res.status(500).json({ error: MESSAGES.UPLOAD_FAILED });
+
+    const newFile = new File(_.pick(req.body, FILES_FIELD.CREATE))
+
+    newFile.name = req.body.name ?? fileName
+    newFile.url = UPLOAD_BASE + 'milestone_tasks/' + fileAlias + '.' + fileFormat
+    newFile.alias = fileAlias
+    newFile.size = file.size
+    newFile.format = fileFormat
+    newFile.type = 'milestone_tasks'
+
+    await newFile.save()
+
+    taskStatus.status = true
+    taskStatus.doneDate = Date.now()
+    taskStatus.File = newFile._id
+
+    await taskStatus.save()
+
+    const user = await User.findById(req.user._id)
+    user.sand += task.sandGain
+    await user.save()
+
+    res.send({
+        Task: _.pick(task, TASK_FIELDS.INFO),
+        taskStatus: _.pick(taskStatus, TASK_STATUS_FIELDS.INFO)
+    })
+}
+
+//get a task
+const getTask = async (req, res) => {
+    const task = await Task.findOne({ _id: req.query.id })
+    if (!task) return res.status(400).send(MESSAGES.TASK_NOT_FOUND)
+
+    let taskStatus = await TaskStatus.findOne({ Task: task.id, User: req.user._id })
+    if (!taskStatus) {
+        taskStatus = new TaskStatus({
+            Task: task.id,
+            User: req.user._id,
+        })
+
+        task.status.push(taskStatus._id)
+
+        await taskStatus.save()
+        await task.save()
+    }
+
+    res.send({
+        Task: _.pick(task, TASK_FIELDS.INFO),
+        taskStatus: _.pick(taskStatus, TASK_STATUS_FIELDS.INFO)
+    })
 }
 
 module.exports = {
     postCreateTask,
     completeTask,
     getTaskStatus,
+    postDoPaperTask,
+    getTask,
+    postUploadTask,
 }

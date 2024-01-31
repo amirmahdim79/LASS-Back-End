@@ -2,19 +2,22 @@ const TASK_STATUS_FIELDS = {
     CREATE: [
         'Task',
         'User',
-        'data'
+        'File',
     ],
     INFO: [
         'Task',
         'User',
-        'data',
         'Status',
         'doneDate',
+        'File',
         '_id',
     ],
     POPULATE: [
         {
             path: 'Milestone',
+        },
+        {
+            path: 'File',
         },
         {
             path: 'User',

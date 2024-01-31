@@ -28,8 +28,9 @@ const taskStatusSchema = new mongoose.Schema({
         type: Date,
     },
 
-    data: {
-        fileUrl: '',
+    File: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: MODELS.FILE,
     },
 
     isActive: {
