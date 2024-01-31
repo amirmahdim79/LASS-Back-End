@@ -14,6 +14,6 @@ const router = express.Router()
 router.post('/', hasPermissions(['lab']), postCreatePath)
 
 // Create new FULL Path
-router.post('/', hasPermissions(['lab']), postCreateFullPath)
+router.post('/full', hasPermissions(['lab']), postCreateFullPath)
 
 module.exports = router
