@@ -27,6 +27,17 @@ const SUPS_TASK_FIELDS = {
         },
         {
             path: 'Milestone',
+            populate: [
+                {
+                    path: 'Tasks',
+                    populate: {
+                        path: 'status',
+                    }
+                },
+                {
+                    path: 'status',
+                }
+            ],
         },
         {
             path: 'User',
