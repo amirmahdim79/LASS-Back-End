@@ -32,7 +32,13 @@ const MILESTONES_FIELD = {
     POPULATE: [
         {
             path: 'Tasks',
+            populate: {
+                path: 'status',
+            }
         },
+        {
+            path: 'status',
+        }
     ],
 }
 

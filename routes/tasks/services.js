@@ -14,6 +14,39 @@ const { TASK_STATUS_FIELDS } = require('../../models/taskStatus/constants');
 const { ALLOWED_FORMATS } = require('../files/constants');
 const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
 const { FILES_FIELD } = require('../../models/file/constant');
+const { MILESTONES_FIELD } = require('../milestones/constants');
+const { SupsTask } = require('../../models/supsTask');
+
+const isMilestoneComplete = async (userId, milestoneId) => {
+    const milestone = await Milestone.findById(milestoneId).populate(MILESTONES_FIELD.POPULATE)
+
+    let isDone = true
+    milestone.Tasks.forEach((task) => {
+        const taskStatus = task.status.find((stat) => {
+            return stat.User.equals(userId)
+        })
+        if (!taskStatus) isDone = false
+    })
+
+    return isDone
+}
+
+const createSupsTask = async (userId, milestoneId) => {
+    const milestone = await Milestone.findById(milestoneId)
+    const path = await Path.findById(milestone.Path)
+    const lab = await Lab.findById(path.Lab)
+
+    const supsTask = new SupsTask({
+        name: 'تایید مایلستون',
+        desc: 'لطفا پس از بررسی گزارشات و خروجی‌های دانشجویان به تایید یا عدم تایید عبور آنان از مایلستون بپردازید.',
+        Supervisor: lab.Supervisor,
+        User: userId,
+        Lab: lab._id,
+        Milestone: milestoneId,
+    })
+
+    await supsTask.save()
+}
 
 //post create task for a milestone(Sups)
 const postCreateTask = async (req, res) => {
@@ -85,6 +118,10 @@ const postDoPaperTask = async (req, res) => {
 
     await task.save()
 
+    if (await isMilestoneComplete(req.user._id, task.Milestone)) {
+        await createSupsTask(req.user._id, task.Milestone)
+    }
+
     // const user = await User.findById(req.user._id)
     // user.sand += task.sandGain
     // await user.save()
@@ -137,6 +174,10 @@ const postUploadTask = async (req, res) => {
     taskStatus.File = newFile._id
 
     await taskStatus.save()
+
+    if (await isMilestoneComplete(req.user._id, task.Milestone)) {
+        await createSupsTask(req.user._id, task.Milestone)
+    }
 
     // const user = await User.findById(req.user._id)
     // user.sand += task.sandGain
