@@ -12,7 +12,8 @@ const { Task } = require('../../models/task');
 const { TaskStatus } = require('../../models/taskStatus');
 const { TASK_STATUS_FIELDS } = require('../../models/taskStatus/constants');
 const { ALLOWED_FORMATS } = require('../files/constants');
-const { UPLOAD } = require('../../utils/fileUpload');
+const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
+const { FILES_FIELD } = require('../../models/file/constant');
 
 //post create task for a milestone(Sups)
 const postCreateTask = async (req, res) => {
