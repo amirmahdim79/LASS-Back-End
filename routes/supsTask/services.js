@@ -35,7 +35,7 @@ const getSupsTask = async (req, res) => {
     const supsTask = await SupsTask.findOne({
         Supervisor: req.user._id,
         _id: req.params.id,
-    })
+    }).populate(SUPS_TASK_FIELDS.POPULATE)
     if (!supsTask) res.status(400).send(MESSAGES.USER_TASK_NOT_FOUND)
 
     res.send(supsTask)
