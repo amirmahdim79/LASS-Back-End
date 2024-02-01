@@ -29,6 +29,7 @@ const FILES_FIELD = {
 const FILE_TYPES = [
     'paper',
     'report',
+    'milestone_tasks',
 ]
 
 module.exports = {
