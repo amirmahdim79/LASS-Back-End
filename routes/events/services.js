@@ -211,12 +211,26 @@ const getLabEvents = async (req, res) => {
     const events = await Event.find({
         ...dateFilter,
         Lab: lab._id,
+        isActive: true,
     }).populate(EVENT_FIELDS.POPULATE).select('-Initiator.password -Initiator.permissions')
 
     res.send(events)
 }
 
+//delete event
+const deleteEvent = async (req, res) => {
+    const event = await Event.findById(req.body.Event)
+    if (!event) return res.status(400).send(MESSAGES.EVENT_NOT_FOUND)
+
+    event.isActive = false
+
+    await event.save()
+
+    res.send("Event deleted successfully.")
+}
+
 module.exports = {
     postAddEvent,
     getLabEvents,
+    deleteEvent,
 }
