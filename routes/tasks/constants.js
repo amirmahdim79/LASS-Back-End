@@ -19,7 +19,7 @@ const TASK_FIELDS = {
         'activity',
         'name',
         'desc',
-        'sandGain',
+        // 'sandGain',
     ],
     CREATE_RES: [
         'Milestone',
@@ -30,7 +30,7 @@ const TASK_FIELDS = {
         'desc',
         'status',
         '_id',
-        'sandGain',
+        // 'sandGain',
     ],
     INFO: [
         'Milestone',
@@ -40,7 +40,7 @@ const TASK_FIELDS = {
         'name',
         'desc',
         'status',
-        'sandGain',
+        // 'sandGain',
         '_id',
     ],
     POPULATE: [

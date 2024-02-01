@@ -85,9 +85,9 @@ const postDoPaperTask = async (req, res) => {
 
     await task.save()
 
-    const user = await User.findById(req.user._id)
-    user.sand += task.sandGain
-    await user.save()
+    // const user = await User.findById(req.user._id)
+    // user.sand += task.sandGain
+    // await user.save()
 
     res.send({
         Task: _.pick(task, TASK_FIELDS.INFO),
@@ -138,9 +138,9 @@ const postUploadTask = async (req, res) => {
 
     await taskStatus.save()
 
-    const user = await User.findById(req.user._id)
-    user.sand += task.sandGain
-    await user.save()
+    // const user = await User.findById(req.user._id)
+    // user.sand += task.sandGain
+    // await user.save()
 
     res.send({
         Task: _.pick(task, TASK_FIELDS.INFO),

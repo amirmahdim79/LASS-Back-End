@@ -16,6 +16,7 @@ const MODELS = {
     REPORT: 'Report',
     CONSTANT: 'Constant',
     USER_TASK: 'UserTask',
+    SUPS_TASK: 'SupsTask',
 }
 
 const TYPES = ['undergrad', 'masters', 'phd', 'postDoc', 'intern']

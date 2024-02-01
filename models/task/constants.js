@@ -5,7 +5,7 @@ const TASK_TYPES = [
 
 const ACTIVITY_TYPES = [
     'upload',
-    'download',
+    'paper',
     'write-upload',
     'milestone',
 ]
