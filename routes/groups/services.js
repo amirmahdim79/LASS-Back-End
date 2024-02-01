@@ -74,9 +74,16 @@ const updateGroup = async (req, res) => {
     })
     if (!lab) return res.status(400).send(MESSAGES.NO_PERMISSION)
 
-    if (req.body.User) {
+    if (req.body.add) {
+        req.body.add.forEach((user) => {
+            if (!group.Users.includes(user)) {
+                group.Users.push(user)
+            }
+        })
+    }
+    if (req.body.remove) {
         group.Users = group.Users.filter((user) => {
-            return !user._id.equals(req.body.User)
+            return !req.body.remove.includes(user.toString())
         })
     }
     if (req.body.name) group.name = req.body.name
