@@ -7,6 +7,7 @@ const PATH_FIELDS = {
         'name',
         'desc',
         'typeDependency',
+        'sandGain',
     ],
     CREATE_RES: [
         'Lab',
@@ -14,6 +15,7 @@ const PATH_FIELDS = {
         'desc',
         'typeDependency',
         'url',
+        'sandGain',
         '_id',
     ],
     INFO: [
@@ -23,6 +25,7 @@ const PATH_FIELDS = {
         'typeDependency',
         'Milestones',
         'url',
+        'sandGain',
         '_id',
     ]
 }

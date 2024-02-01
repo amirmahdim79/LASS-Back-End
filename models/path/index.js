@@ -39,6 +39,12 @@ const pathSchema = new mongoose.Schema({
         default: []
     },
 
+    sandGain: {
+        type: Number,
+        default: 100,
+        required: true,
+    },
+
     url: {
         type: String,
         unique: true
