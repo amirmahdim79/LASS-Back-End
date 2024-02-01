@@ -41,7 +41,7 @@ const postCreateFullPath = async (req, res) => {
 
     let Milestones = req.body.Milestones
 
-    const path = new Path(_.pick(req.body.Path, PATH_FIELDS.CREATE))
+    const path = new Path(_.pick(req.body, PATH_FIELDS.CREATE))
     path.Lab = lab
 
     path.url = crypto.randomBytes(3).toString('hex')
