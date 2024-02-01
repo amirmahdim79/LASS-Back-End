@@ -24,6 +24,7 @@ const USER_FIELDS = {
         'email',
         'password',
         'sid',
+        'type',
     ],
     INFO: [
         '_id',
@@ -47,6 +48,7 @@ const USER_FIELDS = {
         'profilePicture',
         'type',
         'RecentFiles',
+        'sid',
     ],
     REFRENCES: [
         'Labs',

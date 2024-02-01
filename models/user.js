@@ -49,6 +49,7 @@ const userSchema = new mongoose.Schema({
     type: {
         type: String,
         enum: TYPES,
+        required: true,
     },
 
     url: {
@@ -84,6 +85,7 @@ const userSchema = new mongoose.Schema({
 
     sid: {
         type: Number,
+        required: true,
     }
 
 
