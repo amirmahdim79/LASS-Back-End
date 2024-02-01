@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const { S3Client, PutObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const bcrypt = require('bcrypt')
 const _ = require('lodash');
 const crypto = require('crypto');
@@ -7,6 +7,8 @@ const config = require('config');
 const { cleanUploadedFile } = require('./cleanUploadedFile');
 
 const UPLOAD_BASE = 'https://lass.s3.ir-thr-at1.arvanstorage.ir/'
+
+const BUCKET = 'lass'
 
 const s3 = new S3Client({
     region: 'default',
@@ -18,7 +20,7 @@ const s3 = new S3Client({
 })
 
 const uploadParams = {
-    Bucket: 'lass', // bucket name
+    Bucket: BUCKET, // bucket name
     Key: 'test', // the name of the selected file
     ACL: 'public-read', // 'private' | 'public-read'
     Body: 'BODY',
@@ -39,7 +41,24 @@ const UPLOAD = async (file, name, folder = '', deleteAfter = true) => {
     }
 };
 
+const DELETE = async (name, folder = '', format = '') => {
+    try {
+        const data = await s3.send(
+            new DeleteObjectCommand({
+                Bucket: BUCKET,
+                Key: folder + name + '.' + format,
+                // VersionId: 'version2.2',
+            })
+        );
+        return data
+    } catch (err) {
+        console.log(err)
+        return false
+    }
+};
+
 module.exports = {
     UPLOAD,
     UPLOAD_BASE,
+    DELETE,
 }

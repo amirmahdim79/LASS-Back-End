@@ -32,6 +32,11 @@ const SUPS_TASK_FIELDS = {
                     path: 'Tasks',
                     populate: {
                         path: 'status',
+                        populate: [
+                            {
+                                path: 'File'
+                            }
+                        ]
                     }
                 },
                 {

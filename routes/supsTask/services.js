@@ -25,6 +25,7 @@ const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 const getSupsTasks = async (req, res) => {
     const supsTasks = await SupsTask.find({
         Supervisor: req.user._id,
+        status: false,
     }).populate(SUPS_TASK_FIELDS.POPULATE)
 
     res.send(supsTasks)
@@ -41,7 +42,19 @@ const getSupsTask = async (req, res) => {
     res.send(supsTask)
 }
 
+//accept a milestone
+const acceptMilestone = async (req, res) => {
+
+}
+
+//reject a milestone
+const rejectMilestone = async (req, res) => {
+
+}
+
 module.exports = {
     getSupsTasks,
     getSupsTask,
+    acceptMilestone,
+    rejectMilestone,
 }
