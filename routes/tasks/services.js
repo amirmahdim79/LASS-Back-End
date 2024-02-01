@@ -6,6 +6,7 @@ const { TASK_FIELDS, MESSAGES } = require('./constants');
 const { Lab } = require('../../models/lab');
 const { Supervisor } = require('../../models/supervisor');
 const { Path } = require('../../models/path');
+const { File } = require('../../models/file');
 const { Milestone } = require('../../models/milestone');
 const { Task } = require('../../models/task');
 const { TaskStatus } = require('../../models/taskStatus');
