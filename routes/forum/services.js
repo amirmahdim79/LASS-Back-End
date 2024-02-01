@@ -12,6 +12,7 @@ const { FORUM_FIELDS } = require('../../models/forum/constatns');
 const { MESSAGE_FIELDS } = require('../../models/message/constatns');
 const { MODELS } = require('../../constant/models');
 const { Supervisor } = require('../../models/supervisor');
+const { PresenceForm } = require('../../models/presenceForm');
 const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 
 function extractEmails(text, emails, matchEmail) {
@@ -146,9 +147,46 @@ const getForum = async (req, res) => {
     res.send(forum)
 }
 
+//create new forum
+const createForum = async (req, res) => {
+    const lab = await Lab.findOne({
+        _id: req.body.Lab
+    })
+    if (!lab) return res.status(400).send(MESSAGES.LAB_NOT_FOUND)
+
+    const forum = new Forum({
+        name: req.body.name,
+        desc: req.body.desc,
+        Users: req.body.Collaborators,
+        Lab: lab._id,
+        start: req.body.start,
+        Supervisor: lab.Supervisor,
+    })
+
+    const presenceList = {}
+    req.body.Collaborators.forEach(id => {
+        presenceList[id] = { status: 'present' }
+    })
+
+    const presenceForm = new PresenceForm({
+        Forum: forum._id,
+        list: presenceList,
+    })
+
+    forum.PresenceForm = presenceForm._id
+
+    await forum.save()
+    await presenceForm.save()
+
+    await forum.populate(FORUM_FIELDS.POPULATE)
+
+    res.send(forum)
+}
+
 module.exports = {
     getLabForums,
     getForums,
     sendMessage,
     getForum,
+    createForum,
 }

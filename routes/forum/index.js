@@ -7,13 +7,14 @@ const {
     getForums,
     sendMessage,
     getForum,
+    createForum,
 }
 = require('./services');
 
 const router = express.Router()
 
-// Create new group
-// router.post('/', isSupervisor, createGroup)
+// Create new forum
+router.post('/', hasPermissions(['forums']), createForum)
 
 // Get lab forums
 router.get('/:lab', auth, hasPermissions(['forums']), getLabForums)
