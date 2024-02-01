@@ -19,6 +19,8 @@ const { USER_TASK_FIELDS } = require('../../models/userTask/constatns');
 const { FILES_FIELD } = require('../../models/file/constant');
 const { SupsTask } = require('../../models/supsTask');
 const { SUPS_TASK_FIELDS } = require('../../models/supsTask/constatns');
+const { Milestone } = require('../../models/milestone');
+const { MilestoneStatus } = require('../../models/milestoneStatus');
 const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 
 //get sups tasks
@@ -44,12 +46,24 @@ const getSupsTask = async (req, res) => {
 
 //accept a milestone
 const acceptMilestone = async (req, res) => {
+    const milestone = await Milestone.findById(req.body.Milestone)
+    if (!milestone) res.status(404).send(MESSAGES.MILESTONE_NOT_FOUND)
 
+    const newMilestoneStatus = new MilestoneStatus({
+        Milestone: milestone.id,
+        User: req.user._id,
+        doneDate: Date.now(),
+    })
+
+    await newMilestoneStatus.save()
+
+    milestone.status.push(newMilestoneStatus._id)
+    await milestone.save()
 }
 
 //reject a milestone
 const rejectMilestone = async (req, res) => {
-
+    
 }
 
 module.exports = {

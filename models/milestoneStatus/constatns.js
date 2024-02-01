@@ -2,7 +2,8 @@ const MILESTONE_STATUS_FIELDS = {
     CREATE: [
         'Milestone',
         'User',
-        'Data'
+        'Data',
+        'doneDate',
     ],
     INFO: [
         'Milestone',
