@@ -17,7 +17,6 @@ const { EMAIL_TEMPLATE_NAMES } = require('../../utils/mailMan/constants');
 const { USER_FIELDS } = require('../users/constants');
 const { Constant } = require('../../models/constant');
 const { UserTask } = require('../../models/userTask');
-const { LIST_DOCS } = require('../../utils/documentHandler');
 
 //post create cup for user(Admin)
 const postCreateLab = async (req, res) => {
@@ -102,8 +101,6 @@ const getMyLab_sups = async (req, res) => {
 
         lab.Paths = [userPath]
     }
-
-    // LIST_DOCS()
 
     res.send(lab)
 }

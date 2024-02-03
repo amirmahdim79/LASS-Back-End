@@ -18,6 +18,7 @@ const MODELS = {
     USER_TASK: 'UserTask',
     SUPS_TASK: 'SupsTask',
     ACTIVITY: 'Activity',
+    DOCUMENT: 'Document',
 }
 
 const TYPES = ['undergrad', 'masters', 'phd', 'postDoc', 'intern']
