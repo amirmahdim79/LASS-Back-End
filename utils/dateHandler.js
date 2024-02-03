@@ -4,6 +4,8 @@ require('moment-timezone');
 // Set the timezone to Iran
 moment.tz.setDefault('Asia/Tehran');
 
+const momentJalali = require('moment-jalaali');
+
 moment.updateLocale('en', {
     week: {
         dow: 6, // Saturday
@@ -136,6 +138,7 @@ const generateMonthlyDates = (start, target, dayOfMonth = null) => {
 
 module.exports = {
     MOMENT: moment,
+    MOMENT_JALALI: momentJalali,
     isNextDay,
     isSameDay,
     isToday,
