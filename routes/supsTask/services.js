@@ -48,6 +48,12 @@ const getSupsTask = async (req, res) => {
 
 //accept a milestone
 const acceptMilestone = async (req, res) => {
+    const supsTask = await SupsTask.findOne({
+        _id: req.body.taskId,
+        Supervisor: req.user._id
+    })
+    if (!supsTask) res.status(404).send(MESSAGES.TASK_NOT_FOUND)
+
     const milestone = await Milestone.findById(req.body.Milestone)
     if (!milestone) res.status(404).send(MESSAGES.MILESTONE_NOT_FOUND)
 
@@ -68,6 +74,9 @@ const acceptMilestone = async (req, res) => {
 
     milestone.status.push(newMilestoneStatus._id)
     await milestone.save()
+
+    supsTask.status = true
+    await supsTask.save()
 
     CREATE_NEW_ACTIVITY(
         user._id,
