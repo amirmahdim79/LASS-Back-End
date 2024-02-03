@@ -17,6 +17,8 @@ const { UserTask } = require('../../models/userTask');
 const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
 const { USER_TASK_FIELDS } = require('../../models/userTask/constatns');
 const { FILES_FIELD } = require('../../models/file/constant');
+const { CREATE_NEW_ACTIVITY } = require('../../utils/activityHandler');
+const { ACTIVITIES } = require('../../constant/activities');
 const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 
 //do a upload task
@@ -60,6 +62,12 @@ const doUploadTask = async (req, res) => {
     user.smarties += userTask.smarties
     await user.save()
 
+    CREATE_NEW_ACTIVITY(
+        req.user._id,
+        ACTIVITIES.DO_TASK_UPLOAD.KEY,
+        ACTIVITIES.DO_TASK_UPLOAD.TEXT,
+    )
+
     res.send(_.pick(userTask, USER_TASK_FIELDS.INFO))
 }
 
@@ -78,6 +86,12 @@ const doPaperTask = async (req, res) => {
     const user = await User.findById(req.user._id)
     user.smarties += userTask.smarties
     await user.save()
+
+    CREATE_NEW_ACTIVITY(
+        req.user._id,
+        ACTIVITIES.DO_TASK_PAPER.KEY,
+        ACTIVITIES.DO_TASK_PAPER.TEXT,
+    )
 
     res.send(_.pick(userTask, USER_TASK_FIELDS.INFO))
 }

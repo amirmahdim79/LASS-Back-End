@@ -21,6 +21,7 @@ const { SupsTask } = require('../../models/supsTask');
 const { SUPS_TASK_FIELDS } = require('../../models/supsTask/constatns');
 const { Milestone } = require('../../models/milestone');
 const { MilestoneStatus } = require('../../models/milestoneStatus');
+const { CREATE_NEW_ACTIVITY } = require('../../utils/activityHandler');
 const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 
 //get sups tasks
@@ -49,9 +50,12 @@ const acceptMilestone = async (req, res) => {
     const milestone = await Milestone.findById(req.body.Milestone)
     if (!milestone) res.status(404).send(MESSAGES.MILESTONE_NOT_FOUND)
 
+    const user = await User.findById(req.body.User)
+    if (!user) res.status(404).send(MESSAGES.USER_NOT_FOUND)
+
     const newMilestoneStatus = new MilestoneStatus({
         Milestone: milestone.id,
-        User: req.user._id,
+        User: user._id,
         doneDate: Date.now(),
     })
 
@@ -59,6 +63,14 @@ const acceptMilestone = async (req, res) => {
 
     milestone.status.push(newMilestoneStatus._id)
     await milestone.save()
+
+    CREATE_NEW_ACTIVITY(
+        user._id,
+        ACTIVITIES.COMPELETE_MILESTONE.KEY,
+        ACTIVITIES.COMPELETE_MILESTONE.TEXT,
+    )
+
+    res.send("Milestone accepted.")
 }
 
 //reject a milestone

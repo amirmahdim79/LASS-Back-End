@@ -17,6 +17,7 @@ const MESSAGES = {
     NO_FILE: 'You must upload a file.',
     BAD_FORMAT: 'Bad format.',
     UPLOAD_FAILED: 'Upload failed',
+    USER_NOT_FOUND: 'User not found',
 }
 
 const ALLOWED_FORMATS = [
