@@ -65,7 +65,7 @@ const getForums = async (req, res) => {
     const forums = await Forum.find({
         Lab: req.params.lab,
         isActive: true,
-        Collaborators: { $in: [req.user._id] }
+        Users: { $in: [req.user._id] }
     }).populate(FORUM_FIELDS.POPULATE)
 
     res.send(forums)
