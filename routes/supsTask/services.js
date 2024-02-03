@@ -22,6 +22,7 @@ const { SUPS_TASK_FIELDS } = require('../../models/supsTask/constatns');
 const { Milestone } = require('../../models/milestone');
 const { MilestoneStatus } = require('../../models/milestoneStatus');
 const { CREATE_NEW_ACTIVITY } = require('../../utils/activityHandler');
+const { ACTIVITIES } = require('../../constant/activities');
 const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 
 //get sups tasks

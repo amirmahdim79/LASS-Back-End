@@ -11,6 +11,8 @@ const { generateRandNum } = require('../../utils/randomNumberGen');
 const crypto = require('crypto');
 const { Tag } = require('../../models/tag');
 const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
+const { CREATE_NEW_ACTIVITY } = require('../../utils/activityHandler');
+const { ACTIVITIES } = require('../../constant/activities');
 
 // const transporter = nodemailer.createTransport({
 //     service: config.get('email_service'),
@@ -76,6 +78,12 @@ const addRecentFile = async (req, res) => {
     await user.save()
 
     await user.populate('RecentFiles')
+
+    CREATE_NEW_ACTIVITY(
+        user._id,
+        ACTIVITIES.DOWNLOAD_PAPER.KEY,
+        ACTIVITIES.DOWNLOAD_PAPER.TEXT,
+    )
 
     res.send(user.RecentFiles.filter(file => {
         return file.isActive

@@ -15,6 +15,10 @@ const ACTIVITIES = {
         KEY: 'OPEN_FORUM',
         TEXT: 'وارد فوروم شد',
     },
+    DOWNLOAD_PAPER: {
+        KEY: 'DOWNLOAD_PAPER',
+        TEXT: 'مقاله دانلود کرد',
+    },
     DEF: {
         KEY: '',
         TEXT: '',

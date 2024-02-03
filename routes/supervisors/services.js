@@ -12,6 +12,8 @@ const { File } = require('../../models/file');
 const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
 const { User } = require('../../models/user');
 const { USER_FIELDS } = require('../users/constants');
+const { ACTIVITIES } = require('../../constant/activities');
+const { CREATE_NEW_ACTIVITY } = require('../../utils/activityHandler');
 
 // const transporter = nodemailer.createTransport({
 //     service: config.get('email_service'),
@@ -57,6 +59,12 @@ const addRecentFile = async (req, res) => {
     await supervisor.save()
 
     await supervisor.populate('RecentFiles')
+
+    CREATE_NEW_ACTIVITY(
+        req.user._id,
+        ACTIVITIES.DOWNLOAD_PAPER.KEY,
+        ACTIVITIES.DOWNLOAD_PAPER.TEXT,
+    )
 
     res.send(supervisor.RecentFiles.filter(file => {
         return file.isActive

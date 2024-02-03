@@ -14,6 +14,7 @@ const { MODELS } = require('../../constant/models');
 const { Supervisor } = require('../../models/supervisor');
 const { PresenceForm } = require('../../models/presenceForm');
 const { CREATE_NEW_ACTIVITY } = require('../../utils/activityHandler');
+const { ACTIVITIES } = require('../../constant/activities');
 const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 
 function extractEmails(text, emails, matchEmail) {
