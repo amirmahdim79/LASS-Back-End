@@ -11,6 +11,14 @@ const ACTIVITIES = {
         KEY: 'COMPELETE_MILESTONE',
         TEXT: 'مایل استون را تکمیل کرد',
     },
+    OPEN_FORUM: {
+        KEY: 'OPEN_FORUM',
+        TEXT: 'وارد فوروم شد',
+    },
+    DEF: {
+        KEY: '',
+        TEXT: '',
+    }
 }
 
 module.exports = {

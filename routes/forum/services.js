@@ -13,6 +13,7 @@ const { MESSAGE_FIELDS } = require('../../models/message/constatns');
 const { MODELS } = require('../../constant/models');
 const { Supervisor } = require('../../models/supervisor');
 const { PresenceForm } = require('../../models/presenceForm');
+const { CREATE_NEW_ACTIVITY } = require('../../utils/activityHandler');
 const MAIL_MAN = require('../../utils/mailMan/mailMan')();
 
 function extractEmails(text, emails, matchEmail) {
@@ -143,6 +144,12 @@ const getForum = async (req, res) => {
     await forum.save()
 
     await forum.populate(FORUM_FIELDS.POPULATE)
+
+    CREATE_NEW_ACTIVITY(
+        req.user._id,
+        ACTIVITIES.OPEN_FORUM.KEY,
+        ACTIVITIES.OPEN_FORUM.TEXT,
+    )
 
     res.send(forum)
 }
