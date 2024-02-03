@@ -45,7 +45,7 @@ const getStudentsLastActivity = async (req, res) => {
         const latestActivity = await Activity.findOne({ User: student._id })
             .sort({ updatedAt: -1 })
     
-        idMap[student._id] = latestActivity ?? ''
+        idMap[student._id] = latestActivity ?? {text: '', key: ''}
     });
     
     Promise.all(promises)
