@@ -103,7 +103,7 @@ const getMyLab_sups = async (req, res) => {
         lab.Paths = [userPath]
     }
 
-    LIST_DOCS()
+    // LIST_DOCS()
 
     res.send(lab)
 }
