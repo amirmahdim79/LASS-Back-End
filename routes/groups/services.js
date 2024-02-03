@@ -87,6 +87,9 @@ const updateGroup = async (req, res) => {
         })
     }
     if (req.body.name) group.name = req.body.name
+    if (req.body.final) {
+        group.Users = req.body.final
+    }
 
     await group.save()
 
