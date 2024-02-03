@@ -1,4 +1,4 @@
-const GROUP_FIELDS = {
+const ACTIVITY_MODEL_FIELDS = {
     CREATE: [
         'User',
         'Lab',
@@ -23,5 +23,5 @@ const GROUP_FIELDS = {
 }
 
 module.exports = { 
-    GROUP_FIELDS
+    ACTIVITY_MODEL_FIELDS
 }
