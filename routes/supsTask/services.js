@@ -54,7 +54,7 @@ const acceptMilestone = async (req, res) => {
     const user = await User.findById(req.body.User)
     if (!user) res.status(404).send(MESSAGES.USER_NOT_FOUND)
 
-    const lab = await Lab.find({
+    const lab = await Lab.findOne({
         Supervisor: req.user._id
     })
 
