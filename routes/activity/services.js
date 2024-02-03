@@ -35,8 +35,28 @@ const getMyActivity = async (req, res) => {
     res.send(userActivies)
 }
 
+//students last activity
+const getStudentsLastActivity = async (req, res) => {
+    const lab = await Lab.findById(req.query.lab)
+    if (!lab) res.status(404).send(MESSAGES.LAB_NOT_FOUND)
+
+    const idMap = {}
+    const promises = lab.Students.map(async (student) => {
+        const latestActivity = await Activity.findOne({ User: student._id })
+            .sort({ updatedAt: -1 })
+    
+        idMap[student._id] = latestActivity ?? ''
+    });
+    
+    Promise.all(promises)
+        .then(() => {
+            res.send(idMap)
+        })
+}
+
 module.exports = {
     createNewActivity,
     getUserActivities,
     getMyActivity,
+    getStudentsLastActivity,
 }
