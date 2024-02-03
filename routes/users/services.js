@@ -81,6 +81,7 @@ const addRecentFile = async (req, res) => {
 
     CREATE_NEW_ACTIVITY(
         user._id,
+        req.body.Lab,
         ACTIVITIES.DOWNLOAD_PAPER.KEY,
         ACTIVITIES.DOWNLOAD_PAPER.TEXT,
     )

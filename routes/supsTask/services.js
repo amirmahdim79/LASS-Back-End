@@ -54,6 +54,10 @@ const acceptMilestone = async (req, res) => {
     const user = await User.findById(req.body.User)
     if (!user) res.status(404).send(MESSAGES.USER_NOT_FOUND)
 
+    const lab = await Lab.find({
+        Supervisor: req.user._id
+    })
+
     const newMilestoneStatus = new MilestoneStatus({
         Milestone: milestone.id,
         User: user._id,
@@ -67,6 +71,7 @@ const acceptMilestone = async (req, res) => {
 
     CREATE_NEW_ACTIVITY(
         user._id,
+        lab._id,
         ACTIVITIES.COMPELETE_MILESTONE.KEY,
         ACTIVITIES.COMPELETE_MILESTONE.TEXT,
     )

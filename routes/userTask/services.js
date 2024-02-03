@@ -64,6 +64,7 @@ const doUploadTask = async (req, res) => {
 
     CREATE_NEW_ACTIVITY(
         req.user._id,
+        userTask.Lab,
         ACTIVITIES.DO_TASK_UPLOAD.KEY,
         ACTIVITIES.DO_TASK_UPLOAD.TEXT,
     )
@@ -89,6 +90,7 @@ const doPaperTask = async (req, res) => {
 
     CREATE_NEW_ACTIVITY(
         req.user._id,
+        userTask.Lab,
         ACTIVITIES.DO_TASK_PAPER.KEY,
         ACTIVITIES.DO_TASK_PAPER.TEXT,
     )

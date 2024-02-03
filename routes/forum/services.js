@@ -144,13 +144,14 @@ const getForum = async (req, res) => {
 
     await forum.save()
 
-    await forum.populate(FORUM_FIELDS.POPULATE)
-
     CREATE_NEW_ACTIVITY(
         req.user._id,
+        forum.Lab,
         ACTIVITIES.OPEN_FORUM.KEY,
         ACTIVITIES.OPEN_FORUM.TEXT,
     )
+
+    await forum.populate(FORUM_FIELDS.POPULATE)
 
     res.send(forum)
 }

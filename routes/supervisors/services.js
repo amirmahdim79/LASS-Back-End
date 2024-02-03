@@ -14,6 +14,7 @@ const { User } = require('../../models/user');
 const { USER_FIELDS } = require('../users/constants');
 const { ACTIVITIES } = require('../../constant/activities');
 const { CREATE_NEW_ACTIVITY } = require('../../utils/activityHandler');
+const { Lab } = require('../../models/lab');
 
 // const transporter = nodemailer.createTransport({
 //     service: config.get('email_service'),
@@ -46,6 +47,10 @@ const addRecentFile = async (req, res) => {
     const supervisor = await Supervisor.findOne({_id: req.user._id})
     if (!supervisor) return res.status(400).send(MESSAGES.USER_NOT_FOUND)
 
+    const lab = await Lab.findOne({
+        Supervisor: supervisor._id
+    })
+
     const file = await File.findOne({_id: req.body.File, isActive: true})
     if (!file) return res.status(400).send(MESSAGES.FILE_NOT_FOUND)
 
@@ -62,6 +67,7 @@ const addRecentFile = async (req, res) => {
 
     CREATE_NEW_ACTIVITY(
         req.user._id,
+        lab._id,
         ACTIVITIES.DOWNLOAD_PAPER.KEY,
         ACTIVITIES.DOWNLOAD_PAPER.TEXT,
     )
