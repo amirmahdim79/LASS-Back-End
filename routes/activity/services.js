@@ -17,6 +17,26 @@ const createNewActivity = async (req, res) => {
     res.send(_.pick(activity, ACTIVITY_MODEL_FIELDS.INFO))
 }
 
+//get a user activity
+const getUserActivities = async (req, res) => {
+    const userActivies = await Activity.find({
+        User: req.query.User
+    }).populate(ACTIVITY_MODEL_FIELDS.POPULATE)
+
+    res.send(userActivies)
+}
+
+//get my activity
+const getMyActivity = async (req, res) => {
+    const userActivies = await Activity.find({
+        User: req.user._id
+    }).populate(ACTIVITY_MODEL_FIELDS.POPULATE)
+
+    res.send(userActivies)
+}
+
 module.exports = {
     createNewActivity,
+    getUserActivities,
+    getMyActivity,
 }
