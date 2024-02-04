@@ -85,6 +85,9 @@ const acceptMilestone = async (req, res) => {
         ACTIVITIES.COMPELETE_MILESTONE.TEXT,
     )
 
+    user.sand += milestone.sandGain
+    await user.save()
+
     res.send("Milestone accepted.")
 }
 
