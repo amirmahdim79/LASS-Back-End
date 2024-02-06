@@ -19,6 +19,7 @@ const MODELS = {
     SUPS_TASK: 'SupsTask',
     ACTIVITY: 'Activity',
     DOCUMENT: 'Document',
+    BOUNTY: 'Bounty',
 }
 
 const TYPES = ['undergrad', 'masters', 'phd', 'postDoc', 'intern']
