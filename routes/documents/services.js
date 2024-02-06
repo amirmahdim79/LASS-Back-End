@@ -62,7 +62,7 @@ const getDocuments = async (req, res) => {
                     { Supervisor: req.user._id },
                     { Users: { $in: [req.user._id] } }
                 ]},
-                { Lab: req.body.Lab }
+                { Lab: req.query.lab }
             ]
         }).populate(DOCUMENT_FIELDS.POPULATE).sort({ createdAt: -1 })
     }
