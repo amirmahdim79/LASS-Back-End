@@ -20,6 +20,7 @@ const MODELS = {
     ACTIVITY: 'Activity',
     DOCUMENT: 'Document',
     BOUNTY: 'Bounty',
+    NOTIFICATION: 'Notification',
 }
 
 const TYPES = ['undergrad', 'masters', 'phd', 'postDoc', 'intern']
