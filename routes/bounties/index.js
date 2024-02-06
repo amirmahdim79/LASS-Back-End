@@ -5,6 +5,8 @@ const express = require('express');
 const {
     createNewBounty,
     getBounties,
+    getBounty,
+    deleteBounty,
 }
 = require('./services');
 const labCheck = require('../../middleware/labCheck');
@@ -16,5 +18,11 @@ router.post('/', auth, hasPermissions(['bounties']), createNewBounty)
 
 // get bounty list
 router.get('/', auth, labCheck, getBounties)
+
+// get a bounty
+router.get('/info', auth, labCheck, getBounty)
+
+// delete a bounty
+router.post('/delete', auth, labCheck, deleteBounty)
 
 module.exports = router

@@ -35,7 +35,33 @@ const getBounties = async (req, res) => {
     res.send(bounties)
 }
 
+//get one bounty
+const getBounty = async (req, res) => {
+    const bounty = await Bounty.findOne({
+        Lab: req.query.lab,
+        _id: req.query.id
+    }).populate(BOUNTY_FIELDS.POPULATE)
+
+    res.send(bounty)
+}
+
+//delete one bounty
+const deleteBounty = async (req, res) => {
+    const bounty = await Bounty.findOne({
+        Lab: req.query.lab,
+        _id: req.query.id
+    }).populate(BOUNTY_FIELDS.POPULATE)
+
+    bounty.isActive = false
+
+    await bounty.save()
+
+    res.send('Deleted successfuly')
+}
+
 module.exports = {
     createNewBounty,
     getBounties,
+    getBounty,
+    deleteBounty,
 }
