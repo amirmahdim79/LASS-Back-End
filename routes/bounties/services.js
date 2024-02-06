@@ -10,7 +10,7 @@ const { Activity } = require('../../models/activity');
 const { Bounty } = require('../../models/bounty');
 const { BOUNTY_FIELDS } = require('../../models/bounty/constatns');
 
-//create group
+//create bounty
 const createNewBounty = async (req, res) => {
     const PotentialList = req.body.PotentialList
     if (!PotentialList || PotentialList?.length < 1) return res.status(400).send(MESSAGES.POTENTIAL_LIST)
@@ -20,6 +20,22 @@ const createNewBounty = async (req, res) => {
     res.send(_.pick(bounty, BOUNTY_FIELDS.INFO))
 }
 
+//get all bounties
+const getBounties = async (req, res) => {
+    const status = req.query.status
+
+    const baseQuery = {
+        Lab: req.query.lab,
+        isActive: true,
+        ...(status && { status })
+    };
+
+    const bounties = await Bounty.find(baseQuery).populate(BOUNTY_FIELDS.POPULATE)
+
+    res.send(bounties)
+}
+
 module.exports = {
     createNewBounty,
+    getBounties,
 }

@@ -22,11 +22,11 @@ const BOUNTY_FIELDS = {
     POPULATE: [
         {
             path: 'User',
-            select: '-password -permissions',
+            select: '-password -permissions -RecentFiles',
         },
         {
             path: 'PotentialList',
-            select: '-password -permissions',
+            select: '-password -permissions -RecentFiles',
         },
         {
             path: 'File',
