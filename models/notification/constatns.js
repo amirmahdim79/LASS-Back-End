@@ -11,12 +11,12 @@ const NOTIFICATION_FIELDS = {
         'read',
         '_id',
     ],
-    POPULATE: [
-        {
-            path: 'User',
-            select: '-password -permissions -RecentFiles',
-        },
-    ],
+    // POPULATE: [
+    //     {
+    //         path: 'User',
+    //         select: '-password -permissions -RecentFiles',
+    //     },
+    // ],
 }
 
 module.exports = { 

@@ -8,7 +8,7 @@ const crypto = require('crypto');
 
 const notificationSchema = new mongoose.Schema({
     User: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.Mixed,
         ref: MODELS.USER,
         required: true,
     },
