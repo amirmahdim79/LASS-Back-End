@@ -13,6 +13,7 @@ const { Tag } = require('../../models/tag');
 const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
 const { CREATE_NEW_ACTIVITY } = require('../../utils/activityHandler');
 const { ACTIVITIES } = require('../../constant/activities');
+const { Path } = require('../../models/path');
 
 //validation
 const validate = (req) => {
@@ -32,6 +33,11 @@ const postCreateUser = async (req, res) => {
     const exsistingUser = await User.findOne({email: req.body.email})
     if (exsistingUser) return res.status(400).send(MESSAGES.ALREADY_REGISTERED)
     const user = new User(_.pick(req.body, USER_FIELDS.SIGNUP))
+
+    const path = await Path.findOne({
+        typeDependency: req.body.type
+    })
+    if (path) user.sand = sandGain
 
     const salt = await bcrypt.genSalt(10)
     user.password = await bcrypt.hash(user.password, salt)
