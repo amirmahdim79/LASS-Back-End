@@ -16,14 +16,6 @@ const { ACTIVITIES } = require('../../constant/activities');
 const { CREATE_NEW_ACTIVITY } = require('../../utils/activityHandler');
 const { Lab } = require('../../models/lab');
 
-// const transporter = nodemailer.createTransport({
-//     service: config.get('email_service'),
-//     auth: {
-//         user: config.get('email_address'),
-//         pass: config.get('email_password')
-//     }
-// })
-
 const postCreateSupervisor = async (req, res) => {
     const { error } = validateSupervisor(req.body)
     if (error) return res.status(400).send(error.details[0].message)

@@ -14,16 +14,21 @@ const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
 const { CREATE_NEW_ACTIVITY } = require('../../utils/activityHandler');
 const { ACTIVITIES } = require('../../constant/activities');
 
-// const transporter = nodemailer.createTransport({
-//     service: config.get('email_service'),
-//     auth: {
-//         user: config.get('email_address'),
-//         pass: config.get('email_password')
-//     }
-// })
+//validation
+const validate = (req) => {
+    const schema = Joi.object({
+        email: Joi.string().min(5).max(255).required().email(),
+        password: Joi.string().min(8).required()
+    })
+
+    return schema.validate(req)
+}
 
 //post create user
 const postCreateUser = async (req, res) => {
+    const { error } = validate(req.body)
+    if (error) return res.status(400).send(error.details[0].message)
+    
     const exsistingUser = await User.findOne({email: req.body.email})
     if (exsistingUser) return res.status(400).send(MESSAGES.ALREADY_REGISTERED)
     const user = new User(_.pick(req.body, USER_FIELDS.SIGNUP))
