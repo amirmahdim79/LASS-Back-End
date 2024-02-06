@@ -27,6 +27,7 @@ const userTask = require('../routes/userTask')
 const supsTask = require('../routes/supsTask')
 const activity = require('../routes/activity')
 const documents = require('../routes/documents')
+const bounties = require('../routes/bounties')
 
 module.exports = (app) => {
     //Middlewares
@@ -69,6 +70,7 @@ module.exports = (app) => {
     app.use('/api-lass/supsTasks', supsTask)
     app.use('/api-lass/activity', activity)
     app.use('/api-lass/documents', documents)
+    app.use('/api-lass/bounties', bounties)
 
     //Custom middlewares
     app.use(logger)

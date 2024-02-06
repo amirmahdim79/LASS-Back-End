@@ -49,7 +49,9 @@ const bountySchema = new mongoose.Schema({
     },
 
     status: {
+        type: String,
         enum: BOUNTY_TYPES,
+        default: 'none',
         required: true,
     },
 

@@ -1,13 +1,11 @@
 const BOUNTY_FIELDS = {
     CREATE: [
-        'User',
         'Lab',
         'PotentialList',
         'name',
         'smarties',
         'desc',
         'hasFile',
-        'status',
     ],
     INFO: [
         'User',
