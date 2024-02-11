@@ -223,7 +223,7 @@ const getUserInfo = async (req, res) => {
 
     res.send({
         ..._.pick(student, USER_FIELDS.INFO),
-        path: userPath,
+        path: [userPath],
     })
 }
 
