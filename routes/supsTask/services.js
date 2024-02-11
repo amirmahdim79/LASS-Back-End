@@ -65,6 +65,7 @@ const acceptMilestone = async (req, res) => {
     })
 
     const newMilestoneStatus = new MilestoneStatus({
+        status: true,
         Milestone: milestone.id,
         User: user._id,
         doneDate: Date.now(),
