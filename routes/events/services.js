@@ -35,14 +35,14 @@ const postAddEvent = async (req, res) => {
     const taskType = req.body.taskType ?? false
     if (req.body.hasOwnProperty('taskType') && !req.body.hasOwnProperty('smarties')) return res.status(400).send(MESSAGES.TASK_SMARTIES)
 
-    // const overlap = await Event.find({
-    //     $or: [
-    //         { start: { $lt: req.body.end }, end: { $gt: req.body.start } }, // Event starts before 'end' and ends after 'start'
-    //         { start: { $gte: req.body.start, $lt: req.body.end } },             // Event starts between 'start' and 'end'
-    //         { end: { $gt: req.body.start, $lte: req.body.end } },               // Event ends between 'start' and 'end'
-    //     ],
-    // })
-    // if (overlap.length > 0) return res.status(400).send(MESSAGES.EVENT_HAS_OVERLAP)
+    const overlap = await Event.find({
+        $or: [
+            { start: { $lt: req.body.end }, end: { $gt: req.body.start } }, // Event starts before 'end' and ends after 'start'
+            { start: { $gte: req.body.start, $lt: req.body.end } },             // Event starts between 'start' and 'end'
+            { end: { $gt: req.body.start, $lte: req.body.end } },               // Event ends between 'start' and 'end'
+        ],
+    })
+    if (overlap.length > 0) return res.status(400).send(MESSAGES.EVENT_HAS_OVERLAP)
 
     let Initiator = await Supervisor.findById(req.user._id)
     if (!Initiator) {
