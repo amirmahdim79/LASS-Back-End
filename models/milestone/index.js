@@ -29,6 +29,11 @@ const milestoneSchema = new mongoose.Schema({
         maxlength: 300
     },
 
+    sandGain: {
+        type: Number,
+        required: true,
+    },
+
     status: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: SUBMODELS.MILESTONE_STATUS
