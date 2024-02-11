@@ -64,16 +64,24 @@ const acceptMilestone = async (req, res) => {
         Supervisor: req.user._id
     })
 
-    const newMilestoneStatus = new MilestoneStatus({
-        status: true,
+    let newMilestoneStatus = await MilestoneStatus.findOne({
         Milestone: milestone.id,
         User: user._id,
-        doneDate: Date.now(),
     })
+
+    if (!newMilestoneStatus) {
+        newMilestoneStatus = new MilestoneStatus({
+            status: true,
+            Milestone: milestone.id,
+            User: user._id,
+            doneDate: Date.now(),
+        })
+
+        milestone.status.push(newMilestoneStatus._id)
+    }
 
     await newMilestoneStatus.save()
 
-    milestone.status.push(newMilestoneStatus._id)
     await milestone.save()
 
     supsTask.status = true
