@@ -14,10 +14,15 @@ const { UPLOAD, UPLOAD_BASE } = require('../../utils/fileUpload');
 const { CREATE_NEW_ACTIVITY } = require('../../utils/activityHandler');
 const { ACTIVITIES } = require('../../constant/activities');
 const { Path } = require('../../models/path');
+const Joi = require('joi');
 
 //validation
 const validate = (req) => {
     const schema = Joi.object({
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        sid: Joi.number().required(),
+        type: Joi.string().required(),
         email: Joi.string().min(5).max(255).required().email(),
         password: Joi.string().min(8).required()
     })
@@ -37,7 +42,7 @@ const postCreateUser = async (req, res) => {
     const path = await Path.findOne({
         typeDependency: req.body.type
     })
-    if (path) user.sand = sandGain
+    if (path) user.sand = path.sandGain
 
     const salt = await bcrypt.genSalt(10)
     user.password = await bcrypt.hash(user.password, salt)
