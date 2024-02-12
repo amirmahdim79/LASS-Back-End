@@ -20,7 +20,7 @@ const { UserTask } = require('../../models/userTask');
 
 //post create cup for user(Admin)
 const postCreateLab = async (req, res) => {
-    const sups = await Supervisor.findOne({ _id: req.User._id })
+    const sups = await Supervisor.findOne({ _id: req.user._id })
     if (!sups) return res.status(400).send(MESSAGES.USER_NOT_FOUND)
 
     const lab = new Lab(_.pick(req.body, LABS_FIELD.CREATE))
