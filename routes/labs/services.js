@@ -79,27 +79,29 @@ const getMyLab_sups = async (req, res) => {
             p.typeDependency.includes(user.type)
         )
 
-        userPath.Milestones = userPath.Milestones.map((m) => {
-            const userMilesstoneStatus = m.status.find((s) => {
-                return s.User.equals(mongoose.Types.ObjectId(user._id))
-            })
-
-            m.status = [userMilesstoneStatus]
-
-            m.Tasks = m.Tasks.map((t) => {
-                const userTaskStatus = t.status.find((s) => {
+        if (userPath && userPath.Milestones) {
+            userPath.Milestones = userPath.Milestones.map((m) => {
+                const userMilesstoneStatus = m.status.find((s) => {
                     return s.User.equals(mongoose.Types.ObjectId(user._id))
                 })
-
-                t.status = [userTaskStatus]
-
-                return t
+    
+                m.status = [userMilesstoneStatus]
+    
+                m.Tasks = m.Tasks.map((t) => {
+                    const userTaskStatus = t.status.find((s) => {
+                        return s.User.equals(mongoose.Types.ObjectId(user._id))
+                    })
+    
+                    t.status = [userTaskStatus]
+    
+                    return t
+                })
+    
+                return m
             })
+        }
 
-            return m
-        })
-
-        lab.Paths = [userPath]
+        lab.Paths = userPath ? [userPath] : []
     }
 
     res.send(lab)
