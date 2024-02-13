@@ -31,7 +31,7 @@ router.get('/', isSuperAdmin, getLabs)
 router.get('/my', auth, getMyLab_sups)
 
 // get lab students
-router.get('/students', auth, hasPermissions(['lab']), getAllUsers)
+router.get('/students', auth, labCheck, hasPermissions(['lab']), getAllUsers)
 
 // get lab students
 router.get('/alumni', auth, hasPermissions(['lab']), getAlumni)

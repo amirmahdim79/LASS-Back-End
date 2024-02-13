@@ -153,7 +153,7 @@ const enrollStudent = async (req, res) => {
 //get lab users
 const getAllUsers = async (req, res) => {
     const lab = await Lab.findOne({
-        Supervisor: req.user._id
+        _id: req.query.lab
     })
     .populate({
         path: 'Students',
