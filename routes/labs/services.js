@@ -203,29 +203,31 @@ const getUserInfo = async (req, res) => {
         p.typeDependency.includes(student.type)
     )
 
-    userPath.Milestones = userPath.Milestones.map((m) => {
-        const userMilesstoneStatus = m.status.find((s) => {
-            return s.User.equals(mongoose.Types.ObjectId(student._id))
-        })
-
-        m.status = [userMilesstoneStatus]
-
-        m.Tasks = m.Tasks.map((t) => {
-            const userTaskStatus = t.status.find((s) => {
+    if (userPath && userPath.Milestones) {
+        userPath.Milestones = userPath.Milestones.map((m) => {
+            const userMilesstoneStatus = m.status.find((s) => {
                 return s.User.equals(mongoose.Types.ObjectId(student._id))
             })
-
-            t.status = [userTaskStatus]
-
-            return t
+    
+            m.status = [userMilesstoneStatus]
+    
+            m.Tasks = m.Tasks.map((t) => {
+                const userTaskStatus = t.status.find((s) => {
+                    return s.User.equals(mongoose.Types.ObjectId(student._id))
+                })
+    
+                t.status = [userTaskStatus]
+    
+                return t
+            })
+    
+            return m
         })
-
-        return m
-    })
+    }
 
     res.send({
         ..._.pick(student, USER_FIELDS.INFO),
-        path: [userPath],
+        path: userPath ? [userPath] : [],
     })
 }
 
