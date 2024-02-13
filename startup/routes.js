@@ -29,6 +29,7 @@ const activity = require('../routes/activity')
 const documents = require('../routes/documents')
 const bounties = require('../routes/bounties')
 const notifications = require('../routes/notifications')
+const all = require('../routes/all')
 
 module.exports = (app) => {
     //Middlewares
@@ -73,6 +74,7 @@ module.exports = (app) => {
     app.use('/api-lass/documents', documents)
     app.use('/api-lass/bounties', bounties)
     app.use('/api-lass/notifications', notifications)
+    app.use('/api-lass/all', all)
 
     //Custom middlewares
     app.use(logger)
