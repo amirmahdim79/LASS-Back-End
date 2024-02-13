@@ -11,6 +11,7 @@ const MILESTONES_FIELD = {
     CREATE: [
         'name',
         'desc',
+        'sandGain',
     ],
     CREATE_RES: [
         'Path',
